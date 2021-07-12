@@ -1,5 +1,6 @@
 pub extern crate bevy_inspector_egui;
 
+pub mod draw;
 pub mod consts;
 pub mod systems;
 pub mod helpers;

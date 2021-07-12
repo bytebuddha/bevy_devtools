@@ -25,15 +25,15 @@ impl Plugin for DevToolsPlugin {
             .init_resource::<DevToolsSettings>()
             .init_resource::<DevToolsTools>()
             .insert_resource(diagnostics)
-            .add_event::<PerformToolAction>()
-            .add_plugin(DiagnosticsPlugin)
-            .add_plugin(FrameTimeDiagnosticsPlugin)
             .insert_resource(WorldInspectorParams {
                 enabled: false,
                 ..Default::default()
             })
+            .add_event::<PerformToolAction>()
+            .add_plugin(DiagnosticsPlugin)
+            .add_plugin(FrameTimeDiagnosticsPlugin)
             .add_plugin(WorldInspectorPlugin::new())
-            .add_system(crate::systems::draw_debug_ui.system())
+            .add_system(crate::draw::draw_debug_ui.system())
             .add_system(crate::systems::perform_tool_action.exclusive_system())
             .add_system(crate::systems::toggle_devtools.system())
             .add_system_to_stage(EguiStage::UiFrameEnd, crate::systems::apply_ui_settings.system());

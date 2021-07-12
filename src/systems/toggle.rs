@@ -7,7 +7,7 @@ pub fn toggle_devtools(
     mut resources: ResMut<DevToolsResources>,
     mut inspector: ResMut<bevy_inspector_egui::WorldInspectorParams>,
 ) {
-    if keys.just_pressed(KeyCode::F11) {
+    if keys.just_pressed(resources.toggle_key) {
         resources.enabled = !resources.enabled;
         inspector.enabled = resources.enabled;
     }

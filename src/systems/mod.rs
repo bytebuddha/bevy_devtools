@@ -1,6 +1,3 @@
-mod draw;
-pub use self::draw::draw_debug_ui;
-
 mod toggle;
 pub use self::toggle::toggle_devtools;
 
