@@ -4,7 +4,7 @@ pub struct History {
 
 impl History {
     pub fn push_fps(&mut self, fps: f64) {
-        if self.fps.len() == super::HISTORY_LENGTH {
+        if self.fps.len() == crate::consts::HISTORY_LENGTH {
             self.fps.remove(0);
         }
         self.fps.push(fps as f32);
@@ -14,7 +14,7 @@ impl History {
 impl Default for History {
     fn default() -> History {
         History {
-            fps: Vec::with_capacity(super::HISTORY_LENGTH),
+            fps: Vec::with_capacity(crate::consts::HISTORY_LENGTH),
         }
     }
 }
