@@ -9,6 +9,8 @@ pub fn perform_tool_action(world: &mut World) {
         reader.drain().map(|x|x.0).collect::<Vec<crate::DevTool>>()
     };
     for event in events {
-        (event.perform)(world);
+        if let Some(perform) = event.perform {
+            (perform)(world);
+        }
     }
 }

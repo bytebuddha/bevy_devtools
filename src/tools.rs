@@ -10,9 +10,10 @@ pub struct DevToolsTools(pub Vec<DevTool>);
 #[derive(Clone)]
 pub struct DevTool {
     pub name: String,
+    pub perform_icon: Option<String>,
     pub label: Option<String>,
     pub render: fn(&mut Ui, &mut crate::DevToolsSettings),
-    pub perform: fn(&mut World)
+    pub perform: Option<fn(&mut World)>
 }
 
 impl Default for DevToolsTools {
@@ -21,7 +22,9 @@ impl Default for DevToolsTools {
             DevTool {
                 name: "save-scene".into(),
                 label: Some("Save Scene".into()),
-                render, perform
+                perform: Some(perform),
+                perform_icon: Some("💾".into()),
+                render,
             }
         ])
     }
