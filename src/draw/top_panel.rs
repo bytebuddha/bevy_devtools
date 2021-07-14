@@ -1,10 +1,10 @@
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy_inspector_egui::bevy_egui::{
+    egui::widgets::plot::{Curve, Plot},
     egui::Ui,
-    egui::widgets::plot::{Curve, Plot}
 };
 
-use crate::{DevToolsResources, helpers::DraculaEgui};
+use crate::{helpers::DraculaEgui, DevToolsResources};
 
 pub fn top_panel(ui: &mut Ui, resources: &mut DevToolsResources, diagnostics: &Diagnostics) {
     ui.group(|ui| {
@@ -39,10 +39,7 @@ pub fn top_panel(ui: &mut Ui, resources: &mut DevToolsResources, diagnostics: &D
                     .include_x(crate::consts::HISTORY_LENGTH as f32)
                     .height(50.0)
                     .show_x(false)
-                    .curve(
-                        Curve::from_ys_f32(&resources.history.fps)
-                            .color(DraculaEgui::PINK),
-                    ),
+                    .curve(Curve::from_ys_f32(&resources.history.fps).color(DraculaEgui::PINK)),
             );
         });
     });

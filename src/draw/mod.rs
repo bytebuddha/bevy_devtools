@@ -1,11 +1,8 @@
 use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
-use bevy_inspector_egui::bevy_egui::{
-    egui,
-    EguiContext,
-};
+use bevy_inspector_egui::bevy_egui::{egui, EguiContext};
 
-use crate::{ DevToolsTools, DevToolsSettings, DevToolsResources, PerformToolAction };
+use crate::{DevToolsResources, DevToolsSettings, DevToolsTools, PerformToolAction};
 
 mod diagnostic;
 mod setting;
@@ -20,7 +17,7 @@ pub fn draw_debug_ui(
     mut settings: ResMut<DevToolsSettings>,
     devtools_diagnostics: Res<crate::DevToolsDiagnostics>,
     tools: Res<DevToolsTools>,
-    mut tool_actions: EventWriter<PerformToolAction>
+    mut tool_actions: EventWriter<PerformToolAction>,
 ) {
     if resources.always_visible || resources.enabled {
         let mut pos = context.ctx().available_rect().right_top();
@@ -39,7 +36,7 @@ pub fn draw_debug_ui(
                         for group in devtools_diagnostics.0.iter() {
                             diagnostic::display_diagnostic(ui, &diagnostics, group);
                         }
-                    },
+                    }
                     crate::helpers::Tab::Tools => {
                         for tool in tools.0.iter() {
                             tool::display_tool(ui, &mut settings, tool, &mut tool_actions);
@@ -47,7 +44,7 @@ pub fn draw_debug_ui(
                     }
                     crate::helpers::Tab::Settings => {
                         for setting in settings.0.iter_mut().filter(|x| !x.hidden) {
-                             setting::display_setting(ui, setting);
+                            setting::display_setting(ui, setting);
                         }
                     }
                 }

@@ -1,11 +1,11 @@
 use bevy::prelude::*;
+use bevy_devtools::DevToolsPlugin;
 use bevy_rapier3d::{
     physics::{
         ColliderBundle, ColliderPositionSync, NoUserData, RapierPhysicsPlugin, RigidBodyBundle,
     },
     prelude::{ColliderShape, RigidBodyType},
 };
-use bevy_devtools::DevToolsPlugin;
 
 fn main() {
     App::build()

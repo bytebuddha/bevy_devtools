@@ -1,13 +1,10 @@
-use bevy::diagnostic::{
-    DiagnosticsPlugin, FrameTimeDiagnosticsPlugin,
-};
+use bevy::diagnostic::{DiagnosticsPlugin, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
-use bevy_inspector_egui::{
-    bevy_egui::EguiStage,
-    WorldInspectorParams, WorldInspectorPlugin,
-};
+use bevy_inspector_egui::{bevy_egui::EguiStage, WorldInspectorParams, WorldInspectorPlugin};
 
-use super::{DevToolsSettings, DevToolsResources, PerformToolAction, DevToolsTools, DevToolsDiagnostics};
+use super::{
+    DevToolsDiagnostics, DevToolsResources, DevToolsSettings, DevToolsTools, PerformToolAction,
+};
 
 pub struct DevToolsPlugin;
 
@@ -36,7 +33,10 @@ impl Plugin for DevToolsPlugin {
             .add_system(crate::draw::draw_debug_ui.system())
             .add_system(crate::systems::perform_tool_action.exclusive_system())
             .add_system(crate::systems::toggle_devtools.system())
-            .add_system_to_stage(EguiStage::UiFrameEnd, crate::systems::apply_ui_settings.system());
+            .add_system_to_stage(
+                EguiStage::UiFrameEnd,
+                crate::systems::apply_ui_settings.system(),
+            );
 
         #[cfg(feature = "rapier")]
         app.add_system(crate::systems::rapier::rapier_settings.system());

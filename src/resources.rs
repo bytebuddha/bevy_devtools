@@ -5,7 +5,7 @@ pub struct DevToolsResources {
     pub active_tab: crate::helpers::Tab,
     pub always_visible: bool,
     pub enabled: bool,
-    pub toggle_key: KeyCode
+    pub toggle_key: KeyCode,
 }
 
 impl Default for DevToolsResources {
@@ -15,7 +15,7 @@ impl Default for DevToolsResources {
             active_tab: Default::default(),
             always_visible: false,
             enabled: false,
-            toggle_key: KeyCode::F11
+            toggle_key: KeyCode::F11,
         }
     }
 }

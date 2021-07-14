@@ -23,42 +23,40 @@ impl Default for DevToolsSettings {
                                 hidden: false,
                                 name: "widgets-hover".into(),
                                 label: Some("Show widgets on hover".into()),
-                                value: SettingValue::Bool(false)
+                                value: SettingValue::Bool(false),
                             },
                             DevToolsSetting {
                                 hidden: false,
                                 name: "widgets-taller".into(),
                                 label: Some("Show widgets that make their parent taller.".into()),
-                                value: SettingValue::Bool(false)
+                                value: SettingValue::Bool(false),
                             },
                             DevToolsSetting {
                                 hidden: false,
                                 name: "widgets-wider".into(),
                                 label: Some("Show widgets that make their parent wider.".into()),
-                                value: SettingValue::Bool(false)
+                                value: SettingValue::Bool(false),
                             },
                             DevToolsSetting {
                                 hidden: false,
                                 name: "show-resize".into(),
                                 label: Some("Show Resize.".into()),
-                                value: SettingValue::Bool(false)
-                            }
-                        ])
+                                value: SettingValue::Bool(false),
+                            },
+                        ]),
                     },
                     DevToolsSetting {
                         hidden: true,
                         name: "tools".into(),
                         label: Some("Tools".into()),
-                        value: SettingValue::Group(vec![
-                            DevToolsSetting {
-                                hidden: false,
-                                name: "save-scene".into(),
-                                label: Some("Save Scene".into()),
-                                value: SettingValue::String("world.scn.ron".into())
-                            }
-                        ])
-                    }
-                ])
+                        value: SettingValue::Group(vec![DevToolsSetting {
+                            hidden: false,
+                            name: "save-scene".into(),
+                            label: Some("Save Scene".into()),
+                            value: SettingValue::String("world.scn.ron".into()),
+                        }]),
+                    },
+                ]),
             },
             #[cfg(feature = "rapier")]
             DevToolsSetting {
@@ -70,16 +68,16 @@ impl Default for DevToolsSettings {
                         hidden: false,
                         name: "query_pipeline_active".into(),
                         label: Some("Query pipeline active".into()),
-                        value: SettingValue::Bool(true)
+                        value: SettingValue::Bool(true),
                     },
                     DevToolsSetting {
                         hidden: false,
                         name: "physics_pipeline_active".into(),
                         label: Some("Physics pipeline active".into()),
-                        value: SettingValue::Bool(true)
+                        value: SettingValue::Bool(true),
                     },
-                ])
-            }
+                ]),
+            },
         ])
     }
 }

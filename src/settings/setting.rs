@@ -4,7 +4,7 @@ pub struct DevToolsSetting {
     pub hidden: bool,
     pub name: String,
     pub label: Option<String>,
-    pub value: SettingValue
+    pub value: SettingValue,
 }
 
 impl DevToolsSetting {
@@ -12,7 +12,7 @@ impl DevToolsSetting {
         match &self.value {
             SettingValue::Bool(_) => None,
             SettingValue::String(_) => None,
-            SettingValue::Group(children) => Some(&children)
+            SettingValue::Group(children) => Some(&children),
         }
     }
 
@@ -20,7 +20,7 @@ impl DevToolsSetting {
         match &mut self.value {
             SettingValue::Bool(_) => None,
             SettingValue::String(_) => None,
-            SettingValue::Group(children) => Some(children)
+            SettingValue::Group(children) => Some(children),
         }
     }
 }

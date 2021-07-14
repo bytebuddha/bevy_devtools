@@ -1,12 +1,14 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::egui::Ui;
 
-use crate::{
-    DevTool, DevToolsSettings,
-    PerformToolAction
-};
+use crate::{DevTool, DevToolsSettings, PerformToolAction};
 
-pub fn display_tool(ui: &mut Ui, settings: &mut DevToolsSettings, tool: &DevTool, tool_actions: &mut EventWriter<PerformToolAction>) {
+pub fn display_tool(
+    ui: &mut Ui,
+    settings: &mut DevToolsSettings,
+    tool: &DevTool,
+    tool_actions: &mut EventWriter<PerformToolAction>,
+) {
     ui.group(|ui| {
         if tool.perform.is_some() {
             ui.columns(2, |ui| {
@@ -15,10 +17,8 @@ pub fn display_tool(ui: &mut Ui, settings: &mut DevToolsSettings, tool: &DevTool
                     if ui[1].button(icon).clicked() {
                         tool_actions.send(PerformToolAction(tool.clone()));
                     }
-                } else {
-                    if ui[1].button("Perform").clicked() {
-                        tool_actions.send(PerformToolAction(tool.clone()));
-                    }
+                } else if ui[1].button("Perform").clicked() {
+                    tool_actions.send(PerformToolAction(tool.clone()));
                 }
             });
         } else {

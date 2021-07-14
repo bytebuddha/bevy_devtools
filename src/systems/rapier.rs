@@ -6,10 +6,7 @@ use bevy_rapier3d::physics::RapierConfiguration;
 
 use crate::{DevToolsSettings, SettingValue};
 
-pub fn rapier_settings(
-    settings: Res<DevToolsSettings>,
-    mut conf: ResMut<RapierConfiguration>
-) {
+pub fn rapier_settings(settings: Res<DevToolsSettings>, mut conf: ResMut<RapierConfiguration>) {
     for setting in settings.0.iter() {
         if setting.name == "rapier" {
             for child in setting.children().unwrap() {

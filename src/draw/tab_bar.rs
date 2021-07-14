@@ -1,6 +1,6 @@
 use bevy_inspector_egui::egui::Ui;
 
-use crate::{DevToolsResources, helpers::Tab};
+use crate::{helpers::Tab, DevToolsResources};
 
 pub fn tab_bar(ui: &mut Ui, resources: &mut DevToolsResources) {
     ui.columns(3, |ui| {

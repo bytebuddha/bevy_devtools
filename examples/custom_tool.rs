@@ -14,15 +14,13 @@ fn render_custom_tool(ui: &mut Ui, _: &mut bevy_devtools::DevToolsSettings) {
     ui.label("Custom Development Tool");
 }
 
-fn add_custom_devtool(
-    mut tools: ResMut<bevy_devtools::DevToolsTools>
-) {
+fn add_custom_devtool(mut tools: ResMut<bevy_devtools::DevToolsTools>) {
     tools.0.push(bevy_devtools::DevTool {
         name: "simple".into(),
         label: Some("Simple".into()),
         render: render_custom_tool,
         perform: None,
-        perform_icon: None
+        perform_icon: None,
     });
 }
 

@@ -13,13 +13,11 @@ pub struct DevTool {
     pub perform_icon: Option<String>,
     pub label: Option<String>,
     pub render: fn(&mut Ui, &mut crate::DevToolsSettings),
-    pub perform: Option<fn(&mut World)>
+    pub perform: Option<fn(&mut World)>,
 }
 
 impl Default for DevToolsTools {
     fn default() -> DevToolsTools {
-        DevToolsTools(vec![
-            save_world::tool()
-        ])
+        DevToolsTools(vec![save_world::tool()])
     }
 }
