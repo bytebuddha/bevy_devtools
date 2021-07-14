@@ -28,6 +28,19 @@ impl Default for DevToolsSettings {
                     },
                     DevToolsSetting {
                         hidden: false,
+                        name: "settings".into(),
+                        label: Some("Settings".into()),
+                        value: SettingValue::Group(vec![
+                            DevToolsSetting {
+                                hidden: false,
+                                name: "show-hidden".into(),
+                                label: Some("Show Hidden".into()),
+                                value: SettingValue::Bool(false)
+                            }
+                        ])
+                    },
+                    DevToolsSetting {
+                        hidden: false,
                         name: "gui".into(),
                         label: Some("Gui".into()),
                         value: SettingValue::Group(vec![
