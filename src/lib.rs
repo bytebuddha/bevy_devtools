@@ -12,7 +12,7 @@ mod tools;
 pub use self::tools::{DevToolsTools, DevTool, PerformToolAction};
 
 mod settings;
-pub use self::settings::{DevToolsSettings, DevToolsSetting};
+pub use self::settings::{DevToolsSettings, DevToolsSetting, SettingValue};
 
 mod resources;
 pub use self::resources::{DevToolsResources, SaveWorldRequest};

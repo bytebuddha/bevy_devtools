@@ -1,0 +1,65 @@
+mod value;
+pub use self::value::SettingValue;
+
+mod setting;
+pub use self::setting::DevToolsSetting;
+
+pub struct DevToolsSettings(pub Vec<DevToolsSetting>);
+
+impl Default for DevToolsSettings {
+    fn default() -> DevToolsSettings {
+        DevToolsSettings(vec![
+            DevToolsSetting {
+                hidden: false,
+                name: "devtools".into(),
+                label: Some("DevTools".into()),
+                value: SettingValue::Group(vec![
+                    DevToolsSetting {
+                        hidden: false,
+                        name: "gui".into(),
+                        label: Some("Gui".into()),
+                        value: SettingValue::Group(vec![
+                            DevToolsSetting {
+                                hidden: false,
+                                name: "widgets-hover".into(),
+                                label: Some("Show widgets on hover".into()),
+                                value: SettingValue::Bool(false)
+                            },
+                            DevToolsSetting {
+                                hidden: false,
+                                name: "widgets-taller".into(),
+                                label: Some("Show widgets that make their parent taller.".into()),
+                                value: SettingValue::Bool(false)
+                            },
+                            DevToolsSetting {
+                                hidden: false,
+                                name: "widgets-wider".into(),
+                                label: Some("Show widgets that make their parent wider.".into()),
+                                value: SettingValue::Bool(false)
+                            },
+                            DevToolsSetting {
+                                hidden: false,
+                                name: "show-resize".into(),
+                                label: Some("Show Resize.".into()),
+                                value: SettingValue::Bool(false)
+                            }
+                        ])
+                    },
+                    DevToolsSetting {
+                        hidden: true,
+                        name: "tools".into(),
+                        label: Some("Tools".into()),
+                        value: SettingValue::Group(vec![
+                            DevToolsSetting {
+                                hidden: false,
+                                name: "save-scene".into(),
+                                label: Some("Save Scene".into()),
+                                value: SettingValue::String("world.scn.ron".into())
+                            }
+                        ])
+                    }
+                ])
+            }
+        ])
+    }
+}

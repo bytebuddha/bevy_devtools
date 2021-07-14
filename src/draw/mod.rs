@@ -46,7 +46,7 @@ pub fn draw_debug_ui(
                         }
                     }
                     crate::helpers::Tab::Settings => {
-                        for setting in settings.0.iter_mut() {
+                        for setting in settings.0.iter_mut().filter(|x| !x.hidden) {
                              setting::display_setting(ui, setting);
                         }
                     }
