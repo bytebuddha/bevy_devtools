@@ -16,6 +16,18 @@ impl Default for DevToolsSettings {
                 value: SettingValue::Group(vec![
                     DevToolsSetting {
                         hidden: false,
+                        name: "enabled".into(),
+                        label: Some("Enabled".into()),
+                        value: SettingValue::Bool(false)
+                    },
+                    DevToolsSetting {
+                        hidden: false,
+                        name: "always-visible".into(),
+                        label: Some("Always Visible".into()),
+                        value: SettingValue::Bool(false)
+                    },
+                    DevToolsSetting {
+                        hidden: false,
                         name: "gui".into(),
                         label: Some("Gui".into()),
                         value: SettingValue::Group(vec![

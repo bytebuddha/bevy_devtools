@@ -4,7 +4,7 @@ use bevy_devtools::bevy_inspector_egui::egui::Ui;
 fn main() {
     App::build()
         .add_plugins(DefaultPlugins)
-        .add_plugin(bevy_devtools::DevToolsPlugin)
+        .add_plugin(bevy_devtools::DevToolsPlugin::default())
         .add_startup_system(setup.system())
         .add_startup_system(add_custom_devtool.system())
         .run()

@@ -1,5 +1,5 @@
 mod toggle;
-pub use self::toggle::toggle_devtools;
+pub(crate) use self::toggle::toggle_devtools;
 
 mod ui;
 pub use self::ui::apply_ui_settings;

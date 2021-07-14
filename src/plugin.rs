@@ -6,7 +6,19 @@ use super::{
     DevToolsDiagnostics, DevToolsResources, DevToolsSettings, DevToolsTools, PerformToolAction,
 };
 
-pub struct DevToolsPlugin;
+pub struct DevToolsPlugin {
+    toggle_key: KeyCode,
+    active_tab: crate::helpers::Tab
+}
+
+impl Default for DevToolsPlugin {
+    fn default() -> DevToolsPlugin {
+        DevToolsPlugin {
+            toggle_key: KeyCode::F11,
+            active_tab: crate::helpers::Tab::default()
+        }
+    }
+}
 
 impl Plugin for DevToolsPlugin {
     fn build(&self, app: &mut AppBuilder) {
@@ -18,10 +30,14 @@ impl Plugin for DevToolsPlugin {
                 }
             }
         }
-        app.init_resource::<DevToolsResources>()
-            .init_resource::<DevToolsSettings>()
+        app.init_resource::<DevToolsSettings>()
             .init_resource::<DevToolsTools>()
             .insert_resource(diagnostics)
+            .insert_resource(DevToolsResources {
+                toggle_key: self.toggle_key,
+                active_tab: self.active_tab,
+                history: Default::default()
+            })
             .insert_resource(WorldInspectorParams {
                 enabled: false,
                 ..Default::default()

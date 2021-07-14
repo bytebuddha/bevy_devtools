@@ -10,15 +10,11 @@ pub fn world_settings(settings: Res<DevToolsSettings>, mut conf: ResMut<WorldIns
                 if child.name == "world" {
                     for child in child.children().unwrap() {
                         if let SettingValue::Bool(value) = child.value {
-                            if child.name == "despawnable" {
-                                if conf.despawnable_entities != value {
+                            if child.name == "despawnable" && conf.despawnable_entities != value {
                                     conf.despawnable_entities = value;
-                                }
                             }
-                            if child.name == "sort" {
-                                if conf.sort_components != value {
+                            if child.name == "sort" && conf.sort_components != value {
                                     conf.sort_components = value;
-                                }
                             }
                         }
                     }

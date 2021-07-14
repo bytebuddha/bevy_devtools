@@ -19,6 +19,6 @@ impl Tab {
 
 impl Default for Tab {
     fn default() -> Tab {
-        Tab::Diagnostics
+        Tab::World
     }
 }

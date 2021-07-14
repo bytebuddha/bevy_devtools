@@ -46,8 +46,8 @@ pub fn perform(world: &mut World) {
                                 let mut file = File::create(&value).unwrap();
                                 let type_registry =
                                     world.get_resource::<bevy::reflect::TypeRegistry>().unwrap();
-                                let scene = DynamicScene::from_world(&world, &type_registry);
-                                let scene_data = scene.serialize_ron(&type_registry).unwrap();
+                                let scene = DynamicScene::from_world(world, type_registry);
+                                let scene_data = scene.serialize_ron(type_registry).unwrap();
                                 file.write_all(scene_data.as_bytes()).unwrap();
                             }
                         }

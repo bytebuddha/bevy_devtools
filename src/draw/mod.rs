@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_inspector_egui::WorldUIContext;
 use bevy_inspector_egui::bevy_egui::{egui, EguiContext};
 
-use crate::{DevToolsResources, DevToolsSettings, DevToolsTools};
+use crate::{DevToolsResources, DevToolsSettings, DevToolsTools, SettingValue};
 
 mod diagnostic;
 mod setting;
@@ -14,7 +14,26 @@ pub fn draw_debug_ui(world: &mut World) {
     let world_ptr = world as *mut _;
     let (enabled, always, active) = {
         let resources = world.get_resource::<DevToolsResources>().unwrap();
-        (resources.enabled, resources.always_visible, resources.active_tab)
+        let settings = world.get_resource::<DevToolsSettings>().unwrap();
+        let mut always_visible = false;
+        let mut enabled = false;
+        for setting in settings.0.iter() {
+            if setting.name == "devtools" {
+                for child in setting.children().unwrap() {
+                    if child.name == "always-visible" {
+                        if let SettingValue::Bool(value) = child.value {
+                            always_visible = value;
+                        }
+                    }
+                    if child.name == "enabled" {
+                        if let SettingValue::Bool(value) = child.value {
+                            enabled = value;
+                        }
+                    }
+                }
+            }
+        }
+        (enabled, always_visible, resources.active_tab)
     };
 
     let egui_context = world.get_resource::<EguiContext>().expect("EguiContext");
@@ -40,7 +59,7 @@ pub fn draw_debug_ui(world: &mut World) {
                         let params = world.get_resource::<bevy_inspector_egui::WorldInspectorParams>().unwrap();
                         let world: &mut World = unsafe { &mut *world_ptr };
                         let mut ui_context = WorldUIContext::new(Some(egui_context.ctx()), world);
-                        ui_context.world_ui::<()>(ui, &params);
+                        ui_context.world_ui::<()>(ui, params);
                     }
                     crate::helpers::Tab::Tools => {
                         let devtools_tools = world.get_resource::<DevToolsTools>().unwrap();

@@ -13,7 +13,7 @@ impl DevToolsSetting {
             SettingValue::Bool(_) => None,
             SettingValue::String(_) => None,
             SettingValue::Float(_) => None,
-            SettingValue::Group(children) => Some(&children),
+            SettingValue::Group(children) => Some(children),
         }
     }
 
