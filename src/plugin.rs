@@ -37,5 +37,8 @@ impl Plugin for DevToolsPlugin {
             .add_system(crate::systems::perform_tool_action.exclusive_system())
             .add_system(crate::systems::toggle_devtools.system())
             .add_system_to_stage(EguiStage::UiFrameEnd, crate::systems::apply_ui_settings.system());
+
+        #[cfg(feature = "rapier")]
+        app.add_system(crate::systems::rapier::rapier_settings.system());
     }
 }

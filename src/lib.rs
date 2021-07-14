@@ -1,4 +1,6 @@
 pub extern crate bevy_inspector_egui;
+pub use bevy_inspector_egui::bevy_egui;
+pub use bevy_inspector_egui::bevy_egui::egui;
 
 pub mod draw;
 pub mod consts;
@@ -15,9 +17,7 @@ mod settings;
 pub use self::settings::{DevToolsSettings, DevToolsSetting, SettingValue};
 
 mod resources;
-pub use self::resources::{DevToolsResources, SaveWorldRequest};
+pub use self::resources::DevToolsResources;
 
 mod diagnostics;
 pub use self::diagnostics::{DevToolsDiagnostics, DiagnosticGroup, DiagnosticDisplay};
-
-pub const HISTORY_LENGTH: usize = 100;

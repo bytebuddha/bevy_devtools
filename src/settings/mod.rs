@@ -59,6 +59,26 @@ impl Default for DevToolsSettings {
                         ])
                     }
                 ])
+            },
+            #[cfg(feature = "rapier")]
+            DevToolsSetting {
+                hidden: false,
+                name: "rapier".into(),
+                label: Some("Rapier".into()),
+                value: SettingValue::Group(vec![
+                    DevToolsSetting {
+                        hidden: false,
+                        name: "query_pipeline_active".into(),
+                        label: Some("Query pipeline active".into()),
+                        value: SettingValue::Bool(true)
+                    },
+                    DevToolsSetting {
+                        hidden: false,
+                        name: "physics_pipeline_active".into(),
+                        label: Some("Physics pipeline active".into()),
+                        value: SettingValue::Bool(true)
+                    },
+                ])
             }
         ])
     }

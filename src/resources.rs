@@ -1,8 +1,5 @@
 use bevy::input::keyboard::KeyCode;
 
-#[derive(Default)]
-pub struct SaveWorldRequest(pub Option<String>);
-
 pub struct DevToolsResources {
     pub history: crate::helpers::History,
     pub active_tab: crate::helpers::Tab,
