@@ -1,8 +1,8 @@
-use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
+use bevy_inspector_egui::WorldUIContext;
 use bevy_inspector_egui::bevy_egui::{egui, EguiContext};
 
-use crate::{DevToolsResources, DevToolsSettings, DevToolsTools, PerformToolAction};
+use crate::{DevToolsResources, DevToolsSettings, DevToolsTools};
 
 mod diagnostic;
 mod setting;
@@ -10,44 +10,51 @@ mod tab_bar;
 mod tool;
 mod top_panel;
 
-pub fn draw_debug_ui(
-    context: Res<EguiContext>,
-    diagnostics: Res<Diagnostics>,
-    mut resources: ResMut<DevToolsResources>,
-    mut settings: ResMut<DevToolsSettings>,
-    devtools_diagnostics: Res<crate::DevToolsDiagnostics>,
-    tools: Res<DevToolsTools>,
-    mut tool_actions: EventWriter<PerformToolAction>,
-) {
-    if resources.always_visible || resources.enabled {
-        let mut pos = context.ctx().available_rect().right_top();
-        pos.y += 15.0;
-        pos.x -= 370.0;
+pub fn draw_debug_ui(world: &mut World) {
+    let world_ptr = world as *mut _;
+    let (enabled, always, active) = {
+        let resources = world.get_resource::<DevToolsResources>().unwrap();
+        (resources.enabled, resources.always_visible, resources.active_tab)
+    };
+
+    let egui_context = world.get_resource::<EguiContext>().expect("EguiContext");
+    let ctx = egui_context.ctx();
+
+    if enabled || always {
         egui::Window::new("DevTools")
-            .default_pos(pos)
-            .enabled(resources.enabled || !resources.always_visible)
-            .collapsible(true)
-            .show(context.ctx(), |ui| {
-                top_panel::top_panel(ui, &mut resources, &diagnostics);
-                tab_bar::tab_bar(ui, &mut resources);
-                ui.end_row();
-                match resources.active_tab {
+        .enabled(enabled || !always)
+        .collapsible(true)
+        .show(ctx, |ui| {
+            let world: &mut World = unsafe { &mut *world_ptr };
+            top_panel::top_panel(ui, world);
+            tab_bar::tab_bar(ui, world);
+            ui.end_row();
+
+            egui::ScrollArea::auto_sized()
+            .show(ui, |ui| {
+                match active {
                     crate::helpers::Tab::Diagnostics => {
-                        for group in devtools_diagnostics.0.iter() {
-                            diagnostic::display_diagnostic(ui, &diagnostics, group);
-                        }
+                        diagnostic::handle_diagnostics(ui, world);
+                    }
+                    crate::helpers::Tab::World => {
+                        let params = world.get_resource::<bevy_inspector_egui::WorldInspectorParams>().unwrap();
+                        let world: &mut World = unsafe { &mut *world_ptr };
+                        let mut ui_context = WorldUIContext::new(Some(egui_context.ctx()), world);
+                        ui_context.world_ui::<()>(ui, &params);
                     }
                     crate::helpers::Tab::Tools => {
-                        for tool in tools.0.iter() {
-                            tool::display_tool(ui, &mut settings, tool, &mut tool_actions);
-                        }
+                        let devtools_tools = world.get_resource::<DevToolsTools>().unwrap();
+                        let world: &mut World = unsafe { &mut *world_ptr };
+                        let mut devtools_settings = world.get_resource_mut::<DevToolsSettings>().unwrap();
+                        let world: &mut World = unsafe { &mut *world_ptr };
+                        tool::handle_tools(ui, devtools_tools, &mut devtools_settings, world);
                     }
                     crate::helpers::Tab::Settings => {
-                        for setting in settings.0.iter_mut().filter(|x| !x.hidden) {
-                            setting::display_setting(ui, setting);
-                        }
+                        setting::handle_settings(ui, world);
                     }
                 }
             });
+        });
     }
+
 }

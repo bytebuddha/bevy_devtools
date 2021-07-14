@@ -13,7 +13,7 @@ pub fn apply_ui_settings(context: ResMut<EguiContext>, settings: Res<DevToolsSet
                     for child in child.children().unwrap() {
                         if let SettingValue::Bool(value) = child.value {
                             if child.name == "widgets-hover" {
-                                style.debug.show_widgets = value;
+                                style.debug.debug_on_hover = value;
                             }
                             if child.name == "widgets-taller" {
                                 style.debug.show_expand_height = value;

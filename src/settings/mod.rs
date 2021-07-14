@@ -46,6 +46,25 @@ impl Default for DevToolsSettings {
                         ]),
                     },
                     DevToolsSetting {
+                        hidden: false,
+                        name: "world".into(),
+                        label: Some("World".into()),
+                        value: SettingValue::Group(vec![
+                            DevToolsSetting {
+                                hidden: false,
+                                name: "despawnable".into(),
+                                label: Some("Despawnable Entities".into()),
+                                value: SettingValue::Bool(false),
+                            },
+                            DevToolsSetting {
+                                hidden: false,
+                                name: "sort".into(),
+                                label: Some("Sort Components.".into()),
+                                value: SettingValue::Bool(false),
+                            },
+                        ]),
+                    },
+                    DevToolsSetting {
                         hidden: true,
                         name: "tools".into(),
                         label: Some("Tools".into()),

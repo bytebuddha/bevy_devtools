@@ -57,6 +57,7 @@ impl DraculaEgui {
                         corner_radius: 0.0,
                         expansion: 2.0,
                     },
+                    ..Default::default()
                 },
                 selection: egui::style::Selection {
                     bg_fill: Self::PURPLE,
