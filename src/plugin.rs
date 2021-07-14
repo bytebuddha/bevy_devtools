@@ -39,6 +39,9 @@ impl Plugin for DevToolsPlugin {
             );
 
         #[cfg(feature = "rapier")]
-        app.add_system(crate::systems::rapier::rapier_settings.system());
+        {
+            app.add_system(crate::systems::rapier::rapier_settings.system())
+                .add_startup_system(crate::systems::rapier::initial_rapier_settings.system());
+        }
     }
 }

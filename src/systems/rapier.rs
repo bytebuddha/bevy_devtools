@@ -22,6 +22,35 @@ pub fn rapier_settings(settings: Res<DevToolsSettings>, mut conf: ResMut<RapierC
                         }
                     }
                 }
+                if let SettingValue::Float(ref float) = child.value {
+                    if child.name == "scale" {
+                        if conf.scale != *float {
+                            conf.scale = *float;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+pub fn initial_rapier_settings(mut settings: ResMut<DevToolsSettings>, conf: ResMut<RapierConfiguration>) {
+    for setting in settings.0.iter_mut() {
+        if setting.name == "rapier" {
+            for child in setting.children_mut().unwrap() {
+                if let SettingValue::Bool(ref mut value) = child.value {
+                    if child.name == "query_pipeline_active" {
+                        *value = conf.query_pipeline_active;
+                    }
+                    if child.name == "physics_pipeline_active" {
+                        *value = conf.physics_pipeline_active;
+                    }
+                }
+                if let SettingValue::Float(ref mut float) = child.value {
+                    if child.name == "scale" {
+                        *float = conf.scale;
+                    }
+                }
             }
         }
     }

@@ -12,6 +12,7 @@ impl DevToolsSetting {
         match &self.value {
             SettingValue::Bool(_) => None,
             SettingValue::String(_) => None,
+            SettingValue::Float(_) => None,
             SettingValue::Group(children) => Some(&children),
         }
     }
@@ -20,6 +21,7 @@ impl DevToolsSetting {
         match &mut self.value {
             SettingValue::Bool(_) => None,
             SettingValue::String(_) => None,
+            SettingValue::Float(_) => None,
             SettingValue::Group(children) => Some(children),
         }
     }
