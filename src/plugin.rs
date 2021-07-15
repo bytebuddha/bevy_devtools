@@ -1,6 +1,6 @@
 use bevy::diagnostic::{DiagnosticsPlugin, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
-use bevy_inspector_egui::{bevy_egui::EguiStage, WorldInspectorParams, WorldInspectorPlugin};
+use bevy_inspector_egui::bevy_egui::EguiStage;
 
 use super::{
     DevToolsDiagnostics, DevToolsState, DevToolsSettings, DevToolsTools, PerformToolAction, DevTool
@@ -63,14 +63,15 @@ impl Plugin for DevToolsPlugin {
                 active_tab: self.active_tab,
                 history: Default::default()
             })
-            .insert_resource(WorldInspectorParams {
+            .insert_resource(crate::world::WorldInspectorParams {
                 enabled: false,
                 ..Default::default()
             })
+            .init_resource::<crate::world::InspectableRegistry>()
             .add_event::<PerformToolAction>()
             .add_plugin(DiagnosticsPlugin)
             .add_plugin(FrameTimeDiagnosticsPlugin)
-            .add_plugin(WorldInspectorPlugin::new())
+            .add_plugin(bevy_inspector_egui::bevy_egui::EguiPlugin)
             .add_system(crate::draw::draw_debug_ui.exclusive_system())
             .add_system(crate::systems::perform_tool_action.exclusive_system())
             .add_system(crate::systems::toggle_devtools.system())

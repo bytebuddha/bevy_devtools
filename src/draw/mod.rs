@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_inspector_egui::WorldUIContext;
+use crate::world::WorldUIContext;
 use bevy_inspector_egui::bevy_egui::{egui, EguiContext};
 
 use crate::{DevToolsState, DevToolsSettings, DevToolsTools, SettingValue};
@@ -54,7 +54,7 @@ pub fn draw_debug_ui(world: &mut World) {
                         diagnostic::handle_diagnostics(ui, world);
                     }
                     crate::helpers::Tab::World => {
-                        let params = world.get_resource::<bevy_inspector_egui::WorldInspectorParams>().unwrap();
+                        let params = world.get_resource::<crate::world::WorldInspectorParams>().unwrap();
                         let world: &mut World = unsafe { &mut *world_ptr };
                         let mut ui_context = WorldUIContext::new(Some(egui_context.ctx()), world);
                         ui.group(|ui| ui.columns(1, |ui| {
