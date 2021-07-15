@@ -63,10 +63,7 @@ impl Plugin for DevToolsPlugin {
                 active_tab: self.active_tab,
                 history: Default::default()
             })
-            .insert_resource(crate::world::WorldInspectorParams {
-                enabled: false,
-                ..Default::default()
-            })
+            .insert_resource(crate::world::WorldInspectorParams::default())
             .init_resource::<crate::world::InspectableRegistry>()
             .add_event::<PerformToolAction>()
             .add_plugin(DiagnosticsPlugin)
@@ -75,8 +72,6 @@ impl Plugin for DevToolsPlugin {
             .add_system(crate::draw::draw_debug_ui.exclusive_system())
             .add_system(crate::systems::perform_tool_action.exclusive_system())
             .add_system(crate::systems::toggle_devtools.system())
-            .add_system(crate::systems::world_settings.system())
-            .add_startup_system(crate::systems::initial_world_settings.system())
             .add_system_to_stage(
                 EguiStage::UiFrameEnd,
                 crate::systems::apply_ui_settings.system(),

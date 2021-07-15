@@ -40,21 +40,6 @@ impl InspectableRegistry {
         }) as InspectCallback;
         self.impls.insert(type_id, callback);
     }
-
-    /// Variant of [`InspectableRegistry::register`] which returns self by-value.
-    /// Allows
-    /// ```rust,no_run
-    /// # use bevy::prelude::*;
-    /// # use bevy_inspector_egui::InspectableRegistry;
-    /// # #[derive(bevy_inspector_egui::Inspectable)] struct MyType;
-    /// App::build()
-    ///   .insert_resource(InspectableRegistry::default().with::<MyType>())
-    ///   .run();
-    /// ```
-    pub fn with<T: Inspectable + 'static>(mut self) -> Self {
-        self.register::<T>();
-        self
-    }
 }
 
 impl Default for InspectableRegistry {

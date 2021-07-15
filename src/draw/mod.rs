@@ -54,11 +54,17 @@ pub fn draw_debug_ui(world: &mut World) {
                         diagnostic::handle_diagnostics(ui, world);
                     }
                     crate::helpers::Tab::World => {
-                        let params = world.get_resource::<crate::world::WorldInspectorParams>().unwrap();
+                        let settings = world.get_resource::<DevToolsSettings>().unwrap();
+                        let world: &mut World = unsafe { &mut *world_ptr };
+                        let params = {
+                            let mut params = world.get_resource_mut::<crate::world::WorldInspectorParams>().unwrap();
+                            crate::world::WorldInspectorParams::apply_settings(&mut params, settings);
+                            params
+                        };
                         let world: &mut World = unsafe { &mut *world_ptr };
                         let mut ui_context = WorldUIContext::new(Some(egui_context.ctx()), world);
                         ui.group(|ui| ui.columns(1, |ui| {
-                            ui_context.world_ui::<()>(&mut ui[0], params);
+                            ui_context.world_ui::<()>(&mut ui[0], &params);
                         }));
                     }
                     crate::helpers::Tab::Tools => {

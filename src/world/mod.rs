@@ -2,7 +2,7 @@
 mod inspectable_registry;
 //mod plugin;
 
-use bevy::{render::camera::Camera, window::WindowId};
+use bevy::render::camera::Camera;
 pub use inspectable_registry::InspectableRegistry;
 
 use bevy::{
@@ -14,8 +14,6 @@ use bevy::{
     },
     prelude::*,
     reflect::{TypeRegistryArc, TypeRegistryInternal},
-    render::render_graph::base::MainPass,
-    utils::HashSet,
 };
 use bevy_inspector_egui::Context;
 use bevy_inspector_egui::egui::{self, CollapsingHeader, Color32};
@@ -24,6 +22,9 @@ use std::{any::TypeId, borrow::Cow, cell::Cell};
 
 use bevy_inspector_egui::options::EntityAttributes;
 use inspectable_registry::InspectCallback;
+
+mod params;
+pub use self::params::WorldInspectorParams;
 
 pub fn label_button(ui: &mut egui::Ui, text: &str, text_color: egui::Color32) -> bool {
     ui.add(egui::Button::new(text).text_color(text_color).frame(false))
@@ -60,96 +61,6 @@ where
             TwoIter::I(i) => i.next(),
             TwoIter::J(j) => j.next(),
         }
-    }
-}
-
-/// Resource which controls the way the world inspector is shown.
-#[derive(Debug, Clone)]
-pub struct WorldInspectorParams {
-    /// these components will be ignored
-    pub ignore_components: HashSet<TypeId>,
-    /// these components will be read only
-    pub read_only_components: HashSet<TypeId>,
-    /// Whether to sort the components alphabetically
-    pub sort_components: bool,
-    /// Controls whether the world inspector is shown
-    pub enabled: bool,
-    /// Whether entities can be despawned
-    pub despawnable_entities: bool,
-    /// The window the inspector should be displayed on
-    pub window: WindowId,
-}
-
-impl WorldInspectorParams {
-    fn empty() -> Self {
-        WorldInspectorParams {
-            ignore_components: HashSet::default(),
-            read_only_components: HashSet::default(),
-            sort_components: false,
-            enabled: true,
-            despawnable_entities: false,
-            window: WindowId::primary(),
-        }
-    }
-
-    /// Add `T` to component ignore list
-    pub fn ignore_component<T: 'static>(&mut self) {
-        self.ignore_components.insert(TypeId::of::<T>());
-    }
-
-    fn should_ignore_component(&self, type_id: TypeId) -> bool {
-        self.ignore_components.contains(&type_id)
-    }
-
-    fn is_read_only(&self, type_id: TypeId) -> bool {
-        self.read_only_components.contains(&type_id)
-    }
-
-    fn entity_options(&self) -> EntityAttributes {
-        EntityAttributes {
-            despawnable: self.despawnable_entities,
-        }
-    }
-}
-
-impl Default for WorldInspectorParams {
-    fn default() -> Self {
-        let mut params = WorldInspectorParams::empty();
-
-        params.ignore_components = [
-            TypeId::of::<Name>(),
-            TypeId::of::<Children>(),
-            TypeId::of::<Parent>(),
-            TypeId::of::<PreviousParent>(),
-            TypeId::of::<MainPass>(),
-            TypeId::of::<Draw>(),
-            TypeId::of::<RenderPipelines>(),
-        ]
-        .iter()
-        .copied()
-        .collect();
-        params.read_only_components = [TypeId::of::<GlobalTransform>()].iter().copied().collect();
-
-        #[cfg(feature = "rapier3d")]
-        {
-            params
-                .ignore_components
-                .insert(TypeId::of::<bevy_rapier3d::prelude::RigidBodyIds>());
-            params
-                .ignore_components
-                .insert(TypeId::of::<bevy_rapier3d::prelude::ColliderBroadPhaseData>());
-        }
-        #[cfg(feature = "rapier2d")]
-        {
-            params
-                .ignore_components
-                .insert(TypeId::of::<bevy_rapier2d::prelude::RigidBodyIds>());
-            params
-                .ignore_components
-                .insert(TypeId::of::<bevy_rapier2d::prelude::ColliderBroadPhaseData>());
-        }
-
-        params
     }
 }
 
