@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{DevToolsState, DevToolsSettings, SettingValue};
+use crate::{DevToolsState, DevToolsSettings};
 
 pub(crate) fn toggle_devtools(
     keys: Res<Input<KeyCode>>,
@@ -10,7 +10,7 @@ pub(crate) fn toggle_devtools(
     if keys.just_pressed(resources.toggle_key) {
         if let Some(setting) = settings.named_mut("devtools") {
             if let Some(setting) = setting.named_child_mut("enabled") {
-                if let SettingValue::Bool(ref mut value) = setting.value {
+                if let Some(value) = setting.value.as_bool_mut() {
                     *value = !*value;
                 }
             }

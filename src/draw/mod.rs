@@ -57,7 +57,9 @@ pub fn draw_debug_ui(world: &mut World) {
                         let params = world.get_resource::<bevy_inspector_egui::WorldInspectorParams>().unwrap();
                         let world: &mut World = unsafe { &mut *world_ptr };
                         let mut ui_context = WorldUIContext::new(Some(egui_context.ctx()), world);
-                        ui_context.world_ui::<()>(ui, params);
+                        ui.group(|ui| ui.columns(1, |ui| {
+                            ui_context.world_ui::<()>(&mut ui[0], params);
+                        }));
                     }
                     crate::helpers::Tab::Tools => {
                         let devtools_tools = world.get_resource::<DevToolsTools>().unwrap();

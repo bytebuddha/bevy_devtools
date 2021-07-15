@@ -20,7 +20,7 @@ pub fn render(ui: &mut Ui, settings: &mut crate::DevToolsSettings) {
     if let Some(setting) = settings.named_mut("devtools") {
         if let Some(child) = setting.named_child_mut("tools") {
             if let Some(child) = child.named_child_mut("save-scene") {
-                if let SettingValue::String(value) = &mut child.value {
+                if let Some(value) = child.value.as_string_mut() {
                     ui.text_edit_singleline(value);
                 }
             }

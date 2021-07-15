@@ -11,7 +11,7 @@ pub fn handle_settings(ui: &mut Ui, world: &mut World) {
         if let Some(setting) = settings.named("devtools") {
             if let Some(child) = setting.named_child("settings") {
                 if let Some(child) = child.named_child("show-hidden") {
-                    if let SettingValue::Bool(value) = child.value {
+                    if let Some(value) = child.value.as_bool() {
                         show_hidden = value;
                     }
                 }
@@ -32,9 +32,10 @@ pub fn handle_settings(ui: &mut Ui, world: &mut World) {
 }
 
 pub fn display_setting(ui: &mut Ui, setting: &mut DevToolsSetting, force: bool) {
+    let label = setting.label.as_ref().unwrap_or(&setting.name);
     match &mut setting.value {
         SettingValue::Group(group) => {
-            ui.collapsing(setting.label.as_ref().unwrap_or(&setting.name), |ui| {
+            ui.collapsing(label, |ui| {
                 for child in group.iter_mut() {
                     if !child.hidden || force {
                         display_setting(ui, child, !child.hidden || force);
@@ -43,14 +44,17 @@ pub fn display_setting(ui: &mut Ui, setting: &mut DevToolsSetting, force: bool) 
             });
         }
         SettingValue::Bool(ref mut data) => {
-            ui.checkbox(data, setting.label.as_ref().unwrap_or(&setting.name));
+            ui.checkbox(data, label);
         }
         SettingValue::Float(ref mut float) => {
-            ui.label(setting.label.as_ref().unwrap_or(&setting.name));
-            ui.add(DragValue::new(float).speed(0.1));
+            let value = DragValue::new(float).speed(0.1);
+            ui.horizontal(|ui| {
+                ui.label(label);
+                ui.add(value);
+            });
         }
         SettingValue::String(ref mut data) => {
-            ui.label(setting.label.as_ref().unwrap_or(&setting.name));
+            ui.label(label);
             ui.end_row();
             ui.text_edit_singleline(data);
         }

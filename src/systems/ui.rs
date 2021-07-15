@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::EguiContext;
 
-use crate::{helpers::DraculaEgui, DevToolsSettings, SettingValue};
+use crate::{helpers::DraculaEgui, DevToolsSettings};
 
 pub fn apply_ui_settings(context: ResMut<EguiContext>, settings: Res<DevToolsSettings>) {
     let ctx = context.ctx();
@@ -9,7 +9,7 @@ pub fn apply_ui_settings(context: ResMut<EguiContext>, settings: Res<DevToolsSet
     if let Some(setting) = settings.named("devtools") {
         if let Some(child) = setting.named_child("gui") {
             for child in child.children().unwrap() {
-                if let SettingValue::Bool(value) = child.value {
+                if let Some(value) = child.value.as_bool() {
                     if child.name == "widgets-hover" {
                         style.debug.debug_on_hover = value;
                     }
