@@ -4,24 +4,23 @@ use bevy_devtools::bevy_inspector_egui::egui::Ui;
 fn main() {
     App::build()
         .add_plugins(DefaultPlugins)
-        .add_plugin(bevy_devtools::DevToolsPlugin::default())
+        .add_plugin(
+            bevy_devtools::DevToolsPlugin::default()
+                .add_tool(bevy_devtools::DevTool {
+                    name: "simple".into(),
+                    label: Some("Simple".into()),
+                    render: render_custom_tool,
+                    perform: None,
+                    perform_icon: None,
+                })
+                .remove_tool("save-scene")
+        )
         .add_startup_system(setup.system())
-        .add_startup_system(add_custom_devtool.system())
         .run()
 }
 
 fn render_custom_tool(ui: &mut Ui, _: &mut bevy_devtools::DevToolsSettings) {
     ui.label("Custom Development Tool");
-}
-
-fn add_custom_devtool(mut tools: ResMut<bevy_devtools::DevToolsTools>) {
-    tools.0.push(bevy_devtools::DevTool {
-        name: "simple".into(),
-        label: Some("Simple".into()),
-        render: render_custom_tool,
-        perform: None,
-        perform_icon: None,
-    });
 }
 
 fn setup(

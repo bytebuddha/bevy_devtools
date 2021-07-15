@@ -5,6 +5,7 @@ mod save_world;
 
 pub struct PerformToolAction(pub DevTool);
 
+#[derive(Clone)]
 pub struct DevToolsTools(pub Vec<DevTool>);
 
 #[derive(Clone)]

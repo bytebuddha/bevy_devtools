@@ -4,6 +4,7 @@ pub use self::value::SettingValue;
 mod setting;
 pub use self::setting::DevToolsSetting;
 
+#[derive(Clone)]
 pub struct DevToolsSettings(pub Vec<DevToolsSetting>);
 
 impl Default for DevToolsSettings {

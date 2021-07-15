@@ -1,5 +1,6 @@
 use crate::DevToolsSetting;
 
+#[derive(Debug, Clone)]
 pub enum SettingValue {
     Bool(bool),
     String(String),

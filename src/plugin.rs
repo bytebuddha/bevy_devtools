@@ -3,20 +3,45 @@ use bevy::prelude::*;
 use bevy_inspector_egui::{bevy_egui::EguiStage, WorldInspectorParams, WorldInspectorPlugin};
 
 use super::{
-    DevToolsDiagnostics, DevToolsResources, DevToolsSettings, DevToolsTools, PerformToolAction,
+    DevToolsDiagnostics, DevToolsResources, DevToolsSettings, DevToolsTools, PerformToolAction, DevTool
 };
 
 pub struct DevToolsPlugin {
     toggle_key: KeyCode,
-    active_tab: crate::helpers::Tab
+    active_tab: crate::helpers::Tab,
+    settings: DevToolsSettings,
+    tools: DevToolsTools
 }
 
 impl Default for DevToolsPlugin {
     fn default() -> DevToolsPlugin {
         DevToolsPlugin {
             toggle_key: KeyCode::F11,
-            active_tab: crate::helpers::Tab::default()
+            active_tab: crate::helpers::Tab::default(),
+            settings: Default::default(),
+            tools: Default::default()
         }
+    }
+}
+
+impl DevToolsPlugin {
+
+    pub fn add_tool(mut self, tool: DevTool) -> DevToolsPlugin {
+        self.tools.0.push(tool);
+        self
+    }
+
+    pub fn remove_tool(mut self, name: &str) -> DevToolsPlugin {
+        let mut index = None;
+        for (dex, tool) in self.tools.0.iter().enumerate() {
+            if &tool.name == name {
+                index = Some(dex);
+            }
+        }
+        if let Some(index) = index {
+            self.tools.0.remove(index);
+        }
+        self
     }
 }
 
@@ -30,8 +55,8 @@ impl Plugin for DevToolsPlugin {
                 }
             }
         }
-        app.init_resource::<DevToolsSettings>()
-            .init_resource::<DevToolsTools>()
+        app.insert_resource(self.tools.clone())
+            .insert_resource(self.settings.clone())
             .insert_resource(diagnostics)
             .insert_resource(DevToolsResources {
                 toggle_key: self.toggle_key,

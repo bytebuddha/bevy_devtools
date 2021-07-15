@@ -1,5 +1,6 @@
 use super::SettingValue;
 
+#[derive(Debug, Clone)]
 pub struct DevToolsSetting {
     pub hidden: bool,
     pub name: String,

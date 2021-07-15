@@ -17,7 +17,7 @@ mod settings;
 pub use self::settings::{DevToolsSetting, DevToolsSettings, SettingValue};
 
 mod resources;
-pub(crate) use self::resources::DevToolsResources;
+pub use self::resources::DevToolsResources;
 
 mod diagnostics;
 pub use self::diagnostics::{DevToolsDiagnostics, DiagnosticDisplay, DiagnosticGroup};
