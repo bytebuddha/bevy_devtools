@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use bevy_inspector_egui::{bevy_egui::EguiStage, WorldInspectorParams, WorldInspectorPlugin};
 
 use super::{
-    DevToolsDiagnostics, DevToolsResources, DevToolsSettings, DevToolsTools, PerformToolAction, DevTool
+    DevToolsDiagnostics, DevToolsState, DevToolsSettings, DevToolsTools, PerformToolAction, DevTool
 };
 
 pub struct DevToolsPlugin {
@@ -58,7 +58,7 @@ impl Plugin for DevToolsPlugin {
         app.insert_resource(self.tools.clone())
             .insert_resource(self.settings.clone())
             .insert_resource(diagnostics)
-            .insert_resource(DevToolsResources {
+            .insert_resource(DevToolsState {
                 toggle_key: self.toggle_key,
                 active_tab: self.active_tab,
                 history: Default::default()

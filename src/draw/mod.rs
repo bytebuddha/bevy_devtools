@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use bevy_inspector_egui::WorldUIContext;
 use bevy_inspector_egui::bevy_egui::{egui, EguiContext};
 
-use crate::{DevToolsResources, DevToolsSettings, DevToolsTools, SettingValue};
+use crate::{DevToolsState, DevToolsSettings, DevToolsTools, SettingValue};
 
 mod diagnostic;
 mod setting;
@@ -13,22 +13,20 @@ mod top_panel;
 pub fn draw_debug_ui(world: &mut World) {
     let world_ptr = world as *mut _;
     let (enabled, always, active) = {
-        let resources = world.get_resource::<DevToolsResources>().unwrap();
+        let resources = world.get_resource::<DevToolsState>().unwrap();
         let settings = world.get_resource::<DevToolsSettings>().unwrap();
         let mut always_visible = false;
         let mut enabled = false;
-        for setting in settings.0.iter() {
-            if setting.name == "devtools" {
-                for child in setting.children().unwrap() {
-                    if child.name == "always-visible" {
-                        if let SettingValue::Bool(value) = child.value {
-                            always_visible = value;
-                        }
+        if let Some(setting) = settings.named("devtools") {
+            for child in setting.children().unwrap() {
+                if child.name == "always-visible" {
+                    if let SettingValue::Bool(value) = child.value {
+                        always_visible = value;
                     }
-                    if child.name == "enabled" {
-                        if let SettingValue::Bool(value) = child.value {
-                            enabled = value;
-                        }
+                }
+                if child.name == "enabled" {
+                    if let SettingValue::Bool(value) = child.value {
+                        enabled = value;
                     }
                 }
             }

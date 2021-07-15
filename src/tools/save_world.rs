@@ -17,17 +17,11 @@ pub fn tool() -> DevTool {
 }
 
 pub fn render(ui: &mut Ui, settings: &mut crate::DevToolsSettings) {
-    for setting in settings.0.iter_mut() {
-        if setting.name == "devtools" {
-            for child in setting.children_mut().unwrap() {
-                if child.name == "tools" {
-                    for child in child.children_mut().unwrap() {
-                        if let SettingValue::String(value) = &mut child.value {
-                            if child.name == "save-scene" {
-                                ui.text_edit_singleline(value);
-                            }
-                        }
-                    }
+    if let Some(setting) = settings.named_mut("devtools") {
+        if let Some(child) = setting.named_child_mut("tools") {
+            if let Some(child) = child.named_child_mut("save-scene") {
+                if let SettingValue::String(value) = &mut child.value {
+                    ui.text_edit_singleline(value);
                 }
             }
         }
@@ -36,22 +30,16 @@ pub fn render(ui: &mut Ui, settings: &mut crate::DevToolsSettings) {
 
 pub fn perform(world: &mut World) {
     let settings = world.get_resource::<crate::DevToolsSettings>().unwrap();
-    for setting in settings.0.iter() {
-        if setting.name == "devtools" {
-            for child in setting.children().unwrap() {
-                if child.name == "tools" {
-                    for child in child.children().unwrap() {
-                        if let SettingValue::String(value) = &child.value {
-                            if child.name == "save-scene" {
-                                let mut file = File::create(&value).unwrap();
-                                let type_registry =
-                                    world.get_resource::<bevy::reflect::TypeRegistry>().unwrap();
-                                let scene = DynamicScene::from_world(world, type_registry);
-                                let scene_data = scene.serialize_ron(type_registry).unwrap();
-                                file.write_all(scene_data.as_bytes()).unwrap();
-                            }
-                        }
-                    }
+    if let Some(setting) = settings.named("devtools") {
+        if let Some(child) = setting.named_child("tools") {
+            if let Some(child) = child.named_child("save-scene") {
+                if let SettingValue::String(value) = &child.value {
+                    let mut file = File::create(&value).unwrap();
+                    let type_registry =
+                    world.get_resource::<bevy::reflect::TypeRegistry>().unwrap();
+                    let scene = DynamicScene::from_world(world, type_registry);
+                    let scene_data = scene.serialize_ron(type_registry).unwrap();
+                    file.write_all(scene_data.as_bytes()).unwrap();
                 }
             }
         }

@@ -1,10 +1,10 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::egui::Ui;
 
-use crate::{helpers::Tab, DevToolsResources};
+use crate::{helpers::Tab, DevToolsState};
 
 pub fn tab_bar(ui: &mut Ui, world: &mut World) {
-    let mut resources = world.get_resource_mut::<DevToolsResources>().unwrap();
+    let mut resources = world.get_resource_mut::<DevToolsState>().unwrap();
     ui.columns(4, |ui| {
         if ui[0].selectable_label(resources.active_tab == Tab::Diagnostics, Tab::Diagnostics.icon())
             .clicked()

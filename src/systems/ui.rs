@@ -6,25 +6,21 @@ use crate::{helpers::DraculaEgui, DevToolsSettings, SettingValue};
 pub fn apply_ui_settings(context: ResMut<EguiContext>, settings: Res<DevToolsSettings>) {
     let ctx = context.ctx();
     let mut style = DraculaEgui::style();
-    for setting in settings.0.iter() {
-        if setting.name == "devtools" {
-            for child in setting.children().unwrap() {
-                if child.name == "gui" {
-                    for child in child.children().unwrap() {
-                        if let SettingValue::Bool(value) = child.value {
-                            if child.name == "widgets-hover" {
-                                style.debug.debug_on_hover = value;
-                            }
-                            if child.name == "widgets-taller" {
-                                style.debug.show_expand_height = value;
-                            }
-                            if child.name == "widgets-wider" {
-                                style.debug.show_expand_width = value;
-                            }
-                            if child.name == "show-resize" {
-                                style.debug.show_resize = value;
-                            }
-                        }
+    if let Some(setting) = settings.named("devtools") {
+        if let Some(child) = setting.named_child("gui") {
+            for child in child.children().unwrap() {
+                if let SettingValue::Bool(value) = child.value {
+                    if child.name == "widgets-hover" {
+                        style.debug.debug_on_hover = value;
+                    }
+                    if child.name == "widgets-taller" {
+                        style.debug.show_expand_height = value;
+                    }
+                    if child.name == "widgets-wider" {
+                        style.debug.show_expand_width = value;
+                    }
+                    if child.name == "show-resize" {
+                        style.debug.show_resize = value;
                     }
                 }
             }

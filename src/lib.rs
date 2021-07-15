@@ -16,8 +16,8 @@ pub use self::tools::{DevTool, DevToolsTools, PerformToolAction};
 mod settings;
 pub use self::settings::{DevToolsSetting, DevToolsSettings, SettingValue};
 
-mod resources;
-pub use self::resources::DevToolsResources;
+mod state;
+pub use self::state::DevToolsState;
 
 mod diagnostics;
 pub use self::diagnostics::{DevToolsDiagnostics, DiagnosticDisplay, DiagnosticGroup};

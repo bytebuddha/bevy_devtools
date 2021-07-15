@@ -8,17 +8,11 @@ pub fn handle_settings(ui: &mut Ui, world: &mut World) {
     let show_hidden = {
         let mut show_hidden = false;
         let settings = world.get_resource::<DevToolsSettings>().unwrap();
-        for setting in settings.0.iter() {
-            if setting.name == "devtools" {
-                for child in setting.children().unwrap() {
-                    if child.name == "settings" {
-                        for child in child.children().unwrap() {
-                            if let SettingValue::Bool(value) = child.value {
-                                if child.name == "show-hidden" {
-                                    show_hidden = value;
-                                }
-                            }
-                        }
+        if let Some(setting) = settings.named("devtools") {
+            if let Some(child) = setting.named_child("settings") {
+                if let Some(child) = child.named_child("show-hidden") {
+                    if let SettingValue::Bool(value) = child.value {
+                        show_hidden = value;
                     }
                 }
             }

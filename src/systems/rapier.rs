@@ -7,26 +7,24 @@ use bevy_rapier3d::physics::RapierConfiguration;
 use crate::{DevToolsSettings, SettingValue};
 
 pub fn rapier_settings(settings: Res<DevToolsSettings>, mut conf: ResMut<RapierConfiguration>) {
-    for setting in settings.0.iter() {
-        if setting.name == "rapier" {
-            for child in setting.children().unwrap() {
-                if let SettingValue::Bool(value) = child.value {
-                    if child.name == "query_pipeline_active" {
-                        if conf.query_pipeline_active != value {
-                            conf.query_pipeline_active = value;
-                        }
-                    }
-                    if child.name == "physics_pipeline_active" {
-                        if conf.physics_pipeline_active != value {
-                            conf.physics_pipeline_active = value;
-                        }
+    if let Some(setting) = settings.named("rapier") {
+        for child in setting.children().unwrap() {
+            if let SettingValue::Bool(value) = child.value {
+                if child.name == "query_pipeline_active" {
+                    if conf.query_pipeline_active != value {
+                        conf.query_pipeline_active = value;
                     }
                 }
-                if let SettingValue::Float(ref float) = child.value {
-                    if child.name == "scale" {
-                        if conf.scale != *float {
-                            conf.scale = *float;
-                        }
+                if child.name == "physics_pipeline_active" {
+                    if conf.physics_pipeline_active != value {
+                        conf.physics_pipeline_active = value;
+                    }
+                }
+            }
+            if let SettingValue::Float(ref float) = child.value {
+                if child.name == "scale" {
+                    if conf.scale != *float {
+                        conf.scale = *float;
                     }
                 }
             }
@@ -35,21 +33,19 @@ pub fn rapier_settings(settings: Res<DevToolsSettings>, mut conf: ResMut<RapierC
 }
 
 pub fn initial_rapier_settings(mut settings: ResMut<DevToolsSettings>, conf: ResMut<RapierConfiguration>) {
-    for setting in settings.0.iter_mut() {
-        if setting.name == "rapier" {
-            for child in setting.children_mut().unwrap() {
-                if let SettingValue::Bool(ref mut value) = child.value {
-                    if child.name == "query_pipeline_active" {
-                        *value = conf.query_pipeline_active;
-                    }
-                    if child.name == "physics_pipeline_active" {
-                        *value = conf.physics_pipeline_active;
-                    }
+    if let Some(setting) = settings.named_mut("rapier") {
+        for child in setting.children_mut().unwrap() {
+            if let SettingValue::Bool(ref mut value) = child.value {
+                if child.name == "query_pipeline_active" {
+                    *value = conf.query_pipeline_active;
                 }
-                if let SettingValue::Float(ref mut float) = child.value {
-                    if child.name == "scale" {
-                        *float = conf.scale;
-                    }
+                if child.name == "physics_pipeline_active" {
+                    *value = conf.physics_pipeline_active;
+                }
+            }
+            if let SettingValue::Float(ref mut float) = child.value {
+                if child.name == "scale" {
+                    *float = conf.scale;
                 }
             }
         }

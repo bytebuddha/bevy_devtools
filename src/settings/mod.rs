@@ -7,6 +7,26 @@ pub use self::setting::DevToolsSetting;
 #[derive(Clone)]
 pub struct DevToolsSettings(pub Vec<DevToolsSetting>);
 
+impl DevToolsSettings {
+    pub fn named(&self, name: &str) -> Option<&DevToolsSetting> {
+        for setting in &self.0 {
+            if setting.name == name {
+                return Some(setting);
+            }
+        }
+        None
+    }
+
+    pub fn named_mut(&mut self, name: &str) -> Option<&mut DevToolsSetting> {
+        for setting in &mut self.0 {
+            if setting.name == name {
+                return Some(setting);
+            }
+        }
+        None
+    }
+}
+
 impl Default for DevToolsSettings {
     fn default() -> DevToolsSettings {
         DevToolsSettings(vec![

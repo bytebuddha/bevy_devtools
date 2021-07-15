@@ -5,7 +5,7 @@ use bevy_inspector_egui::bevy_egui::{
     egui::Ui,
 };
 
-use crate::{helpers::DraculaEgui, DevToolsResources};
+use crate::{helpers::DraculaEgui, DevToolsState};
 
 pub fn top_panel(ui: &mut Ui, world: &mut World) {
     let fps = {
@@ -17,12 +17,12 @@ pub fn top_panel(ui: &mut Ui, world: &mut World) {
                 .value()
                 .unwrap_or(0.0)
         };
-        let mut resources = world.get_resource_mut::<DevToolsResources>().unwrap();
+        let mut resources = world.get_resource_mut::<DevToolsState>().unwrap();
         resources.history.push_fps(fps);
         fps
     };
     let diagnostics = world.get_resource::<Diagnostics>().unwrap();
-    let resources = world.get_resource::<DevToolsResources>().unwrap();
+    let resources = world.get_resource::<DevToolsState>().unwrap();
     let avg = diagnostics
         .get(FrameTimeDiagnosticsPlugin::FRAME_TIME)
         .unwrap()
