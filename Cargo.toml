@@ -12,7 +12,7 @@ rapier2d = ["bevy_rapier2d", "bevy-inspector-egui/bevy_rapier2d", "rapier"]
 
 [dependencies]
 pretty-type-name = "1.0.0"
-bevy = { version = "0.5.0", default-features = false, features = ["render"] }
+bevy = { version = "0.5.0", default-features = false, features = ["bevy_wgpu"] }
 bevy-inspector-egui = { git = "https://github.com/jakobhellermann/bevy-inspector-egui/", default-features = false }
 bevy_rapier3d = { version = "0.10", optional = true }
 bevy_rapier2d = { version = "0.10", optional = true }
