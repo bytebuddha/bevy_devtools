@@ -20,7 +20,7 @@ mod settings;
 pub use self::settings::{DevToolsSetting, DevToolsSettings, SettingValue};
 
 mod state;
-pub use self::state::DevToolsState;
+pub use self::state::{DevToolsState, DevToolsLocation};
 
 mod diagnostics;
 pub use self::diagnostics::{DevToolsDiagnostics, DiagnosticDisplay, DiagnosticGroup};

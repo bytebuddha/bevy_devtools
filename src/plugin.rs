@@ -3,10 +3,12 @@ use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::EguiStage;
 
 use super::{
-    DevToolsDiagnostics, DevToolsState, DevToolsSettings, DevToolsTools, PerformToolAction, DevTool
+    DevToolsDiagnostics, DevToolsState, DevToolsSettings, DevToolsTools,
+    PerformToolAction, DevTool, DevToolsLocation
 };
 
 pub struct DevToolsPlugin {
+    location: DevToolsLocation,
     toggle_key: KeyCode,
     active_tab: crate::helpers::Tab,
     settings: DevToolsSettings,
@@ -16,6 +18,7 @@ pub struct DevToolsPlugin {
 impl Default for DevToolsPlugin {
     fn default() -> DevToolsPlugin {
         DevToolsPlugin {
+            location: DevToolsLocation::Window,
             toggle_key: KeyCode::F11,
             active_tab: crate::helpers::Tab::default(),
             settings: Default::default(),
@@ -28,6 +31,11 @@ impl DevToolsPlugin {
 
     pub fn add_tool(mut self, tool: DevTool) -> DevToolsPlugin {
         self.tools.0.push(tool);
+        self
+    }
+
+    pub fn location(mut self, location: DevToolsLocation) -> DevToolsPlugin {
+        self.location = location;
         self
     }
 
@@ -59,6 +67,7 @@ impl Plugin for DevToolsPlugin {
             .insert_resource(self.settings.clone())
             .insert_resource(diagnostics)
             .insert_resource(DevToolsState {
+                location: self.location,
                 toggle_key: self.toggle_key,
                 active_tab: self.active_tab,
                 history: Default::default()
