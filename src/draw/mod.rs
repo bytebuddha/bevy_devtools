@@ -1,6 +1,8 @@
 use bevy::prelude::*;
-use crate::world::WorldUIContext;
-use bevy_inspector_egui::bevy_egui::{egui, EguiContext, egui::Align, egui::Layout};
+use bevy_inspector_egui::{
+    world_inspector::{WorldUIContext, WorldInspectorParams},
+    bevy_egui::{egui, EguiContext, egui::Align, egui::Layout}
+};
 
 use crate::{DevToolsState, DevToolsSettings, DevToolsTools, SettingValue, DevToolsLocation};
 
@@ -103,12 +105,12 @@ fn draw_devtools(egui_context: &EguiContext, ui: &mut egui::Ui, location: &mut D
                 let settings = world.get_resource::<DevToolsSettings>().unwrap();
                 let world: &mut World = unsafe { &mut *world_ptr };
                 let params = {
-                    let mut params = world.get_resource_mut::<crate::world::WorldInspectorParams>().unwrap();
-                    crate::world::WorldInspectorParams::apply_settings(&mut params, settings);
+                    let mut params = world.get_resource_mut::<WorldInspectorParams>().unwrap();
+                    apply_settings(&mut params, settings);
                     params
                 };
                 let world: &mut World = unsafe { &mut *world_ptr };
-                let mut ui_context = WorldUIContext::new(Some(egui_context.ctx()), world);
+                let mut ui_context = WorldUIContext::new(world, Some(egui_context.ctx()));
                 ui.group(|ui| ui.columns(1, |ui| {
                     ui_context.world_ui::<()>(&mut ui[0], &params);
                 }));
@@ -125,4 +127,22 @@ fn draw_devtools(egui_context: &EguiContext, ui: &mut egui::Ui, location: &mut D
             }
         }
     });
+}
+
+pub fn apply_settings<'a, 'b>(params: &'a mut WorldInspectorParams, settings: &'b DevToolsSettings) {
+    if let Some(setting) = settings.named("devtools") {
+        if let Some(child) = setting.named_child("world") {
+            for child in child.children().unwrap() {
+                if let Some(value) = child.value.as_bool() {
+                    if child.name == "despawnable" && params.despawnable_entities != value {
+                        params.despawnable_entities = value;
+                    }
+                    if child.name == "sort" && params.sort_components != value {
+                        params.sort_components = value;
+                    }
+
+                }
+            }
+        }
+    }
 }

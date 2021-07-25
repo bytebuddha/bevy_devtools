@@ -72,8 +72,8 @@ impl Plugin for DevToolsPlugin {
                 active_tab: self.active_tab,
                 history: Default::default()
             })
-            .insert_resource(crate::world::WorldInspectorParams::default())
-            .init_resource::<crate::world::InspectableRegistry>()
+            .insert_resource(bevy_inspector_egui::world_inspector::WorldInspectorParams::default())
+            .init_resource::<bevy_inspector_egui::world_inspector::InspectableRegistry>()
             .add_event::<PerformToolAction>()
             .add_plugin(DiagnosticsPlugin)
             .add_plugin(FrameTimeDiagnosticsPlugin)
