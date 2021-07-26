@@ -16,6 +16,12 @@ pub struct DiagnosticGroup {
     pub data: Vec<Vec<DiagnosticDisplay>>,
 }
 
+impl DiagnosticGroup {
+    pub fn label(&self) -> &str {
+        self.label.as_ref().unwrap_or(&self.name)
+    }
+}
+
 pub struct DiagnosticDisplay {
     pub build: fn(&mut AppBuilder),
     pub render: fn(&mut Ui, &Diagnostics),

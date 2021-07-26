@@ -31,11 +31,7 @@ fn build_color_texture_count(app: &mut AppBuilder) {
 }
 
 fn render_color_texture_count(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let textures = diagnostics
-        .get(AssetCountDiagnosticsPlugin::<ColorMaterial>::diagnostic_id())
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let textures = diagnostic_value!(diagnostics, AssetCountDiagnosticsPlugin::<ColorMaterial>::diagnostic_id());
     ui.label(format!("Colors: {:.0}", textures));
 }
 
@@ -44,11 +40,7 @@ fn build_materials_count(app: &mut AppBuilder) {
 }
 
 fn render_materials_count(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let materials = diagnostics
-        .get(AssetCountDiagnosticsPlugin::<StandardMaterial>::diagnostic_id())
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let materials = diagnostic_value!(diagnostics, AssetCountDiagnosticsPlugin::<StandardMaterial>::diagnostic_id());
     ui.label(format!("Materials: {:.0}", materials));
 }
 
@@ -57,10 +49,6 @@ fn build_texture_count(app: &mut AppBuilder) {
 }
 
 fn render_texture_count(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let textures = diagnostics
-        .get(AssetCountDiagnosticsPlugin::<Texture>::diagnostic_id())
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let textures = diagnostic_value!(diagnostics, AssetCountDiagnosticsPlugin::<Texture>::diagnostic_id());
     ui.label(format!("Textures: {:.0}", textures));
 }

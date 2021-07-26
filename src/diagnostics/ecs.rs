@@ -6,12 +6,7 @@ use bevy_inspector_egui::egui::Ui;
 use super::{DiagnosticDisplay, DiagnosticGroup};
 
 pub fn render_entity_count(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let entities = diagnostics
-        .get(EntityCountDiagnosticsPlugin::ENTITY_COUNT)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
-
+    let entities = diagnostic_value!(diagnostics, EntityCountDiagnosticsPlugin::ENTITY_COUNT);
     ui.label(format!("Entities: {:.0}", entities));
 }
 

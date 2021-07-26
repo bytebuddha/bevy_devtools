@@ -81,7 +81,7 @@ fn draw_devtools(egui_context: &EguiContext, ui: &mut egui::Ui, location: &mut D
             }
         });
         ui[1].with_layout(layout.clone(), |ui| {
-            if ui.selectable_label(*location == DevToolsLocation::Window, "🪟").clicked() {
+            if ui.selectable_label(*location == DevToolsLocation::Window, "⧈").clicked() {
                 *location = DevToolsLocation::Window;
             }
         });

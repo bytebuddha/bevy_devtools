@@ -11,11 +11,7 @@ pub fn top_panel(ui: &mut Ui, world: &mut World) {
     let fps = {
         let fps = {
             let diagnostics = world.get_resource::<Diagnostics>().unwrap();
-            diagnostics
-                .get(FrameTimeDiagnosticsPlugin::FPS)
-                .unwrap()
-                .value()
-                .unwrap_or(0.0)
+            diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FPS)
         };
         let mut resources = world.get_resource_mut::<DevToolsState>().unwrap();
         resources.history.push_fps(fps);
@@ -23,16 +19,8 @@ pub fn top_panel(ui: &mut Ui, world: &mut World) {
     };
     let diagnostics = world.get_resource::<Diagnostics>().unwrap();
     let resources = world.get_resource::<DevToolsState>().unwrap();
-    let avg = diagnostics
-        .get(FrameTimeDiagnosticsPlugin::FRAME_TIME)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
-    let count = diagnostics
-        .get(FrameTimeDiagnosticsPlugin::FRAME_COUNT)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let avg = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FRAME_TIME);
+    let count = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FRAME_COUNT);
     ui.group(|ui| {
         ui.columns(3, |ui| {
             let layout = crate::egui::Layout::from_main_dir_and_cross_align(

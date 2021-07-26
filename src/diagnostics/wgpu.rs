@@ -69,105 +69,57 @@ fn build_wgpu(app: &mut AppBuilder) {
 }
 
 fn render_bind_groups(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let groups = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::BIND_GROUPS)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let groups = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::BIND_GROUPS);
     ui.label(format!("Groups: {:.0}", groups));
 }
 
 fn render_bind_group_ids(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let groups = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::BIND_GROUP_IDS)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let groups = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::BIND_GROUP_IDS);
     ui.label(format!("Ids: {:.0}", groups));
 }
 
 fn render_bind_group_layouts(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let groups = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::BIND_GROUP_LAYOUTS)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let groups = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::BIND_GROUP_LAYOUTS);
     ui.label(format!("Layouts: {:.0}", groups));
 }
 
 fn render_buffers(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let groups = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::BUFFERS)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let groups = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::BUFFERS);
     ui.label(format!("Buffers: {:.0}", groups));
 }
 
 fn render_samplers(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let groups = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::SAMPLERS)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let groups = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::SAMPLERS);
     ui.label(format!("Samplers: {:.0}", groups));
 }
 
 fn render_render_pipelines(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let groups = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::RENDER_PIPELINES)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let groups = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::RENDER_PIPELINES);
     ui.label(format!("Groups: {:.0}", groups));
 }
 
 fn render_shader_modules(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let groups = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::SHADER_MODULES)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let groups = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::SWAP_CHAIN_OUTPUTS);
     ui.label(format!("Shaders: {:.0}", groups));
 }
 
 fn render_wgpu_textures(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let textures = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::TEXTURES)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let textures = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::TEXTURES);
     ui.label(format!("Textures: {:.0}", textures));
 }
 
 fn render_wgpu_textures_views(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let textures = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::TEXTURE_VIEWS)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let textures = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::TEXTURE_VIEWS);
     ui.label(format!("Views: {:.0}", textures));
 }
 
 fn render_wgpu_surfaces(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let textures = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::WINDOW_SURFACES)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let textures = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::WINDOW_SURFACES);
     ui.label(format!("Surfaces: {:.0}", textures));
 }
 
 fn render_wgpu_swapchains(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let textures = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::SWAP_CHAINS)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
-    let output = diagnostics
-        .get(WgpuResourceDiagnosticsPlugin::SWAP_CHAIN_OUTPUTS)
-        .unwrap()
-        .value()
-        .unwrap_or(0.0);
+    let textures = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::SWAP_CHAINS);
+    let output = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::SWAP_CHAIN_OUTPUTS);
     ui.label(format!("Swap Chains: {:.0}/{:.0}", textures, output));
 }

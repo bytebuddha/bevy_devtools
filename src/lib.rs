@@ -2,9 +2,10 @@ pub extern crate bevy_inspector_egui;
 pub use bevy_inspector_egui::bevy_egui;
 pub use bevy_inspector_egui::bevy_egui::egui;
 
-pub mod consts;
-pub mod draw;
+#[macro_use]
 pub mod helpers;
+pub mod draw;
+pub mod consts;
 pub mod systems;
 
 mod plugin;

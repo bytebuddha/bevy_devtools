@@ -2,6 +2,8 @@ use bevy::prelude::*;
 use bevy_inspector_egui::egui::Ui;
 
 mod save_world;
+#[cfg(feature = "bevy_mod_debugdump")]
+mod render_graph;
 
 pub struct PerformToolAction(pub DevTool);
 
@@ -17,8 +19,18 @@ pub struct DevTool {
     pub perform: Option<fn(&mut World)>,
 }
 
+impl DevTool {
+    pub fn label(&self) -> &str {
+        self.label.as_ref().unwrap_or(&self.name)
+    }
+}
+
 impl Default for DevToolsTools {
     fn default() -> DevToolsTools {
-        DevToolsTools(vec![save_world::tool()])
+        DevToolsTools(vec![
+            save_world::tool(),
+            #[cfg(feature = "bevy_mod_debugdump")]
+            render_graph::tool(),
+        ])
     }
 }

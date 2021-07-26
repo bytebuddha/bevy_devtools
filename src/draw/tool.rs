@@ -20,7 +20,7 @@ pub fn display_tool(
     ui.group(|ui| {
         if tool.perform.is_some() {
             ui.columns(2, |ui| {
-                ui[0].heading(tool.label.as_ref().unwrap_or(&tool.name));
+                ui[0].heading(tool.label());
                 if let Some(icon) = tool.perform_icon.as_ref() {
                     if ui[1].small_button(icon).clicked() {
                         tool_actions.send(PerformToolAction(tool.clone()));
@@ -31,7 +31,7 @@ pub fn display_tool(
             });
         } else {
             ui.columns(1, |ui| {
-                ui[0].heading(tool.label.as_ref().unwrap_or(&tool.name));
+                ui[0].heading(tool.label());
             });
         }
         (tool.render)(ui, settings);

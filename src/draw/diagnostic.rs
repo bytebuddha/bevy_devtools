@@ -14,7 +14,7 @@ pub fn handle_diagnostics(ui: &mut Ui, world: &mut World) {
 
 pub fn display_diagnostic(ui: &mut Ui, diagnostics: &Diagnostics, group: &DiagnosticGroup) {
     ui.group(|ui| {
-        ui.heading(group.label.as_ref().unwrap_or(&group.name));
+        ui.heading(group.label());
         ui.end_row();
         ui.group(|ui| {
             let length = group.data.len();

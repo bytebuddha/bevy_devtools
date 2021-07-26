@@ -9,6 +9,10 @@ pub struct DevToolsSetting {
 }
 
 impl DevToolsSetting {
+    pub fn label(&self) -> &str {
+        self.label.as_ref().unwrap_or(&self.name)
+    }
+
     pub fn named_child(&self, name: &str) -> Option<&DevToolsSetting> {
         match &self.value {
             SettingValue::Group(children) => {

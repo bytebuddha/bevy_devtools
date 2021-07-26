@@ -114,12 +114,21 @@ impl Default for DevToolsSettings {
                         hidden: true,
                         name: "tools".into(),
                         label: Some("Tools".into()),
-                        value: SettingValue::Group(vec![DevToolsSetting {
-                            hidden: false,
-                            name: "save-scene".into(),
-                            label: Some("Save Scene".into()),
-                            value: SettingValue::String("world.scn.ron".into()),
-                        }]),
+                        value: SettingValue::Group(vec![
+                            DevToolsSetting {
+                                hidden: false,
+                                name: "save-scene".into(),
+                                label: Some("Save Scene".into()),
+                                value: SettingValue::String("world.scn.ron".into()),
+                            },
+                            #[cfg(feature = "bevy_mod_debugdump")]
+                            DevToolsSetting {
+                                hidden: false,
+                                name: "dot-render-graph".into(),
+                                label: Some("Render Graph".into()),
+                                value: SettingValue::String("render-graph.dot".into()),
+                            },
+                        ]),
                     },
                 ]),
             },
