@@ -8,11 +8,11 @@ use super::{
 };
 
 pub struct DevToolsPlugin {
-    location: DevToolsLocation,
-    toggle_key: KeyCode,
-    active_tab: crate::helpers::Tab,
-    settings: DevToolsSettings,
-    tools: DevToolsTools
+    pub location: DevToolsLocation,
+    pub toggle_key: KeyCode,
+    pub active_tab: crate::helpers::Tab,
+    pub settings: DevToolsSettings,
+    pub tools: DevToolsTools
 }
 
 impl Default for DevToolsPlugin {
