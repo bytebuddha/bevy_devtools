@@ -2,7 +2,7 @@ use bevy::prelude::*;
 #[cfg(feature = "rapier3d")]
 use bevy_rapier3d::physics::RapierConfiguration;
 #[cfg(feature = "rapier2d")]
-use bevy_rapier3d::physics::RapierConfiguration;
+use bevy_rapier2d::physics::RapierConfiguration;
 
 use crate::DevToolsSettings;
 
