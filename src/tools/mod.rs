@@ -1,9 +1,9 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::egui::Ui;
 
-mod save_world;
 #[cfg(feature = "bevy_mod_debugdump")]
 mod render_graph;
+mod save_world;
 
 pub struct PerformToolAction(pub DevTool);
 

@@ -14,29 +14,23 @@ impl DevToolsSetting {
     }
 
     pub fn named_child(&self, name: &str) -> Option<&DevToolsSetting> {
-        match &self.value {
-            SettingValue::Group(children) => {
-                for child in children.iter() {
-                    if child.name == name {
-                        return Some(child);
-                    }
+        if let SettingValue::Group(children) = &self.value {
+            for child in children.iter() {
+                if child.name == name {
+                    return Some(child);
                 }
-            },
-            _ => {}
+            }
         }
         None
     }
 
     pub fn named_child_mut(&mut self, name: &str) -> Option<&mut DevToolsSetting> {
-        match &mut self.value {
-            SettingValue::Group(children) => {
-                for child in children.iter_mut() {
-                    if child.name == name {
-                        return Some(child);
-                    }
+        if let SettingValue::Group(children) = &mut self.value {
+            for child in children.iter_mut() {
+                if child.name == name {
+                    return Some(child);
                 }
-            },
-            _ => {}
+            }
         }
         None
     }

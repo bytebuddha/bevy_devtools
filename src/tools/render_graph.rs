@@ -1,6 +1,6 @@
 use bevy::prelude::*;
-use bevy_inspector_egui::egui::Ui;
 use bevy::render::render_graph::RenderGraph;
+use bevy_inspector_egui::egui::Ui;
 
 use std::fs::File;
 use std::io::Write;

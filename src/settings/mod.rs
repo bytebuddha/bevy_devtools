@@ -39,26 +39,24 @@ impl Default for DevToolsSettings {
                         hidden: false,
                         name: "enabled".into(),
                         label: Some("Enabled".into()),
-                        value: SettingValue::Bool(false)
+                        value: SettingValue::Bool(false),
                     },
                     DevToolsSetting {
                         hidden: false,
                         name: "always-visible".into(),
                         label: Some("Always Visible".into()),
-                        value: SettingValue::Bool(false)
+                        value: SettingValue::Bool(false),
                     },
                     DevToolsSetting {
                         hidden: false,
                         name: "settings".into(),
                         label: Some("Settings".into()),
-                        value: SettingValue::Group(vec![
-                            DevToolsSetting {
-                                hidden: false,
-                                name: "show-hidden".into(),
-                                label: Some("Show Hidden".into()),
-                                value: SettingValue::Bool(false)
-                            }
-                        ])
+                        value: SettingValue::Group(vec![DevToolsSetting {
+                            hidden: false,
+                            name: "show-hidden".into(),
+                            label: Some("Show Hidden".into()),
+                            value: SettingValue::Bool(false),
+                        }]),
                     },
                     DevToolsSetting {
                         hidden: false,
@@ -142,7 +140,7 @@ impl Default for DevToolsSettings {
                         hidden: false,
                         name: "scale".into(),
                         label: Some("Scale".into()),
-                        value: SettingValue::Float(0.0)
+                        value: SettingValue::Float(0.0),
                     },
                     DevToolsSetting {
                         hidden: false,

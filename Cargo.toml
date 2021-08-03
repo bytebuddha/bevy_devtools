@@ -5,10 +5,10 @@ edition = "2018"
 
 [features]
 default = ["wgpu"]
-rapier = []
 wgpu = ["bevy/bevy_wgpu"]
-rapier3d = ["bevy_rapier3d", "bevy-inspector-egui/bevy_rapier3d", "rapier"]
-rapier2d = ["bevy_rapier2d", "bevy-inspector-egui/bevy_rapier2d", "rapier"]
+debugdump = ["bevy_mod_debugdump"]
+rapier3d = ["bevy_rapier3d", "bevy-inspector-egui/rapier"]
+rapier2d = ["bevy_rapier2d", "bevy-inspector-egui/rapier2d"]
 
 
 [dependencies]

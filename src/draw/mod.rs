@@ -1,10 +1,10 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::{
-    world_inspector::{WorldUIContext, WorldInspectorParams},
-    bevy_egui::{egui, EguiContext, egui::Align, egui::Layout}
+    bevy_egui::{egui, EguiContext},
+    world_inspector::{WorldInspectorParams, WorldUIContext},
 };
 
-use crate::{DevToolsState, DevToolsSettings, DevToolsTools, SettingValue, DevToolsLocation};
+use crate::{DevToolsLocation, DevToolsSettings, DevToolsState, DevToolsTools, SettingValue};
 
 mod diagnostic;
 mod setting;
@@ -33,7 +33,12 @@ pub fn draw_debug_ui(world: &mut World) {
                 }
             }
         }
-        (resources.location, enabled, always_visible, resources.active_tab)
+        (
+            resources.location,
+            enabled,
+            always_visible,
+            resources.active_tab,
+        )
     };
 
     let egui_context = world.get_resource::<EguiContext>().expect("EguiContext");
@@ -43,25 +48,23 @@ pub fn draw_debug_ui(world: &mut World) {
         match location {
             DevToolsLocation::Window => {
                 egui::Window::new("DevTools")
-                .enabled(enabled || !always)
-                .collapsible(true)
-                .show(ctx, |ui| {
+                    .enabled(enabled || !always)
+                    .collapsible(true)
+                    .show(ctx, |ui| {
+                        draw_devtools(egui_context, ui, &mut location, active, world_ptr);
+                    });
+            }
+            DevToolsLocation::LeftSide => {
+                egui::SidePanel::left("DevTools").show(ctx, |ui| {
+                    ui.set_enabled(enabled || !always);
                     draw_devtools(egui_context, ui, &mut location, active, world_ptr);
                 });
-            },
-            DevToolsLocation::LeftSide => {
-                egui::SidePanel::left("DevTools")
-                    .show(ctx, |ui| {
-                        ui.set_enabled(enabled || !always);
-                        draw_devtools(egui_context, ui, &mut location, active, world_ptr);
-                    });
-            },
+            }
             DevToolsLocation::RightSide => {
-                egui::SidePanel::right("DevTools")
-                    .show(ctx, |ui| {
-                        ui.set_enabled(enabled || !always);
-                        draw_devtools(egui_context, ui, &mut location, active, world_ptr);
-                    });
+                egui::SidePanel::right("DevTools").show(ctx, |ui| {
+                    ui.set_enabled(enabled || !always);
+                    draw_devtools(egui_context, ui, &mut location, active, world_ptr);
+                });
             }
         }
     }
@@ -71,65 +74,72 @@ pub fn draw_debug_ui(world: &mut World) {
     }
 }
 
-fn draw_devtools(egui_context: &EguiContext, ui: &mut egui::Ui, location: &mut DevToolsLocation, active: crate::helpers::Tab, world_ptr: * mut World) {
+fn draw_devtools(
+    egui_context: &EguiContext,
+    ui: &mut egui::Ui,
+    location: &mut DevToolsLocation,
+    active: crate::helpers::Tab,
+    world_ptr: *mut World,
+) {
     let world: &mut World = unsafe { &mut *world_ptr };
     ui.columns(3, |ui| {
-        let layout = Layout::top_down(Align::Center);
-        ui[0].with_layout(layout.clone(), |ui| {
-            if ui.selectable_label(*location == DevToolsLocation::LeftSide, "«").clicked() {
-                *location = DevToolsLocation::LeftSide;
-            }
-        });
-        ui[1].with_layout(layout.clone(), |ui| {
-            if ui.selectable_label(*location == DevToolsLocation::Window, "⧈").clicked() {
-                *location = DevToolsLocation::Window;
-            }
-        });
-        ui[2].with_layout(layout, |ui| {
-            if ui.selectable_label(*location == DevToolsLocation::RightSide, "»").clicked() {
-                *location = DevToolsLocation::RightSide;
-            }
-        });
+        if ui[0]
+            .selectable_label(*location == DevToolsLocation::LeftSide, "«")
+            .clicked()
+        {
+            *location = DevToolsLocation::LeftSide;
+        }
+        if ui[1]
+            .selectable_label(*location == DevToolsLocation::Window, "⧈")
+            .clicked()
+        {
+            *location = DevToolsLocation::Window;
+        }
+        if ui[2]
+            .selectable_label(*location == DevToolsLocation::RightSide, "»")
+            .clicked()
+        {
+            *location = DevToolsLocation::RightSide;
+        }
     });
     top_panel::top_panel(ui, world);
     tab_bar::tab_bar(ui, world);
     ui.end_row();
 
-    egui::ScrollArea::auto_sized()
-    .show(ui, |ui| {
-        match active {
-            crate::helpers::Tab::Diagnostics => {
-                diagnostic::handle_diagnostics(ui, world);
-            }
-            crate::helpers::Tab::World => {
-                let settings = world.get_resource::<DevToolsSettings>().unwrap();
-                let world: &mut World = unsafe { &mut *world_ptr };
-                let params = {
-                    let mut params = world.get_resource_mut::<WorldInspectorParams>().unwrap();
-                    apply_settings(&mut params, settings);
-                    params
-                };
-                let world: &mut World = unsafe { &mut *world_ptr };
-                let mut ui_context = WorldUIContext::new(world, Some(egui_context.ctx()));
-                ui.group(|ui| ui.columns(1, |ui| {
+    egui::ScrollArea::auto_sized().show(ui, |ui| match active {
+        crate::helpers::Tab::Diagnostics => {
+            diagnostic::handle_diagnostics(ui, world);
+        }
+        crate::helpers::Tab::World => {
+            let settings = world.get_resource::<DevToolsSettings>().unwrap();
+            let world: &mut World = unsafe { &mut *world_ptr };
+            let params = {
+                let mut params = world.get_resource_mut::<WorldInspectorParams>().unwrap();
+                apply_settings(&mut params, settings);
+                params
+            };
+            let world: &mut World = unsafe { &mut *world_ptr };
+            let mut ui_context = WorldUIContext::new(world, Some(egui_context.ctx()));
+            ui.group(|ui| {
+                ui.columns(1, |ui| {
                     ui_context.world_ui::<()>(&mut ui[0], &params);
-                }));
-            }
-            crate::helpers::Tab::Tools => {
-                let devtools_tools = world.get_resource::<DevToolsTools>().unwrap();
-                let world: &mut World = unsafe { &mut *world_ptr };
-                let mut devtools_settings = world.get_resource_mut::<DevToolsSettings>().unwrap();
-                let world: &mut World = unsafe { &mut *world_ptr };
-                tool::handle_tools(ui, devtools_tools, &mut devtools_settings, world);
-            }
-            crate::helpers::Tab::Settings => {
-                setting::handle_settings(ui, world);
-            }
+                })
+            });
+        }
+        crate::helpers::Tab::Tools => {
+            let devtools_tools = world.get_resource::<DevToolsTools>().unwrap();
+            let world: &mut World = unsafe { &mut *world_ptr };
+            let mut devtools_settings = world.get_resource_mut::<DevToolsSettings>().unwrap();
+            let world: &mut World = unsafe { &mut *world_ptr };
+            tool::handle_tools(ui, devtools_tools, &mut devtools_settings, world);
+        }
+        crate::helpers::Tab::Settings => {
+            setting::handle_settings(ui, world);
         }
     });
 }
 
-pub fn apply_settings<'a, 'b>(params: &'a mut WorldInspectorParams, settings: &'b DevToolsSettings) {
+pub fn apply_settings(params: &mut WorldInspectorParams, settings: &DevToolsSettings) {
     if let Some(setting) = settings.named("devtools") {
         if let Some(child) = setting.named_child("world") {
             for child in child.children().unwrap() {
@@ -140,7 +150,6 @@ pub fn apply_settings<'a, 'b>(params: &'a mut WorldInspectorParams, settings: &'
                     if child.name == "sort" && params.sort_components != value {
                         params.sort_components = value;
                     }
-
                 }
             }
         }

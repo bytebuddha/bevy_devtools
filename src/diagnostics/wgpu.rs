@@ -33,6 +33,8 @@ pub fn group() -> DiagnosticGroup {
                     build: build_wgpu,
                     render: render_render_pipelines,
                 },
+            ],
+            vec![
                 DiagnosticDisplay {
                     build: build_wgpu,
                     render: render_samplers,
@@ -51,6 +53,8 @@ pub fn group() -> DiagnosticGroup {
                     build: build_wgpu,
                     render: render_wgpu_textures,
                 },
+            ],
+            vec![
                 DiagnosticDisplay {
                     build: build_wgpu,
                     render: render_wgpu_textures_views,
@@ -79,7 +83,10 @@ fn render_bind_group_ids(ui: &mut Ui, diagnostics: &Diagnostics) {
 }
 
 fn render_bind_group_layouts(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let groups = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::BIND_GROUP_LAYOUTS);
+    let groups = diagnostic_value!(
+        diagnostics,
+        WgpuResourceDiagnosticsPlugin::BIND_GROUP_LAYOUTS
+    );
     ui.label(format!("Layouts: {:.0}", groups));
 }
 
@@ -99,7 +106,10 @@ fn render_render_pipelines(ui: &mut Ui, diagnostics: &Diagnostics) {
 }
 
 fn render_shader_modules(ui: &mut Ui, diagnostics: &Diagnostics) {
-    let groups = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::SWAP_CHAIN_OUTPUTS);
+    let groups = diagnostic_value!(
+        diagnostics,
+        WgpuResourceDiagnosticsPlugin::SWAP_CHAIN_OUTPUTS
+    );
     ui.label(format!("Shaders: {:.0}", groups));
 }
 
@@ -120,6 +130,9 @@ fn render_wgpu_surfaces(ui: &mut Ui, diagnostics: &Diagnostics) {
 
 fn render_wgpu_swapchains(ui: &mut Ui, diagnostics: &Diagnostics) {
     let textures = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::SWAP_CHAINS);
-    let output = diagnostic_value!(diagnostics, WgpuResourceDiagnosticsPlugin::SWAP_CHAIN_OUTPUTS);
+    let output = diagnostic_value!(
+        diagnostics,
+        WgpuResourceDiagnosticsPlugin::SWAP_CHAIN_OUTPUTS
+    );
     ui.label(format!("Swap Chains: {:.0}/{:.0}", textures, output));
 }

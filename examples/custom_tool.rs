@@ -5,7 +5,7 @@ fn main() {
     App::build()
         .add_plugins(DefaultPlugins)
         .add_plugin(
-            bevy_devtools::DevToolsPlugin::default()
+            bevy_devtools::DevToolsPlugin::enabled()
                 .add_tool(bevy_devtools::DevTool {
                     name: "simple".into(),
                     label: Some("Simple".into()),
@@ -13,7 +13,7 @@ fn main() {
                     perform: None,
                     perform_icon: None,
                 })
-                .remove_tool("save-scene")
+                .remove_tool("save-scene"),
         )
         .add_startup_system(setup.system())
         .run()

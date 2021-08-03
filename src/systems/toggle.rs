@@ -1,11 +1,11 @@
 use bevy::prelude::*;
 
-use crate::{DevToolsState, DevToolsSettings};
+use crate::{DevToolsSettings, DevToolsState};
 
 pub(crate) fn toggle_devtools(
     keys: Res<Input<KeyCode>>,
     resources: Res<DevToolsState>,
-    mut settings: ResMut<DevToolsSettings>
+    mut settings: ResMut<DevToolsSettings>,
 ) {
     if keys.just_pressed(resources.toggle_key) {
         if let Some(setting) = settings.named_mut("devtools") {

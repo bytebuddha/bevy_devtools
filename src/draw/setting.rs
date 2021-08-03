@@ -1,8 +1,8 @@
 use bevy::prelude::*;
-use bevy_inspector_egui::egui::Ui;
 use bevy_inspector_egui::egui::DragValue;
+use bevy_inspector_egui::egui::Ui;
 
-use crate::{DevToolsSetting, SettingValue, DevToolsSettings};
+use crate::{DevToolsSetting, DevToolsSettings, SettingValue};
 
 pub fn handle_settings(ui: &mut Ui, world: &mut World) {
     let show_hidden = {

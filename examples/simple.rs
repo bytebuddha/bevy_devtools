@@ -3,7 +3,7 @@ use bevy::prelude::*;
 fn main() {
     App::build()
         .add_plugins(DefaultPlugins)
-        .add_plugin(bevy_devtools::DevToolsPlugin::default())
+        .add_plugin(bevy_devtools::DevToolsPlugin::enabled())
         .add_startup_system(setup.system())
         .run()
 }

@@ -8,4 +8,4 @@ mod tool_action;
 pub use self::tool_action::perform_tool_action;
 
 #[cfg(feature = "rapier")]
-pub(crate)mod rapier;
+pub(crate) mod rapier;

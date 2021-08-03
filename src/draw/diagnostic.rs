@@ -1,8 +1,8 @@
-use bevy::prelude::*;
 use bevy::diagnostic::Diagnostics;
+use bevy::prelude::*;
 use bevy_inspector_egui::egui::Ui;
 
-use crate::{DiagnosticGroup, DevToolsDiagnostics};
+use crate::{DevToolsDiagnostics, DiagnosticGroup};
 
 pub fn handle_diagnostics(ui: &mut Ui, world: &mut World) {
     let devtools_diagnostics = world.get_resource::<DevToolsDiagnostics>().unwrap();
@@ -16,18 +16,16 @@ pub fn display_diagnostic(ui: &mut Ui, diagnostics: &Diagnostics, group: &Diagno
     ui.group(|ui| {
         ui.heading(group.label());
         ui.end_row();
-        ui.group(|ui| {
-            let length = group.data.len();
-            for (dex, group) in group.data.iter().enumerate() {
-                ui.columns(group.len(), |ui| {
-                    for (dex, data) in group.iter().enumerate() {
-                        (data.render)(&mut ui[dex], diagnostics);
-                    }
-                });
-                if dex + 1 != length {
-                    ui.separator();
+        let length = group.data.len();
+        for (dex, group) in group.data.iter().enumerate() {
+            ui.columns(group.len(), |ui| {
+                for (dex, data) in group.iter().enumerate() {
+                    (data.render)(&mut ui[dex], diagnostics);
                 }
+            });
+            if dex + 1 != length {
+                ui.separator();
             }
-        });
+        }
     });
 }

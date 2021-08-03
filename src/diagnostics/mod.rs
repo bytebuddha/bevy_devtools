@@ -33,7 +33,7 @@ impl Default for DevToolsDiagnostics {
             ecs::group(),
             assets::group(),
             #[cfg(feature = "wgpu")]
-            wgpu::group()
+            wgpu::group(),
         ])
     }
 }

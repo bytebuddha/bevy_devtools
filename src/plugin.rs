@@ -3,8 +3,8 @@ use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::EguiStage;
 
 use super::{
-    DevToolsDiagnostics, DevToolsState, DevToolsSettings, DevToolsTools,
-    PerformToolAction, DevTool, DevToolsLocation
+    DevTool, DevToolsDiagnostics, DevToolsLocation, DevToolsSettings, DevToolsState, DevToolsTools,
+    PerformToolAction,
 };
 
 pub struct DevToolsPlugin {
@@ -12,7 +12,7 @@ pub struct DevToolsPlugin {
     pub toggle_key: KeyCode,
     pub active_tab: crate::helpers::Tab,
     pub settings: DevToolsSettings,
-    pub tools: DevToolsTools
+    pub tools: DevToolsTools,
 }
 
 impl Default for DevToolsPlugin {
@@ -22,12 +22,22 @@ impl Default for DevToolsPlugin {
             toggle_key: KeyCode::F11,
             active_tab: crate::helpers::Tab::default(),
             settings: Default::default(),
-            tools: Default::default()
+            tools: Default::default(),
         }
     }
 }
 
 impl DevToolsPlugin {
+    pub fn enabled() -> DevToolsPlugin {
+        let mut plugin = DevToolsPlugin::default();
+        if let Some(child) = plugin.settings.named_mut("devtools") {
+            if let Some(child) = child.named_child_mut("enabled") {
+                let data = child.value.as_bool_mut().unwrap();
+                *data = true;
+            }
+        }
+        plugin
+    }
 
     pub fn add_tool(mut self, tool: DevTool) -> DevToolsPlugin {
         self.tools.0.push(tool);
@@ -42,7 +52,7 @@ impl DevToolsPlugin {
     pub fn remove_tool(mut self, name: &str) -> DevToolsPlugin {
         let mut index = None;
         for (dex, tool) in self.tools.0.iter().enumerate() {
-            if &tool.name == name {
+            if tool.name == name {
                 index = Some(dex);
             }
         }
@@ -70,7 +80,7 @@ impl Plugin for DevToolsPlugin {
                 location: self.location,
                 toggle_key: self.toggle_key,
                 active_tab: self.active_tab,
-                history: Default::default()
+                history: Default::default(),
             })
             .insert_resource(bevy_inspector_egui::world_inspector::WorldInspectorParams::default())
             .init_resource::<bevy_inspector_egui::world_inspector::InspectableRegistry>()

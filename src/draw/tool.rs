@@ -1,11 +1,18 @@
-use bevy::prelude::*;
 use bevy::app::Events;
+use bevy::prelude::*;
 use bevy_inspector_egui::egui::Ui;
 
-use crate::{DevTool, DevToolsSettings, PerformToolAction, DevToolsTools};
+use crate::{DevTool, DevToolsSettings, DevToolsTools, PerformToolAction};
 
-pub fn handle_tools(ui: &mut Ui, tools: &DevToolsTools, settings: &mut DevToolsSettings, world: &mut World) {
-    let mut tool_actions = world.get_resource_mut::<Events<PerformToolAction>>().unwrap();
+pub fn handle_tools(
+    ui: &mut Ui,
+    tools: &DevToolsTools,
+    settings: &mut DevToolsSettings,
+    world: &mut World,
+) {
+    let mut tool_actions = world
+        .get_resource_mut::<Events<PerformToolAction>>()
+        .unwrap();
     for tool in tools.0.iter() {
         display_tool(ui, settings, tool, &mut tool_actions);
     }
