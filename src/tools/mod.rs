@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::egui::Ui;
 
-#[cfg(feature = "bevy_mod_debugdump")]
+#[cfg(feature = "debugdump")]
 mod render_graph;
 mod save_world;
 
@@ -29,7 +29,7 @@ impl Default for DevToolsTools {
     fn default() -> DevToolsTools {
         DevToolsTools(vec![
             save_world::tool(),
-            #[cfg(feature = "bevy_mod_debugdump")]
+            #[cfg(feature = "debugdump")]
             render_graph::tool(),
         ])
     }

@@ -9,3 +9,6 @@ pub use self::tool_action::perform_tool_action;
 
 #[cfg(feature = "rapier")]
 pub(crate) mod rapier;
+
+#[cfg(feature = "puffin")]
+pub(crate) mod puffin;

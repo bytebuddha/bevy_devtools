@@ -17,6 +17,8 @@ pub fn tool() -> DevTool {
 }
 
 pub fn render(ui: &mut Ui, settings: &mut crate::DevToolsSettings) {
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     if let Some(setting) = settings.named_mut("devtools") {
         if let Some(child) = setting.named_child_mut("tools") {
             if let Some(child) = child.named_child_mut("save-scene") {
@@ -29,6 +31,8 @@ pub fn render(ui: &mut Ui, settings: &mut crate::DevToolsSettings) {
 }
 
 pub fn perform(world: &mut World) {
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     let settings = world.get_resource::<crate::DevToolsSettings>().unwrap();
     if let Some(setting) = settings.named("devtools") {
         if let Some(child) = setting.named_child("tools") {

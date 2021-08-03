@@ -8,6 +8,8 @@ use bevy_inspector_egui::bevy_egui::{
 use crate::{helpers::DraculaEgui, DevToolsState};
 
 pub fn top_panel(ui: &mut Ui, world: &mut World) {
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     let fps = {
         let fps = {
             let diagnostics = world.get_resource::<Diagnostics>().unwrap();

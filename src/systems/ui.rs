@@ -4,6 +4,8 @@ use bevy_inspector_egui::bevy_egui::EguiContext;
 use crate::{helpers::DraculaEgui, DevToolsSettings};
 
 pub fn apply_ui_settings(context: ResMut<EguiContext>, settings: Res<DevToolsSettings>) {
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     let ctx = context.ctx();
     let mut style = DraculaEgui::style();
     if let Some(setting) = settings.named("devtools") {

@@ -4,6 +4,8 @@ use bevy::prelude::*;
 use crate::PerformToolAction;
 
 pub fn perform_tool_action(world: &mut World) {
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     let events = {
         let mut reader: Mut<Events<PerformToolAction>> = world.get_resource_mut().unwrap();
         reader.drain().map(|x| x.0).collect::<Vec<crate::DevTool>>()

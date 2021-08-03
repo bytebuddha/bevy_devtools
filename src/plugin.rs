@@ -10,6 +10,8 @@ use super::{
 pub struct DevToolsPlugin {
     pub location: DevToolsLocation,
     pub toggle_key: KeyCode,
+    #[cfg(feature = "puffin")]
+    pub profiler_key: KeyCode,
     pub active_tab: crate::helpers::Tab,
     pub settings: DevToolsSettings,
     pub tools: DevToolsTools,
@@ -20,6 +22,8 @@ impl Default for DevToolsPlugin {
         DevToolsPlugin {
             location: DevToolsLocation::Window,
             toggle_key: KeyCode::F11,
+            #[cfg(feature = "puffin")]
+            profiler_key: KeyCode::F12,
             active_tab: crate::helpers::Tab::default(),
             settings: Default::default(),
             tools: Default::default(),
@@ -79,6 +83,8 @@ impl Plugin for DevToolsPlugin {
             .insert_resource(DevToolsState {
                 location: self.location,
                 toggle_key: self.toggle_key,
+                #[cfg(feature = "puffin")]
+                profiler_key: self.profiler_key,
                 active_tab: self.active_tab,
                 history: Default::default(),
             })
@@ -100,6 +106,18 @@ impl Plugin for DevToolsPlugin {
         {
             app.add_system(crate::systems::rapier::rapier_settings.system())
                 .add_startup_system(crate::systems::rapier::initial_rapier_settings.system());
+        }
+        #[cfg(feature = "puffin")]
+        {
+            app.add_system_to_stage(
+                bevy::app::CoreStage::First,
+                (|| {
+                    puffin_profiler::GlobalProfiler::lock().new_frame();
+                })
+                .system(),
+            ).add_startup_system(
+                crate::systems::puffin::initialize_puffin.system()
+            );
         }
     }
 }

@@ -119,7 +119,7 @@ impl Default for DevToolsSettings {
                                 label: Some("Save Scene".into()),
                                 value: SettingValue::String("world.scn.ron".into()),
                             },
-                            #[cfg(feature = "bevy_mod_debugdump")]
+                            #[cfg(feature = "debugdump")]
                             DevToolsSetting {
                                 hidden: false,
                                 name: "dot-render-graph".into(),
@@ -129,6 +129,20 @@ impl Default for DevToolsSettings {
                         ]),
                     },
                 ]),
+            },
+            #[cfg(feature = "puffin")]
+            DevToolsSetting {
+                hidden: false,
+                name: "puffin".into(),
+                label: Some("Profiler".into()),
+                value: SettingValue::Group(vec![
+                    DevToolsSetting {
+                        hidden: false,
+                        name: "enabled".into(),
+                        label: Some("Enabled".into()),
+                        value: SettingValue::Bool(false)
+                    }
+                ])
             },
             #[cfg(feature = "rapier")]
             DevToolsSetting {

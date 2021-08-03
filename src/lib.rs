@@ -2,6 +2,13 @@ pub extern crate bevy_inspector_egui;
 pub use bevy_inspector_egui::bevy_egui;
 pub use bevy_inspector_egui::bevy_egui::egui;
 
+#[cfg(feature = "puffin")]
+pub extern crate puffin_profiler as puffin;
+#[cfg(feature = "puffin")]
+pub use puffin::profile_function;
+#[cfg(feature = "puffin")]
+pub use puffin::profile_scope;
+
 #[macro_use]
 pub mod helpers;
 pub mod consts;

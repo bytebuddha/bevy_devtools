@@ -5,6 +5,8 @@ use bevy_inspector_egui::egui::Ui;
 use crate::{DevToolsDiagnostics, DiagnosticGroup};
 
 pub fn handle_diagnostics(ui: &mut Ui, world: &mut World) {
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     let devtools_diagnostics = world.get_resource::<DevToolsDiagnostics>().unwrap();
     let diagnostics = world.get_resource::<Diagnostics>().unwrap();
     for group in devtools_diagnostics.0.iter() {
@@ -13,6 +15,8 @@ pub fn handle_diagnostics(ui: &mut Ui, world: &mut World) {
 }
 
 pub fn display_diagnostic(ui: &mut Ui, diagnostics: &Diagnostics, group: &DiagnosticGroup) {
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     ui.group(|ui| {
         ui.heading(group.label());
         ui.end_row();

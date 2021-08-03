@@ -5,6 +5,8 @@ use bevy_inspector_egui::egui::Ui;
 use crate::{DevToolsSetting, DevToolsSettings, SettingValue};
 
 pub fn handle_settings(ui: &mut Ui, world: &mut World) {
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     let show_hidden = {
         let mut show_hidden = false;
         let settings = world.get_resource::<DevToolsSettings>().unwrap();
@@ -32,6 +34,8 @@ pub fn handle_settings(ui: &mut Ui, world: &mut World) {
 }
 
 pub fn display_setting(ui: &mut Ui, setting: &mut DevToolsSetting, force: bool) {
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     let label = setting.label.as_ref().unwrap_or(&setting.name);
     match &mut setting.value {
         SettingValue::Group(group) => {

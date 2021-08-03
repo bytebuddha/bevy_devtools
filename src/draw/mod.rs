@@ -41,8 +41,32 @@ pub fn draw_debug_ui(world: &mut World) {
         )
     };
 
+    #[cfg(feature = "puffin")]
+    let profiler_enabled = {
+        let settings = world.get_resource::<DevToolsSettings>().unwrap();
+        let mut enabled = false;
+        if let Some(setting) = settings.named("puffin") {
+            for child in setting.children().unwrap() {
+                if child.name == "enabled" {
+                    if let SettingValue::Bool(value) = child.value {
+                        enabled = value;
+                    }
+                }
+            }
+        }
+        enabled
+    };
+
     let egui_context = world.get_resource::<EguiContext>().expect("EguiContext");
     let ctx = egui_context.ctx();
+
+    #[cfg(feature = "puffin")]
+    if profiler_enabled {
+        egui::Window::new("Profiler")
+            .default_size([1024.0, 600.0])
+            .show(ctx, |ui| puffin_egui::profiler_ui(ui));
+    }
+
 
     if enabled || always {
         match location {
