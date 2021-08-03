@@ -152,12 +152,6 @@ impl Default for DevToolsSettings {
                 value: SettingValue::Group(vec![
                     DevToolsSetting {
                         hidden: false,
-                        name: "scale".into(),
-                        label: Some("Scale".into()),
-                        value: SettingValue::Float(0.0),
-                    },
-                    DevToolsSetting {
-                        hidden: false,
                         name: "query_pipeline_active".into(),
                         label: Some("Query pipeline active".into()),
                         value: SettingValue::Bool(true),
