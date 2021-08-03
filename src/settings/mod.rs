@@ -35,58 +35,25 @@ impl Default for DevToolsSettings {
                 name: "devtools".into(),
                 label: Some("DevTools".into()),
                 value: SettingValue::Group(vec![
-                    DevToolsSetting {
-                        hidden: false,
-                        name: "enabled".into(),
-                        label: Some("Enabled".into()),
-                        value: SettingValue::Bool(false),
-                    },
-                    DevToolsSetting {
-                        hidden: false,
-                        name: "always-visible".into(),
-                        label: Some("Always Visible".into()),
-                        value: SettingValue::Bool(false),
-                    },
+                    DevToolsSetting::labeled("enabled", "Enabled"),
+                    DevToolsSetting::labeled("always-visible", "Always Visible"),
                     DevToolsSetting {
                         hidden: false,
                         name: "settings".into(),
                         label: Some("Settings".into()),
-                        value: SettingValue::Group(vec![DevToolsSetting {
-                            hidden: false,
-                            name: "show-hidden".into(),
-                            label: Some("Show Hidden".into()),
-                            value: SettingValue::Bool(false),
-                        }]),
+                        value: SettingValue::Group(vec![
+                            DevToolsSetting::labeled("show-hidden", "Show hidden")
+                        ]),
                     },
                     DevToolsSetting {
                         hidden: false,
                         name: "gui".into(),
                         label: Some("Gui".into()),
                         value: SettingValue::Group(vec![
-                            DevToolsSetting {
-                                hidden: false,
-                                name: "widgets-hover".into(),
-                                label: Some("Show widgets on hover".into()),
-                                value: SettingValue::Bool(false),
-                            },
-                            DevToolsSetting {
-                                hidden: false,
-                                name: "widgets-taller".into(),
-                                label: Some("Show widgets that make their parent taller.".into()),
-                                value: SettingValue::Bool(false),
-                            },
-                            DevToolsSetting {
-                                hidden: false,
-                                name: "widgets-wider".into(),
-                                label: Some("Show widgets that make their parent wider.".into()),
-                                value: SettingValue::Bool(false),
-                            },
-                            DevToolsSetting {
-                                hidden: false,
-                                name: "show-resize".into(),
-                                label: Some("Show Resize.".into()),
-                                value: SettingValue::Bool(false),
-                            },
+                            DevToolsSetting::labeled("widgets-hover", "Show widgets on hover"),
+                            DevToolsSetting::labeled("widgets-taller", "Show widgets that make their parent taller."),
+                            DevToolsSetting::labeled("widgets-wider", "Show widgets that make their parent wider."),
+                            DevToolsSetting::labeled("show-resize", "Show Resize")
                         ]),
                     },
                     DevToolsSetting {
@@ -94,18 +61,8 @@ impl Default for DevToolsSettings {
                         name: "world".into(),
                         label: Some("World".into()),
                         value: SettingValue::Group(vec![
-                            DevToolsSetting {
-                                hidden: false,
-                                name: "despawnable".into(),
-                                label: Some("Despawnable Entities".into()),
-                                value: SettingValue::Bool(false),
-                            },
-                            DevToolsSetting {
-                                hidden: false,
-                                name: "sort".into(),
-                                label: Some("Sort Components.".into()),
-                                value: SettingValue::Bool(false),
-                            },
+                            DevToolsSetting::labeled("despawnable", "Despawnable Entities"),
+                            DevToolsSetting::labeled("sort", "Sort Components")
                         ]),
                     },
                     DevToolsSetting {
@@ -136,12 +93,7 @@ impl Default for DevToolsSettings {
                 name: "puffin".into(),
                 label: Some("Profiler".into()),
                 value: SettingValue::Group(vec![
-                    DevToolsSetting {
-                        hidden: false,
-                        name: "enabled".into(),
-                        label: Some("Enabled".into()),
-                        value: SettingValue::Bool(false)
-                    }
+                    DevToolsSetting::labeled("enabled", "Enabled"),
                 ])
             },
             #[cfg(feature = "rapier")]

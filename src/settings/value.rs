@@ -8,6 +8,12 @@ pub enum SettingValue {
     Group(Vec<DevToolsSetting>),
 }
 
+impl Default for SettingValue {
+    fn default() -> SettingValue {
+        SettingValue::Bool(false)
+    }
+}
+
 impl SettingValue {
     pub fn as_bool(&self) -> Option<bool> {
         if let SettingValue::Bool(value) = self {

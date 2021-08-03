@@ -1,6 +1,6 @@
 use super::SettingValue;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct DevToolsSetting {
     pub hidden: bool,
     pub name: String,
@@ -9,6 +9,19 @@ pub struct DevToolsSetting {
 }
 
 impl DevToolsSetting {
+    pub fn named<S: Into<String>>(name: S) -> DevToolsSetting {
+        DevToolsSetting {
+            name: name.into(),
+            ..Default::default()
+        }
+    }
+    pub fn labeled<S: Into<String>>(name: S, label: S) -> DevToolsSetting {
+        DevToolsSetting {
+            name: name.into(),
+            label: Some(label.into()),
+            ..Default::default()
+        }
+    }
     pub fn label(&self) -> &str {
         self.label.as_ref().unwrap_or(&self.name)
     }
