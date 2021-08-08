@@ -34,18 +34,12 @@ pub fn perform(world: &mut World) {
     #[cfg(feature = "puffin")]
     puffin_profiler::profile_function!();
     let settings = world.get_resource::<crate::DevToolsSettings>().unwrap();
-    if let Some(setting) = settings.named("devtools") {
-        if let Some(child) = setting.named_child("tools") {
-            if let Some(child) = child.named_child("save-scene") {
-                if let SettingValue::String(value) = &child.value {
-                    let mut file = File::create(&value).unwrap();
-                    let type_registry =
-                        world.get_resource::<bevy::reflect::TypeRegistry>().unwrap();
-                    let scene = DynamicScene::from_world(world, type_registry);
-                    let scene_data = scene.serialize_ron(type_registry).unwrap();
-                    file.write_all(scene_data.as_bytes()).unwrap();
-                }
-            }
-        }
+    if let SettingValue::String(ref value) = settings.get_key(&["devtools", "tools", "save-scene"]).unwrap().value {
+        let mut file = File::create(&value).unwrap();
+        let type_registry =
+        world.get_resource::<bevy::reflect::TypeRegistry>().unwrap();
+        let scene = DynamicScene::from_world(world, type_registry);
+        let scene_data = scene.serialize_ron(type_registry).unwrap();
+        file.write_all(scene_data.as_bytes()).unwrap();
     }
 }

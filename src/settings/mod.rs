@@ -1,3 +1,5 @@
+use bevy::prelude::*;
+
 mod value;
 pub use self::value::SettingValue;
 
@@ -8,6 +10,29 @@ pub use self::setting::DevToolsSetting;
 pub struct DevToolsSettings(pub Vec<DevToolsSetting>);
 
 impl DevToolsSettings {
+    pub fn get_key(&self, keys: &[&str]) -> Option<&DevToolsSetting> {
+        let mut current_index = 0;
+        for setting in &self.0 {
+            if setting.name == keys[current_index] {
+                let mut current_setting = setting;
+                loop {
+                    current_index += 1;
+                    if current_index >= keys.len() {
+                        return Some(&current_setting);
+                    } else {
+                        if let Some(setting) = current_setting.named_child(keys[current_index]) {
+                            current_setting = setting;
+                            continue;
+                        } else {
+                            warn!("Setting has no child Named: {}", keys[current_index]);
+                        }
+                    }
+                }
+            }
+        }
+        None
+    }
+
     pub fn named(&self, name: &str) -> Option<&DevToolsSetting> {
         for setting in &self.0 {
             if setting.name == name {

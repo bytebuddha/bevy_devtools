@@ -35,16 +35,10 @@ pub fn perform(world: &mut World) {
     #[cfg(feature = "puffin")]
     puffin_profiler::profile_function!();
     let settings = world.get_resource::<crate::DevToolsSettings>().unwrap();
-    if let Some(setting) = settings.named("devtools") {
-        if let Some(child) = setting.named_child("tools") {
-            if let Some(child) = child.named_child("dot-render-graph") {
-                if let SettingValue::String(value) = &child.value {
-                    let render_graph = world.get_resource::<RenderGraph>().unwrap();
-                    let mut file = File::create(&value).unwrap();
-                    let dot = bevy_mod_debugdump::render_graph::render_graph_dot(render_graph);
-                    file.write_all(dot.as_bytes()).unwrap();
-                }
-            }
-        }
+    if let SettingValue::String(value) = &settings.get_key(&["devtools", "tools", "dot-render-graph"]).unwrap().value {
+        let render_graph = world.get_resource::<RenderGraph>().unwrap();
+        let mut file = File::create(&value).unwrap();
+        let dot = bevy_mod_debugdump::render_graph::render_graph_dot(render_graph);
+        file.write_all(dot.as_bytes()).unwrap();
     }
 }
