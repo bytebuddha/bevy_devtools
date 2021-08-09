@@ -35,6 +35,9 @@ pub fn perform(world: &mut World) {
     puffin_profiler::profile_function!();
     let settings = world.get_resource::<crate::DevToolsSettings>().unwrap();
     if let SettingValue::String(ref value) = settings.get_key(&["devtools", "tools", "save-scene"]).unwrap().value {
+        if std::path::Path::new(value).exists() {
+            std::fs::remove_file(&value).unwrap();
+        }
         let mut file = File::create(&value).unwrap();
         let type_registry =
         world.get_resource::<bevy::reflect::TypeRegistry>().unwrap();
