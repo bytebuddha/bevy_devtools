@@ -121,7 +121,7 @@ impl Default for DevToolsSettings {
                     DevToolsSetting::labeled("enabled", "Enabled"),
                 ])
             },
-            #[cfg(feature = "rapier")]
+            #[cfg(feature = "rapier3d")]
             DevToolsSetting {
                 hidden: false,
                 name: "rapier".into(),

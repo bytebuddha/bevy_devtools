@@ -102,7 +102,7 @@ impl Plugin for DevToolsPlugin {
                 crate::systems::apply_ui_settings.system(),
             );
 
-        #[cfg(feature = "rapier")]
+        #[cfg(feature = "rapier3d")]
         {
             app.add_system(crate::systems::rapier::rapier_settings.system())
                 .add_startup_system(crate::systems::rapier::initial_rapier_settings.system());
