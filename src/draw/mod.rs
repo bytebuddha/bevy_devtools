@@ -21,7 +21,7 @@ pub fn draw_debug_ui(world: &mut World) {
         let mut always_visible = false;
         let mut enabled = false;
         if let Some(setting) = settings.get_key(&["devtools"]) {
-            for child in setting.children().unwrap() {
+            for child in setting.get_group().unwrap() {
                 if child.name == "always-visible" {
                     if let SettingValue::Bool(value) = child.value {
                         always_visible = value;
@@ -147,8 +147,8 @@ fn draw_devtools(
 
 pub fn apply_settings(params: &mut WorldInspectorParams, settings: &DevToolsSettings) {
     if let Some(setting) = settings.get_key(&["devtools"]) {
-        if let Some(child) = setting.named_child("world") {
-            for child in child.children().unwrap() {
+        if let Some(child) = setting.get_named_child("world") {
+            for child in child.get_group().unwrap() {
                 if let Some(value) = child.value.as_bool() {
                     if child.name == "despawnable" && params.despawnable_entities != value {
                         params.despawnable_entities = value;

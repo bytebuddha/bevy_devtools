@@ -9,11 +9,12 @@ pub use puffin::profile_function;
 #[cfg(feature = "puffin")]
 pub use puffin::profile_scope;
 
+
 #[macro_use]
-pub mod helpers;
-pub mod consts;
-pub mod draw;
-pub mod systems;
+pub(crate) mod helpers;
+pub(crate) mod consts;
+pub(crate) mod draw;
+pub(crate) mod systems;
 
 mod plugin;
 pub use self::plugin::DevToolsPlugin;

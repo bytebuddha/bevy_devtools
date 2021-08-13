@@ -5,7 +5,7 @@ use bevy_inspector_egui::bevy_egui::{
     egui::Ui,
 };
 
-use crate::{helpers::DraculaEgui, DevToolsState};
+use crate::DevToolsState;
 
 pub fn top_panel(ui: &mut Ui, world: &mut World) {
     #[cfg(feature = "puffin")]
@@ -52,8 +52,7 @@ pub fn top_panel(ui: &mut Ui, world: &mut World) {
                                 y: *y as f64,
                             })
                             .collect::<Vec<Value>>(),
-                    ))
-                    .color(DraculaEgui::PINK),
+                    )),
                 ),
         );
     });
