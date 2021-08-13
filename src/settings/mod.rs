@@ -74,13 +74,15 @@ impl Default for DevToolsSettings {
                     DevToolsSetting::new_labeled("despawnable", "Despawnable Entities"),
                     DevToolsSetting::new_labeled("sort", "Sort Components")
                 ]),
-                DevToolsSetting::new_labeled("tools", "Tools").set_value_group(vec![
-                    DevToolsSetting::new_labeled("save-scene", "Save Scene")
-                        .set_value_string("world.scn.ron"),
-                    #[cfg(feature = "debugdump")]
-                    DevToolsSetting::new_labeled("dot-render-graph", "Render Graph")
-                        .set_value_string("render-graph.dot"),
-                ]),
+                DevToolsSetting::new_labeled("tools", "Tools")
+                    .set_hidden(true)
+                    .set_value_group(vec![
+                        DevToolsSetting::new_labeled("save-scene", "Save Scene")
+                            .set_value_string("world.scn.ron"),
+                        #[cfg(feature = "debugdump")]
+                        DevToolsSetting::new_labeled("dot-render-graph", "Render Graph")
+                            .set_value_string("render-graph.dot"),
+                    ]),
             ]),
             #[cfg(feature = "puffin")]
             DevToolsSetting::new_labeled("puffin", "Profiler").group(vec![
