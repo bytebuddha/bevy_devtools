@@ -33,19 +33,22 @@ impl DevToolsSettings {
         None
     }
 
-    pub fn named(&self, name: &str) -> Option<&DevToolsSetting> {
-        for setting in &self.0 {
-            if setting.name == name {
-                return Some(setting);
-            }
-        }
-        None
-    }
-
-    pub fn named_mut(&mut self, name: &str) -> Option<&mut DevToolsSetting> {
-        for setting in &mut self.0 {
-            if setting.name == name {
-                return Some(setting);
+    pub fn get_key_mut(&mut self, keys: &[&str]) -> Option<&mut DevToolsSetting> {
+        for item in self.0.iter_mut() {
+            if &item.name == keys[0] {
+                if keys.len() == 1 {
+                    return Some(item);
+                } else {
+                    let mut current: Option<&mut DevToolsSetting> = Some(item);
+                    for key in &keys[1..] {
+                        if let Some(setting) = current {
+                            current = setting.named_child_mut(key);
+                        } else {
+                            unreachable!()
+                        }
+                    }
+                    return current;
+                }
             }
         }
         None

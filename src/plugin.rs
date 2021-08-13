@@ -3,69 +3,11 @@ use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::EguiStage;
 
 use super::{
-    DevTool, DevToolsDiagnostics, DevToolsLocation, DevToolsSettings, DevToolsState, DevToolsTools,
+    DevToolsDiagnostics, DevToolsLocation, DevToolsSettings, DevToolsState, DevToolsTools,
     PerformToolAction,
 };
 
-pub struct DevToolsPlugin {
-    pub location: DevToolsLocation,
-    pub toggle_key: KeyCode,
-    #[cfg(feature = "puffin")]
-    pub profiler_key: KeyCode,
-    pub active_tab: crate::helpers::Tab,
-    pub settings: DevToolsSettings,
-    pub tools: DevToolsTools,
-}
-
-impl Default for DevToolsPlugin {
-    fn default() -> DevToolsPlugin {
-        DevToolsPlugin {
-            location: DevToolsLocation::Window,
-            toggle_key: KeyCode::F11,
-            #[cfg(feature = "puffin")]
-            profiler_key: KeyCode::F12,
-            active_tab: crate::helpers::Tab::default(),
-            settings: Default::default(),
-            tools: Default::default(),
-        }
-    }
-}
-
-impl DevToolsPlugin {
-    pub fn enabled() -> DevToolsPlugin {
-        let mut plugin = DevToolsPlugin::default();
-        if let Some(child) = plugin.settings.named_mut("devtools") {
-            if let Some(child) = child.named_child_mut("enabled") {
-                let data = child.value.as_bool_mut().unwrap();
-                *data = true;
-            }
-        }
-        plugin
-    }
-
-    pub fn add_tool(mut self, tool: DevTool) -> DevToolsPlugin {
-        self.tools.0.push(tool);
-        self
-    }
-
-    pub fn location(mut self, location: DevToolsLocation) -> DevToolsPlugin {
-        self.location = location;
-        self
-    }
-
-    pub fn remove_tool(mut self, name: &str) -> DevToolsPlugin {
-        let mut index = None;
-        for (dex, tool) in self.tools.0.iter().enumerate() {
-            if tool.name == name {
-                index = Some(dex);
-            }
-        }
-        if let Some(index) = index {
-            self.tools.0.remove(index);
-        }
-        self
-    }
-}
+pub struct DevToolsPlugin;
 
 impl Plugin for DevToolsPlugin {
     fn build(&self, app: &mut AppBuilder) {
@@ -77,15 +19,15 @@ impl Plugin for DevToolsPlugin {
                 }
             }
         }
-        app.insert_resource(self.tools.clone())
-            .insert_resource(self.settings.clone())
-            .insert_resource(diagnostics)
+        app.init_resource::<DevToolsTools>()
+            .init_resource::<DevToolsSettings>()
+            .init_resource::<DevToolsDiagnostics>()
             .insert_resource(DevToolsState {
-                location: self.location,
-                toggle_key: self.toggle_key,
+                location: DevToolsLocation::Window,
+                toggle_key: KeyCode::F11,
                 #[cfg(feature = "puffin")]
-                profiler_key: self.profiler_key,
-                active_tab: self.active_tab,
+                profiler_key: KeyCode::F12,
+                active_tab: Default::default(),
                 history: Default::default(),
             })
             .insert_resource(bevy_inspector_egui::world_inspector::WorldInspectorParams::default())

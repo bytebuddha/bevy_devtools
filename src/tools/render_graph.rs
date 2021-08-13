@@ -20,13 +20,9 @@ pub fn tool() -> DevTool {
 pub fn render(ui: &mut Ui, settings: &mut crate::DevToolsSettings) {
     #[cfg(feature = "puffin")]
     puffin_profiler::profile_function!();
-    if let Some(setting) = settings.named_mut("devtools") {
-        if let Some(child) = setting.named_child_mut("tools") {
-            if let Some(child) = child.named_child_mut("dot-render-graph") {
-                if let Some(value) = child.value.as_string_mut() {
-                    ui.text_edit_singleline(value);
-                }
-            }
+    if let Some(setting) = settings.get_key_mut(&["devtools", "tools", "dot-render-graph"]) {
+        if let Some(value) = setting.value.as_string_mut() {
+            ui.text_edit_singleline(value);
         }
     }
 }

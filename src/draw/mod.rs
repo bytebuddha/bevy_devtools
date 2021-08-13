@@ -10,6 +10,7 @@ mod diagnostic;
 mod setting;
 mod tab_bar;
 mod tool;
+mod location;
 mod top_panel;
 
 pub fn draw_debug_ui(world: &mut World) {
@@ -19,7 +20,7 @@ pub fn draw_debug_ui(world: &mut World) {
         let settings = world.get_resource::<DevToolsSettings>().unwrap();
         let mut always_visible = false;
         let mut enabled = false;
-        if let Some(setting) = settings.named("devtools") {
+        if let Some(setting) = settings.get_key(&["devtools"]) {
             for child in setting.children().unwrap() {
                 if child.name == "always-visible" {
                     if let SettingValue::Bool(value) = child.value {
@@ -45,7 +46,7 @@ pub fn draw_debug_ui(world: &mut World) {
     let profiler_enabled = {
         let settings = world.get_resource::<DevToolsSettings>().unwrap();
         let mut enabled = false;
-        if let Some(setting) = settings.named("puffin") {
+        if let Some(setting) = settings.get_key(&["puffin"]) {
             for child in setting.children().unwrap() {
                 if child.name == "enabled" {
                     if let SettingValue::Bool(value) = child.value {
@@ -106,26 +107,7 @@ fn draw_devtools(
     world_ptr: *mut World,
 ) {
     let world: &mut World = unsafe { &mut *world_ptr };
-    ui.columns(3, |ui| {
-        if ui[0]
-            .selectable_label(*location == DevToolsLocation::LeftSide, "«")
-            .clicked()
-        {
-            *location = DevToolsLocation::LeftSide;
-        }
-        if ui[1]
-            .selectable_label(*location == DevToolsLocation::Window, "⧈")
-            .clicked()
-        {
-            *location = DevToolsLocation::Window;
-        }
-        if ui[2]
-            .selectable_label(*location == DevToolsLocation::RightSide, "»")
-            .clicked()
-        {
-            *location = DevToolsLocation::RightSide;
-        }
-    });
+    location::draw_location(ui, location);
     top_panel::top_panel(ui, world);
     tab_bar::tab_bar(ui, world);
     ui.end_row();
@@ -164,7 +146,7 @@ fn draw_devtools(
 }
 
 pub fn apply_settings(params: &mut WorldInspectorParams, settings: &DevToolsSettings) {
-    if let Some(setting) = settings.named("devtools") {
+    if let Some(setting) = settings.get_key(&["devtools"]) {
         if let Some(child) = setting.named_child("world") {
             for child in child.children().unwrap() {
                 if let Some(value) = child.value.as_bool() {

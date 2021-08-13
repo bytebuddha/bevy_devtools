@@ -9,7 +9,7 @@ use crate::DevToolsSettings;
 pub fn rapier_settings(settings: Res<DevToolsSettings>, mut conf: ResMut<RapierConfiguration>) {
     #[cfg(feature = "puffin")]
     puffin_profiler::profile_function!();
-    if let Some(setting) = settings.named("rapier") {
+    if let Some(setting) = settings.get_key(&["rapier"]) {
         for child in setting.children().unwrap() {
             if let Some(value) = child.value.as_bool() {
                 if child.name == "query_pipeline_active" {
@@ -33,7 +33,7 @@ pub fn initial_rapier_settings(
 ) {
     #[cfg(feature = "puffin")]
     puffin_profiler::profile_function!();
-    if let Some(setting) = settings.named_mut("rapier") {
+    if let Some(setting) = settings.get_key_mut(&["rapier"]) {
         for child in setting.children_mut().unwrap() {
             if let Some(value) = child.value.as_bool_mut() {
                 if child.name == "query_pipeline_active" {
