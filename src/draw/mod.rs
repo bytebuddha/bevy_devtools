@@ -119,16 +119,13 @@ fn draw_devtools(
         crate::helpers::Tab::World => {
             let settings = world.get_resource::<DevToolsSettings>().unwrap();
             let world: &mut World = unsafe { &mut *world_ptr };
-            let params = {
-                let mut params = world.get_resource_mut::<WorldInspectorParams>().unwrap();
-                apply_settings(&mut params, settings);
-                params
-            };
+            let mut params = world.get_resource_mut::<WorldInspectorParams>().unwrap();
+            apply_settings(&mut params, settings);
             let world: &mut World = unsafe { &mut *world_ptr };
             let mut ui_context = WorldUIContext::new(world, Some(egui_context.ctx()));
             ui.group(|ui| {
                 ui.columns(1, |ui| {
-                    ui_context.world_ui::<()>(&mut ui[0], &params);
+                    ui_context.world_ui::<()>(&mut ui[0], &mut params);
                 })
             });
         }
