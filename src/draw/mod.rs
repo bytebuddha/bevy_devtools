@@ -16,23 +16,35 @@ mod top_panel;
 pub fn draw_debug_ui(world: &mut World) {
     let world_ptr = world as *mut _;
     let (mut location, enabled, always, active) = {
-        let resources = world.get_resource::<DevToolsState>().unwrap();
-        let settings = world.get_resource::<DevToolsSettings>().unwrap();
+        let resources = ignore_none_error!(
+            world.get_resource::<DevToolsState>(),
+            "Failed to get DevToolsState resources"
+        );
+        let settings = ignore_none_error!(
+            world.get_resource::<DevToolsSettings>(),
+            "Failed to get DevToolsSettings resource"
+        );
         let mut always_visible = false;
         let mut enabled = false;
         if let Some(setting) = settings.get_key(&["devtools"]) {
-            for child in setting.get_group().unwrap() {
-                if child.name == "always-visible" {
-                    if let SettingValue::Bool(value) = child.value {
-                        always_visible = value;
+            if let Some(group) = setting.get_group() {
+                for child in group {
+                    if child.name == "always-visible" {
+                        if let SettingValue::Bool(value) = child.value {
+                            always_visible = value;
+                        }
+                    }
+                    if child.name == "enabled" {
+                        if let SettingValue::Bool(value) = child.value {
+                            enabled = value;
+                        }
                     }
                 }
-                if child.name == "enabled" {
-                    if let SettingValue::Bool(value) = child.value {
-                        enabled = value;
-                    }
-                }
+            } else {
+                warn!("Settings key devtools is not a group");
             }
+        } else {
+            warn!("Settings key devtools was not found");
         }
         (
             resources.location,
@@ -44,13 +56,18 @@ pub fn draw_debug_ui(world: &mut World) {
 
     #[cfg(feature = "puffin")]
     let profiler_enabled = {
-        let settings = world.get_resource::<DevToolsSettings>().unwrap();
+        let settings = ignore_none_error!(
+            world.get_resource::<DevToolsSettings>(),
+            "Failed to get DevToolsSettings resource"
+        );
         let mut enabled = false;
         if let Some(setting) = settings.get_key(&["puffin"]) {
-            for child in setting.children().unwrap() {
-                if child.name == "enabled" {
-                    if let SettingValue::Bool(value) = child.value {
-                        enabled = value;
+            if let Some(children) = setting.children() {
+                for child in children {
+                    if child.name == "enabled" {
+                        if let SettingValue::Bool(value) = child.value {
+                            enabled = value;
+                        }
                     }
                 }
             }
@@ -93,7 +110,10 @@ pub fn draw_debug_ui(world: &mut World) {
             }
         }
     }
-    let mut resources = world.get_resource_mut::<DevToolsState>().unwrap();
+    let mut resources = ignore_none_error!(
+        world.get_resource_mut::<DevToolsState>(),
+        "Failed to get DevToolsState resource"
+    );
     if resources.location != location {
         resources.location = location;
     }
@@ -117,9 +137,15 @@ fn draw_devtools(
             diagnostic::handle_diagnostics(ui, world);
         }
         crate::helpers::Tab::World => {
-            let settings = world.get_resource::<DevToolsSettings>().unwrap();
+            let settings = ignore_none_error!(
+                world.get_resource::<DevToolsSettings>(),
+                "Failed to get DevToolsSettings resource"
+            );
             let world: &mut World = unsafe { &mut *world_ptr };
-            let mut params = world.get_resource_mut::<WorldInspectorParams>().unwrap();
+            let mut params = ignore_none_error!(
+                world.get_resource_mut::<WorldInspectorParams>(),
+                "Failed to get WorldInspectorParams resource"
+            );
             apply_settings(&mut params, settings);
             let world: &mut World = unsafe { &mut *world_ptr };
             let mut ui_context = WorldUIContext::new(world, Some(egui_context.ctx()));
@@ -130,9 +156,15 @@ fn draw_devtools(
             });
         }
         crate::helpers::Tab::Tools => {
-            let devtools_tools = world.get_resource::<DevToolsTools>().unwrap();
+            let devtools_tools = ignore_none_error!(
+                world.get_resource::<DevToolsTools>(),
+                "Failed to get DevToolsSettings resource"
+            );
             let world: &mut World = unsafe { &mut *world_ptr };
-            let mut devtools_settings = world.get_resource_mut::<DevToolsSettings>().unwrap();
+            let mut devtools_settings = ignore_none_error!(
+                world.get_resource_mut::<DevToolsSettings>(),
+                "Failed to get DevToolsSettings resource"
+            );
             let world: &mut World = unsafe { &mut *world_ptr };
             tool::handle_tools(ui, devtools_tools, &mut devtools_settings, world);
         }
@@ -145,13 +177,15 @@ fn draw_devtools(
 pub fn apply_settings(params: &mut WorldInspectorParams, settings: &DevToolsSettings) {
     if let Some(setting) = settings.get_key(&["devtools"]) {
         if let Some(child) = setting.get_named_child("world") {
-            for child in child.get_group().unwrap() {
-                if let Some(value) = child.value.as_bool() {
-                    if child.name == "despawnable" && params.despawnable_entities != value {
-                        params.despawnable_entities = value;
-                    }
-                    if child.name == "sort" && params.sort_components != value {
-                        params.sort_components = value;
+            if let Some(group) = child.get_group() {
+                for child in group {
+                    if let Some(value) = child.value.as_bool() {
+                        if child.name == "despawnable" && params.despawnable_entities != value {
+                            params.despawnable_entities = value;
+                        }
+                        if child.name == "sort" && params.sort_components != value {
+                            params.sort_components = value;
+                        }
                     }
                 }
             }

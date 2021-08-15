@@ -10,11 +10,11 @@ pub fn handle_tools(
     settings: &mut DevToolsSettings,
     world: &mut World,
 ) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
-    let mut tool_actions = world
-        .get_resource_mut::<Events<PerformToolAction>>()
-        .unwrap();
+    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
+    let mut tool_actions = ignore_none_error!(
+        world.get_resource_mut::<Events<PerformToolAction>>(),
+        "Failed to get Events<PerformToolAction> resources"
+    );
     for tool in tools.0.iter() {
         display_tool(ui, settings, tool, &mut tool_actions);
     }
@@ -26,8 +26,7 @@ pub fn display_tool(
     tool: &DevTool,
     tool_actions: &mut Events<PerformToolAction>,
 ) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
+    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
     ui.group(|ui| {
         if tool.perform.is_some() {
             ui.columns(2, |ui| {

@@ -5,18 +5,22 @@ use bevy_inspector_egui::egui::Ui;
 use crate::{DevToolsDiagnostics, DiagnosticGroup};
 
 pub fn handle_diagnostics(ui: &mut Ui, world: &mut World) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
-    let devtools_diagnostics = world.get_resource::<DevToolsDiagnostics>().unwrap();
-    let diagnostics = world.get_resource::<Diagnostics>().unwrap();
+    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
+    let devtools_diagnostics = ignore_none_error!(
+        world.get_resource::<DevToolsDiagnostics>(),
+        "Failed to get DevToolDiagnostics resource"
+    );
+    let diagnostics = ignore_none_error!(
+        world.get_resource::<Diagnostics>(),
+        "Failed to get Diagnostics resource"
+    );
     for group in devtools_diagnostics.0.iter() {
         display_diagnostic(ui, diagnostics, group);
     }
 }
 
 pub fn display_diagnostic(ui: &mut Ui, diagnostics: &Diagnostics, group: &DiagnosticGroup) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
+    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
     ui.group(|ui| {
         ui.heading(group.label());
         ui.end_row();

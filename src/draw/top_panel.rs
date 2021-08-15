@@ -8,19 +8,30 @@ use bevy_inspector_egui::bevy_egui::{
 use crate::DevToolsState;
 
 pub fn top_panel(ui: &mut Ui, world: &mut World) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
+    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
     let fps = {
         let fps = {
-            let diagnostics = world.get_resource::<Diagnostics>().unwrap();
+            let diagnostics = ignore_none_error!(
+                world.get_resource::<Diagnostics>(),
+                "Failed to get Diagnostics resource"
+            );
             diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FPS)
         };
-        let mut resources = world.get_resource_mut::<DevToolsState>().unwrap();
+        let mut resources = ignore_none_error!(
+            world.get_resource_mut::<DevToolsState>(),
+            "Failed to get DevToolsState resource"
+        );
         resources.history.push_fps(fps);
         fps
     };
-    let diagnostics = world.get_resource::<Diagnostics>().unwrap();
-    let resources = world.get_resource::<DevToolsState>().unwrap();
+    let diagnostics = ignore_none_error!(
+        world.get_resource::<Diagnostics>(),
+        "Failed to get Diagnostics resource"
+    );
+    let resources = ignore_none_error!(
+        world.get_resource::<DevToolsState>(),
+        "Failed to get DevToolsState resource"
+    );
     let avg = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FRAME_TIME);
     let count = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FRAME_COUNT);
     ui.group(|ui| {

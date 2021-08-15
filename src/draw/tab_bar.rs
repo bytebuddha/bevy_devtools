@@ -4,9 +4,11 @@ use bevy_inspector_egui::egui::Ui;
 use crate::{helpers::Tab, DevToolsState};
 
 pub fn tab_bar(ui: &mut Ui, world: &mut World) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
-    let mut resources = world.get_resource_mut::<DevToolsState>().unwrap();
+    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
+    let mut resources = ignore_none_error!(
+        world.get_resource_mut::<DevToolsState>(),
+        "Failed to get DevToolsState resources"
+    );
     ui.columns(4, |ui| {
         if ui[0]
             .selectable_label(

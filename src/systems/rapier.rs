@@ -10,20 +10,26 @@ pub fn rapier_settings(settings: Res<DevToolsSettings>, mut conf: ResMut<RapierC
     #[cfg(feature = "puffin")]
     puffin_profiler::profile_function!();
     if let Some(setting) = settings.get_key(&["rapier"]) {
-        for child in setting.children().unwrap() {
-            if let Some(value) = child.value.as_bool() {
-                if child.name == "query_pipeline_active" {
-                    if conf.query_pipeline_active != value {
-                        conf.query_pipeline_active = value;
+        if let Some(children) = setting.children() {
+            for child in children {
+                if let Some(value) = child.value.as_bool() {
+                    if child.name == "query_pipeline_active" {
+                        if conf.query_pipeline_active != value {
+                            conf.query_pipeline_active = value;
+                        }
                     }
-                }
-                if child.name == "physics_pipeline_active" {
-                    if conf.physics_pipeline_active != value {
-                        conf.physics_pipeline_active = value;
+                    if child.name == "physics_pipeline_active" {
+                        if conf.physics_pipeline_active != value {
+                            conf.physics_pipeline_active = value;
+                        }
                     }
                 }
             }
+        } else {
+            warn!("Settings key rapier was not a group");
         }
+    } else {
+        warn!("Settings key rapier was not found");
     }
 }
 
@@ -31,18 +37,23 @@ pub fn initial_rapier_settings(
     mut settings: ResMut<DevToolsSettings>,
     conf: ResMut<RapierConfiguration>,
 ) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
+    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
     if let Some(setting) = settings.get_key_mut(&["rapier"]) {
-        for child in setting.children_mut().unwrap() {
-            if let Some(value) = child.value.as_bool_mut() {
-                if child.name == "query_pipeline_active" {
-                    *value = conf.query_pipeline_active;
-                }
-                if child.name == "physics_pipeline_active" {
-                    *value = conf.physics_pipeline_active;
+        if let Some(group) = setting.children_mut() {
+            for child in group {
+                if let Some(value) = child.value.as_bool_mut() {
+                    if child.name == "query_pipeline_active" {
+                        *value = conf.query_pipeline_active;
+                    }
+                    if child.name == "physics_pipeline_active" {
+                        *value = conf.physics_pipeline_active;
+                    }
                 }
             }
+        } else {
+            warn!("Settings key rapier was not a group");
         }
+    } else {
+        warn!("Settings key rapier was not found");
     }
 }
