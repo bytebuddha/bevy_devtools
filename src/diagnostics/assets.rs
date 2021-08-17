@@ -3,26 +3,31 @@ use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
 use bevy_inspector_egui::egui::Ui;
 
-use super::{DiagnosticDisplay, DiagnosticGroup};
+use super::{DiagnosticDisplay, DiagnosticGroup, DiagnosticRow};
 
 pub fn group() -> DiagnosticGroup {
     DiagnosticGroup {
         name: "assets".into(),
         label: Some("Assets".into()),
-        data: vec![vec![
-            DiagnosticDisplay {
-                build: build_texture_count,
-                render: render_texture_count,
-            },
-            DiagnosticDisplay {
-                build: build_color_texture_count,
-                render: render_color_texture_count,
-            },
-            DiagnosticDisplay {
-                build: build_materials_count,
-                render: render_materials_count,
-            },
-        ]],
+        data: vec![
+            DiagnosticRow {
+                name: None,
+                data: vec![
+                    DiagnosticDisplay {
+                        build: build_texture_count,
+                        render: render_texture_count,
+                    },
+                    DiagnosticDisplay {
+                        build: build_color_texture_count,
+                        render: render_color_texture_count,
+                    },
+                    DiagnosticDisplay {
+                        build: build_materials_count,
+                        render: render_materials_count,
+                    },
+                ]
+            }
+        ]
     }
 }
 

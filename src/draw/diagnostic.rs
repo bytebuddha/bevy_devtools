@@ -26,8 +26,12 @@ pub fn display_diagnostic(ui: &mut Ui, diagnostics: &Diagnostics, group: &Diagno
         ui.end_row();
         let length = group.data.len();
         for (dex, group) in group.data.iter().enumerate() {
-            ui.columns(group.len(), |ui| {
-                for (dex, data) in group.iter().enumerate() {
+            if let Some(name) = group.name.as_ref() {
+                ui.heading(name);
+                ui.end_row();
+            }
+            ui.columns(group.data.len(), |ui| {
+                for (dex, data) in group.data.iter().enumerate() {
                     (data.render)(&mut ui[dex], diagnostics);
                 }
             });

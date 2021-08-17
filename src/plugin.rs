@@ -14,7 +14,7 @@ impl Plugin for DevToolsPlugin {
         let diagnostics = DevToolsDiagnostics::default();
         for group in diagnostics.0.iter() {
             for group in group.data.iter() {
-                for data in group {
+                for data in &group.data {
                     (data.build)(app);
                 }
             }

@@ -4,7 +4,7 @@ use bevy_inspector_egui::egui::Ui;
 use std::fs::File;
 use std::io::Write;
 
-use crate::{DevTool, SettingValue};
+use crate::DevTool;
 
 pub fn tool() -> DevTool {
     DevTool {

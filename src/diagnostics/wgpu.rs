@@ -3,67 +3,83 @@ use bevy::prelude::*;
 use bevy::wgpu::diagnostic::WgpuResourceDiagnosticsPlugin;
 use bevy_inspector_egui::egui::Ui;
 
-use super::{DiagnosticDisplay, DiagnosticGroup};
+use super::{DiagnosticDisplay, DiagnosticGroup, DiagnosticRow};
 
 pub fn group() -> DiagnosticGroup {
     DiagnosticGroup {
         name: "wgpu".into(),
         label: Some("WGPU".into()),
         data: vec![
-            vec![
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_bind_groups,
-                },
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_bind_group_ids,
-                },
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_bind_group_layouts,
-                },
-            ],
-            vec![
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_buffers,
-                },
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_render_pipelines,
-                },
-            ],
-            vec![
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_samplers,
-                },
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_shader_modules,
-                },
-            ],
-            vec![
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_wgpu_swapchains,
-                },
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_wgpu_textures,
-                },
-            ],
-            vec![
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_wgpu_textures_views,
-                },
-                DiagnosticDisplay {
-                    build: build_wgpu,
-                    render: render_wgpu_surfaces,
-                },
-            ],
+            DiagnosticRow {
+                name: None,
+                data: vec![
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_bind_groups,
+                    },
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_bind_group_ids,
+                    },
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_bind_group_layouts,
+                    },
+                ]
+            },
+            DiagnosticRow {
+                name: None,
+                data: vec![
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_buffers,
+                    },
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_render_pipelines,
+                    },
+                ]
+            },
+            DiagnosticRow {
+                name: None,
+                data: vec![
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_samplers,
+                    },
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_shader_modules,
+                    },
+                ],
+
+            },
+            DiagnosticRow {
+                name: None,
+                data: vec![
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_wgpu_swapchains,
+                    },
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_wgpu_textures,
+                    },
+                ]
+            },
+            DiagnosticRow {
+                name: None,
+                data: vec![
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_wgpu_textures_views,
+                    },
+                    DiagnosticDisplay {
+                        build: build_wgpu,
+                        render: render_wgpu_surfaces,
+                    },
+                ]
+            }
         ],
     }
 }
