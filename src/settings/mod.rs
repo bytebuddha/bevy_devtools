@@ -85,14 +85,14 @@ impl Default for DevToolsSettings {
                     ]),
             ]),
             #[cfg(feature = "puffin")]
-            DevToolsSetting::new_labeled("puffin", "Profiler").group(vec![
+            DevToolsSetting::new_labeled("puffin", "Profiler").set_value_group(vec![
                 DevToolsSetting::new_labeled("enabled", "Enabled"),
             ]),
             #[cfg(feature = "rapier3d")]
-            DevToolsSetting::labeled("rapier", "Rapier").group(vec![
-                DevToolsSetting::labeled("physics_pipeline_active", "Physics Pipeline Active")
+            DevToolsSetting::new_labeled("rapier", "Rapier").set_value_group(vec![
+                DevToolsSetting::new_labeled("physics_pipeline_active", "Physics Pipeline Active")
                     .set_value_bool(true),
-                DevToolsSetting::labeled("query_pipeline_active", "Query Pipeline Active")
+                DevToolsSetting::new_labeled("query_pipeline_active", "Query Pipeline Active")
                     .set_value_bool(true),
             ]),
         ])

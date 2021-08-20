@@ -10,7 +10,7 @@ pub fn rapier_settings(settings: Res<DevToolsSettings>, mut conf: ResMut<RapierC
     #[cfg(feature = "puffin")]
     puffin_profiler::profile_function!();
     if let Some(setting) = settings.get_key(&["rapier"]) {
-        if let Some(children) = setting.children() {
+        if let Some(children) = setting.get_group() {
             for child in children {
                 if let Some(value) = child.value.as_bool() {
                     if child.name == "query_pipeline_active" {
@@ -39,7 +39,7 @@ pub fn initial_rapier_settings(
 ) {
     #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
     if let Some(setting) = settings.get_key_mut(&["rapier"]) {
-        if let Some(group) = setting.children_mut() {
+        if let Some(group) = setting.get_group_mut() {
             for child in group {
                 if let Some(value) = child.value.as_bool_mut() {
                     if child.name == "query_pipeline_active" {
