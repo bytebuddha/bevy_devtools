@@ -16,6 +16,8 @@ pub(crate) mod consts;
 pub(crate) mod draw;
 pub(crate) mod systems;
 
+pub use self::helpers::DevToolsExt;
+
 mod plugin;
 pub use self::plugin::DevToolsPlugin;
 

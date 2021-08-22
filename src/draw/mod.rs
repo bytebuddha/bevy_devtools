@@ -127,9 +127,8 @@ fn draw_devtools(
     world_ptr: *mut World,
 ) {
     let world: &mut World = unsafe { &mut *world_ptr };
-    location::draw_location(ui, location);
     top_panel::top_panel(ui, world);
-    tab_bar::tab_bar(ui, world);
+    tab_bar::tab_bar(ui, world, location);
     ui.end_row();
 
     egui::ScrollArea::auto_sized().show(ui, |ui| match active {
