@@ -85,21 +85,26 @@ pub fn draw_debug_ui(world: &mut World) {
                 egui::Window::new("DevTools")
                     .enabled(enabled || !always)
                     .collapsible(true)
+                    .resizable(true)
                     .show(ctx, |ui| {
                         draw_devtools(egui_context, ui, &mut location, active, world_ptr);
                     });
             }
             DevToolsLocation::LeftSide => {
-                egui::SidePanel::left("DevTools").show(ctx, |ui| {
-                    ui.set_enabled(enabled || !always);
-                    draw_devtools(egui_context, ui, &mut location, active, world_ptr);
-                });
+                egui::SidePanel::left("DevTools")
+                    .resizable(true)
+                    .show(ctx, |ui| {
+                        ui.set_enabled(enabled || !always);
+                        draw_devtools(egui_context, ui, &mut location, active, world_ptr);
+                    });
             }
             DevToolsLocation::RightSide => {
-                egui::SidePanel::right("DevTools").show(ctx, |ui| {
-                    ui.set_enabled(enabled || !always);
-                    draw_devtools(egui_context, ui, &mut location, active, world_ptr);
-                });
+                egui::SidePanel::right("DevTools")
+                    .resizable(true)
+                    .show(ctx, |ui| {
+                        ui.set_enabled(enabled || !always);
+                        draw_devtools(egui_context, ui, &mut location, active, world_ptr);
+                    });
             }
         }
     }
