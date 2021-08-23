@@ -18,16 +18,12 @@ pub fn group() -> super::DiagnosticGroup {
     DiagnosticGroup {
         name: "ecs".into(),
         label: Some("ECS".into()),
-        data: vec![
-            DiagnosticRow {
-                name: None,
-                data: vec![
-                    DiagnosticDisplay {
-                        build: build_entity_count,
-                        render: render_entity_count
-                    }
-                ]
-            }
-        ]
+        data: vec![DiagnosticRow {
+            name: None,
+            data: vec![DiagnosticDisplay {
+                build: build_entity_count,
+                render: render_entity_count,
+            }],
+        }],
     }
 }

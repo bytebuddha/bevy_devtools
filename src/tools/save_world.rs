@@ -17,7 +17,8 @@ pub fn tool() -> DevTool {
 }
 
 pub fn render(ui: &mut Ui, settings: &mut crate::DevToolsSettings) {
-    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     if let Some(setting) = settings.get_key_mut(&["devtools", "tools", "save-scene"]) {
         if let Some(value) = setting.value.as_string_mut() {
             ui.text_edit_singleline(value);
@@ -30,7 +31,8 @@ pub fn render(ui: &mut Ui, settings: &mut crate::DevToolsSettings) {
 }
 
 pub fn perform(world: &mut World) {
-    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     let settings = ignore_none_error!(
         world.get_resource::<crate::DevToolsSettings>(),
         "Failed to get DevToolsSettings resource"
@@ -48,7 +50,7 @@ pub fn perform(world: &mut World) {
             let scene = DynamicScene::from_world(world, type_registry);
             let scene_data = ignore_error!(scene.serialize_ron(type_registry));
             ignore_error!(file.write_all(scene_data.as_bytes()));
-        }  else {
+        } else {
             warn!("Settings field devtools -> tools -> save-scene is not a string");
         }
     } else {

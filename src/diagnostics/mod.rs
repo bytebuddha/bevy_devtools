@@ -24,7 +24,7 @@ impl DiagnosticGroup {
 
 pub struct DiagnosticRow {
     pub name: Option<String>,
-    pub data: Vec<DiagnosticDisplay>
+    pub data: Vec<DiagnosticDisplay>,
 }
 
 pub struct DiagnosticDisplay {

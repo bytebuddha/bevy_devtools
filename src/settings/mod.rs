@@ -18,14 +18,14 @@ impl DevToolsSettings {
                 loop {
                     current_index += 1;
                     if current_index >= keys.len() {
-                        return Some(&current_setting);
+                        return Some(current_setting);
+                    } else if let Some(setting) =
+                        current_setting.get_named_child(keys[current_index])
+                    {
+                        current_setting = setting;
+                        continue;
                     } else {
-                        if let Some(setting) = current_setting.get_named_child(keys[current_index]) {
-                            current_setting = setting;
-                            continue;
-                        } else {
-                            warn!("Setting has no child Named: {}", keys[current_index]);
-                        }
+                        warn!("Setting has no child Named: {}", keys[current_index]);
                     }
                 }
             }
@@ -35,7 +35,7 @@ impl DevToolsSettings {
 
     pub fn get_key_mut(&mut self, keys: &[&str]) -> Option<&mut DevToolsSetting> {
         for item in self.0.iter_mut() {
-            if &item.name == keys[0] {
+            if item.name == keys[0] {
                 if keys.len() == 1 {
                     return Some(item);
                 } else {
@@ -62,17 +62,23 @@ impl Default for DevToolsSettings {
                 DevToolsSetting::new_labeled("enabled", "Enabled"),
                 DevToolsSetting::new_labeled("always-visible", "Always Visible"),
                 DevToolsSetting::new_labeled("settings", "Settings").set_value_group(vec![
-                    DevToolsSetting::new_labeled("show-hidden", "Show hidden")
+                    DevToolsSetting::new_labeled("show-hidden", "Show hidden"),
                 ]),
                 DevToolsSetting::new_labeled("gui", "Gui").set_value_group(vec![
                     DevToolsSetting::new_labeled("widgets-hover", "Show widgets on hover"),
-                    DevToolsSetting::new_labeled("widgets-taller", "Show widgets that make their parent taller."),
-                    DevToolsSetting::new_labeled("widgets-wider", "Show widgets that make their parent wider."),
-                    DevToolsSetting::new_labeled("show-resize", "Show Resize")
+                    DevToolsSetting::new_labeled(
+                        "widgets-taller",
+                        "Show widgets that make their parent taller.",
+                    ),
+                    DevToolsSetting::new_labeled(
+                        "widgets-wider",
+                        "Show widgets that make their parent wider.",
+                    ),
+                    DevToolsSetting::new_labeled("show-resize", "Show Resize"),
                 ]),
                 DevToolsSetting::new_labeled("world", "World").set_value_group(vec![
                     DevToolsSetting::new_labeled("despawnable", "Despawnable Entities"),
-                    DevToolsSetting::new_labeled("sort", "Sort Components")
+                    DevToolsSetting::new_labeled("sort", "Sort Components"),
                 ]),
                 DevToolsSetting::new_labeled("tools", "Tools")
                     .set_hidden(true)
@@ -85,9 +91,8 @@ impl Default for DevToolsSettings {
                     ]),
             ]),
             #[cfg(feature = "puffin")]
-            DevToolsSetting::new_labeled("puffin", "Profiler").set_value_group(vec![
-                DevToolsSetting::new_labeled("enabled", "Enabled"),
-            ]),
+            DevToolsSetting::new_labeled("puffin", "Profiler")
+                .set_value_group(vec![DevToolsSetting::new_labeled("enabled", "Enabled")]),
             #[cfg(feature = "rapier3d")]
             DevToolsSetting::new_labeled("rapier", "Rapier").set_value_group(vec![
                 DevToolsSetting::new_labeled("physics_pipeline_active", "Physics Pipeline Active")

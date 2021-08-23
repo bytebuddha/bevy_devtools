@@ -9,25 +9,23 @@ pub fn group() -> DiagnosticGroup {
     DiagnosticGroup {
         name: "assets".into(),
         label: Some("Assets".into()),
-        data: vec![
-            DiagnosticRow {
-                name: None,
-                data: vec![
-                    DiagnosticDisplay {
-                        build: build_texture_count,
-                        render: render_texture_count,
-                    },
-                    DiagnosticDisplay {
-                        build: build_color_texture_count,
-                        render: render_color_texture_count,
-                    },
-                    DiagnosticDisplay {
-                        build: build_materials_count,
-                        render: render_materials_count,
-                    },
-                ]
-            }
-        ]
+        data: vec![DiagnosticRow {
+            name: None,
+            data: vec![
+                DiagnosticDisplay {
+                    build: build_texture_count,
+                    render: render_texture_count,
+                },
+                DiagnosticDisplay {
+                    build: build_color_texture_count,
+                    render: render_color_texture_count,
+                },
+                DiagnosticDisplay {
+                    build: build_materials_count,
+                    render: render_materials_count,
+                },
+            ],
+        }],
     }
 }
 

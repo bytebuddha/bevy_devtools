@@ -11,7 +11,7 @@ pub fn draw_location(ui: &mut Ui, location: &mut DevToolsLocation) {
             *location = DevToolsLocation::LeftSide;
         }
         if ui
-            .selectable_label(*location == DevToolsLocation::Window, "▣")
+            .selectable_label(*location == DevToolsLocation::Window, "🗗")
             .clicked()
         {
             *location = DevToolsLocation::Window;

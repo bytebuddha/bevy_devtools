@@ -1,24 +1,24 @@
 #[derive(Debug, PartialEq, Clone, Copy, Hash, Eq)]
-pub enum Tab {
+pub enum DevToolsTab {
     Diagnostics,
     World,
     Tools,
     Settings,
 }
 
-impl Tab {
+impl DevToolsTab {
     pub fn icon(&self) -> &'static str {
         match self {
-            Tab::Diagnostics => "🔍",
-            Tab::World => "🗺",
-            Tab::Tools => "🛠",
-            Tab::Settings => "⚙",
+            DevToolsTab::Diagnostics => "🔍",
+            DevToolsTab::World => "🗺",
+            DevToolsTab::Tools => "🛠",
+            DevToolsTab::Settings => "⚙",
         }
     }
 }
 
-impl Default for Tab {
-    fn default() -> Tab {
-        Tab::World
+impl Default for DevToolsTab {
+    fn default() -> DevToolsTab {
+        DevToolsTab::World
     }
 }

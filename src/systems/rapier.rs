@@ -37,7 +37,8 @@ pub fn initial_rapier_settings(
     mut settings: ResMut<DevToolsSettings>,
     conf: ResMut<RapierConfiguration>,
 ) {
-    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     if let Some(setting) = settings.get_key_mut(&["rapier"]) {
         if let Some(group) = setting.get_group_mut() {
             for child in group {

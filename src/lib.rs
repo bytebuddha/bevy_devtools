@@ -9,7 +9,6 @@ pub use puffin::profile_function;
 #[cfg(feature = "puffin")]
 pub use puffin::profile_scope;
 
-
 #[macro_use]
 pub(crate) mod helpers;
 pub(crate) mod consts;
@@ -17,6 +16,7 @@ pub(crate) mod draw;
 pub(crate) mod systems;
 
 pub use self::helpers::DevToolsExt;
+pub use self::helpers::DevToolsTab;
 
 mod plugin;
 pub use self::plugin::DevToolsPlugin;

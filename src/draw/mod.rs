@@ -7,10 +7,10 @@ use bevy_inspector_egui::{
 use crate::{DevToolsLocation, DevToolsSettings, DevToolsState, DevToolsTools, SettingValue};
 
 mod diagnostic;
+mod location;
 mod setting;
 mod tab_bar;
 mod tool;
-mod location;
 mod top_panel;
 
 pub fn draw_debug_ui(world: &mut World) {
@@ -61,15 +61,9 @@ pub fn draw_debug_ui(world: &mut World) {
             "Failed to get DevToolsSettings resource"
         );
         let mut enabled = false;
-        if let Some(setting) = settings.get_key(&["puffin"]) {
-            if let Some(children) = setting.children() {
-                for child in children {
-                    if child.name == "enabled" {
-                        if let SettingValue::Bool(value) = child.value {
-                            enabled = value;
-                        }
-                    }
-                }
+        if let Some(setting) = settings.get_key(&["puffin", "enabled"]) {
+            if let SettingValue::Bool(value) = setting.value {
+                enabled = value;
             }
         }
         enabled
@@ -84,7 +78,6 @@ pub fn draw_debug_ui(world: &mut World) {
             .default_size([1024.0, 600.0])
             .show(ctx, |ui| puffin_egui::profiler_ui(ui));
     }
-
 
     if enabled || always {
         match location {
@@ -123,7 +116,7 @@ fn draw_devtools(
     egui_context: &EguiContext,
     ui: &mut egui::Ui,
     location: &mut DevToolsLocation,
-    active: crate::helpers::Tab,
+    active: crate::helpers::DevToolsTab,
     world_ptr: *mut World,
 ) {
     let world: &mut World = unsafe { &mut *world_ptr };
@@ -132,10 +125,10 @@ fn draw_devtools(
     ui.end_row();
 
     egui::ScrollArea::auto_sized().show(ui, |ui| match active {
-        crate::helpers::Tab::Diagnostics => {
+        crate::DevToolsTab::Diagnostics => {
             diagnostic::handle_diagnostics(ui, world);
         }
-        crate::helpers::Tab::World => {
+        crate::DevToolsTab::World => {
             let settings = ignore_none_error!(
                 world.get_resource::<DevToolsSettings>(),
                 "Failed to get DevToolsSettings resource"
@@ -154,7 +147,7 @@ fn draw_devtools(
                 })
             });
         }
-        crate::helpers::Tab::Tools => {
+        crate::DevToolsTab::Tools => {
             let devtools_tools = ignore_none_error!(
                 world.get_resource::<DevToolsTools>(),
                 "Failed to get DevToolsSettings resource"
@@ -167,7 +160,7 @@ fn draw_devtools(
             let world: &mut World = unsafe { &mut *world_ptr };
             tool::handle_tools(ui, devtools_tools, &mut devtools_settings, world);
         }
-        crate::helpers::Tab::Settings => {
+        crate::DevToolsTab::Settings => {
             setting::handle_settings(ui, world);
         }
     });

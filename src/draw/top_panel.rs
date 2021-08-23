@@ -8,7 +8,8 @@ use bevy_inspector_egui::bevy_egui::{
 use crate::DevToolsState;
 
 pub fn top_panel(ui: &mut Ui, world: &mut World) {
-    #[cfg(feature = "puffin")] puffin_profiler::profile_function!();
+    #[cfg(feature = "puffin")]
+    puffin_profiler::profile_function!();
     let fps = {
         let fps = {
             let diagnostics = ignore_none_error!(
@@ -51,20 +52,18 @@ pub fn top_panel(ui: &mut Ui, world: &mut World) {
                 .include_x(crate::consts::HISTORY_LENGTH as f32)
                 .height(50.0)
                 .show_x(false)
-                .line(
-                    Line::new(Values::from_values(
-                        resources
-                            .history
-                            .fps
-                            .iter()
-                            .enumerate()
-                            .map(|(x, y)| Value {
-                                x: x as f64,
-                                y: *y as f64,
-                            })
-                            .collect::<Vec<Value>>(),
-                    )),
-                ),
+                .line(Line::new(Values::from_values(
+                    resources
+                        .history
+                        .fps
+                        .iter()
+                        .enumerate()
+                        .map(|(x, y)| Value {
+                            x: x as f64,
+                            y: *y as f64,
+                        })
+                        .collect::<Vec<Value>>(),
+                ))),
         );
     });
 }

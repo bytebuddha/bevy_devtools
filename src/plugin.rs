@@ -57,9 +57,8 @@ impl Plugin for DevToolsPlugin {
                     puffin_profiler::GlobalProfiler::lock().new_frame();
                 })
                 .system(),
-            ).add_startup_system(
-                crate::systems::puffin::initialize_puffin.system()
-            );
+            )
+            .add_startup_system(crate::systems::puffin::initialize_puffin.system());
         }
     }
 }

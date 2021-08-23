@@ -27,7 +27,6 @@ impl DevToolsSetting {
 
 // Setter Methods
 impl DevToolsSetting {
-
     pub fn set_hidden(mut self, b: bool) -> DevToolsSetting {
         self.hidden = b;
         self
@@ -61,7 +60,6 @@ impl DevToolsSetting {
 
 // Getter Methods
 impl DevToolsSetting {
-
     pub fn get_label(&self) -> &str {
         self.label.as_ref().unwrap_or(&self.name)
     }

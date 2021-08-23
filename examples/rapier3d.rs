@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_devtools::DevToolsPlugin;
+use bevy_devtools::{DevToolsExt, DevToolsPlugin};
 use bevy_rapier3d::{
     physics::{
         ColliderBundle, ColliderPositionSync, NoUserData, RapierPhysicsPlugin, RigidBodyBundle,

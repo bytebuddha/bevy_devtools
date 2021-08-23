@@ -20,7 +20,7 @@ macro_rules! ignore_none_error {
                 return;
             }
         }
-    }
+    };
 }
 
 macro_rules! ignore_error {
@@ -32,5 +32,5 @@ macro_rules! ignore_error {
                 return;
             }
         }
-    }
+    };
 }

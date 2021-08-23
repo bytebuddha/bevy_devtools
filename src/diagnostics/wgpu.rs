@@ -25,7 +25,7 @@ pub fn group() -> DiagnosticGroup {
                         build: build_wgpu,
                         render: render_bind_group_layouts,
                     },
-                ]
+                ],
             },
             DiagnosticRow {
                 name: None,
@@ -38,7 +38,7 @@ pub fn group() -> DiagnosticGroup {
                         build: build_wgpu,
                         render: render_render_pipelines,
                     },
-                ]
+                ],
             },
             DiagnosticRow {
                 name: None,
@@ -52,7 +52,6 @@ pub fn group() -> DiagnosticGroup {
                         render: render_shader_modules,
                     },
                 ],
-
             },
             DiagnosticRow {
                 name: None,
@@ -65,7 +64,7 @@ pub fn group() -> DiagnosticGroup {
                         build: build_wgpu,
                         render: render_wgpu_textures,
                     },
-                ]
+                ],
             },
             DiagnosticRow {
                 name: None,
@@ -78,8 +77,8 @@ pub fn group() -> DiagnosticGroup {
                         build: build_wgpu,
                         render: render_wgpu_surfaces,
                     },
-                ]
-            }
+                ],
+            },
         ],
     }
 }
