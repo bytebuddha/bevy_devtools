@@ -3,21 +3,23 @@ use bevy::input::keyboard::KeyCode;
 
 use crate::{
     DevTool, DevToolsDiagnostics, DevToolsLocation, DevToolsSetting, DevToolsSettings,
-    DevToolsState, DevToolsTools, DiagnosticGroup,
+    DevToolsState, DevToolsTab, DevToolsTabs, DevToolsTools, DiagnosticGroup,
 };
 
 pub trait DevToolsExt {
     fn devtools_enabled(&mut self) -> &mut AppBuilder;
-    fn devtools_active_tab(&mut self, _: crate::DevToolsTab) -> &mut AppBuilder;
+    fn devtools_active_tab(&mut self, _: usize) -> &mut AppBuilder;
     fn devtools_toggle_key(&mut self, _: KeyCode) -> &mut AppBuilder;
     fn devtools_location(&mut self, _: DevToolsLocation) -> &mut AppBuilder;
     #[cfg(feature = "puffin")]
     fn devtools_profiler_key(&mut self, _: KeyCode) -> &mut AppBuilder;
 
+    fn devtools_tab(&mut self, tab: DevToolsTab) -> &mut AppBuilder;
     fn devtools_tool(&mut self, tool: DevTool) -> &mut AppBuilder;
     fn devtools_setting(&mut self, setting: DevToolsSetting) -> &mut AppBuilder;
     fn devtools_diagnostic(&mut self, diagnostic: DiagnosticGroup) -> &mut AppBuilder;
 
+    fn devtools_with_tabs<F: FnMut(&mut DevToolsTabs)>(&mut self, func: F) -> &mut AppBuilder;
     fn devtools_with_tools<F: FnMut(&mut DevToolsTools)>(&mut self, func: F) -> &mut AppBuilder;
     fn devtools_with_settings<F: FnMut(&mut DevToolsSettings)>(
         &mut self,
@@ -42,7 +44,7 @@ impl<'a> DevToolsExt for &'a mut AppBuilder {
         }
         self
     }
-    fn devtools_active_tab(&mut self, tab: crate::DevToolsTab) -> &mut AppBuilder {
+    fn devtools_active_tab(&mut self, tab: usize) -> &mut AppBuilder {
         self.world_mut()
             .get_resource_mut::<DevToolsState>()
             .unwrap()
@@ -71,6 +73,11 @@ impl<'a> DevToolsExt for &'a mut AppBuilder {
             .location = location;
         self
     }
+    fn devtools_tab(&mut self, tab: DevToolsTab) -> &mut AppBuilder {
+        let mut tabs = self.world_mut().get_resource_mut::<DevToolsTabs>().unwrap();
+        tabs.0.push(tab);
+        self
+    }
     fn devtools_tool(&mut self, tool: DevTool) -> &mut AppBuilder {
         let mut tools = self
             .world_mut()
@@ -96,6 +103,11 @@ impl<'a> DevToolsExt for &'a mut AppBuilder {
         self
     }
 
+    fn devtools_with_tabs<F: FnMut(&mut DevToolsTabs)>(&mut self, mut func: F) -> &mut AppBuilder {
+        let mut tabs = self.world_mut().get_resource_mut::<DevToolsTabs>().unwrap();
+        func(&mut *tabs);
+        self
+    }
     fn devtools_with_tools<F: FnMut(&mut DevToolsTools)>(
         &mut self,
         mut func: F,

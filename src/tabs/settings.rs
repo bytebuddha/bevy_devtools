@@ -1,10 +1,14 @@
+use crate::bevy_egui::EguiContext;
+use crate::egui::{DragValue, Ui};
 use bevy::prelude::*;
-use bevy_inspector_egui::egui::DragValue;
-use bevy_inspector_egui::egui::Ui;
 
 use crate::{DevToolsSetting, DevToolsSettings, SettingValue};
 
-pub fn handle_settings(ui: &mut Ui, world: &mut World) {
+pub fn tab() -> super::DevToolsTab {
+    super::DevToolsTab::new("⚙").render(draw)
+}
+
+fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
     #[cfg(feature = "puffin")]
     puffin_profiler::profile_function!();
     let show_hidden = {

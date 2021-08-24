@@ -1,16 +1,10 @@
 use bevy::prelude::*;
-use bevy_inspector_egui::{
-    bevy_egui::{egui, EguiContext},
-    world_inspector::{WorldInspectorParams, WorldUIContext},
-};
+use bevy_inspector_egui::bevy_egui::{egui, EguiContext};
 
-use crate::{DevToolsLocation, DevToolsSettings, DevToolsState, DevToolsTools, SettingValue};
+use crate::{DevToolsLocation, DevToolsSettings, DevToolsState, SettingValue};
 
-mod diagnostic;
 mod location;
-mod setting;
 mod tab_bar;
-mod tool;
 mod top_panel;
 
 pub fn draw_debug_ui(world: &mut World) {
@@ -121,71 +115,19 @@ fn draw_devtools(
     egui_context: &EguiContext,
     ui: &mut egui::Ui,
     location: &mut DevToolsLocation,
-    active: crate::helpers::DevToolsTab,
+    active: usize,
     world_ptr: *mut World,
 ) {
     let world: &mut World = unsafe { &mut *world_ptr };
+    let tabs = world.get_resource::<crate::tabs::DevToolsTabs>().unwrap();
+    let world: &mut World = unsafe { &mut *world_ptr };
     top_panel::top_panel(ui, world);
-    tab_bar::tab_bar(ui, world, location);
+    tab_bar::tab_bar(ui, world, location, tabs);
     ui.end_row();
 
-    egui::ScrollArea::auto_sized().show(ui, |ui| match active {
-        crate::DevToolsTab::Diagnostics => {
-            diagnostic::handle_diagnostics(ui, world);
-        }
-        crate::DevToolsTab::World => {
-            let settings = ignore_none_error!(
-                world.get_resource::<DevToolsSettings>(),
-                "Failed to get DevToolsSettings resource"
-            );
-            let world: &mut World = unsafe { &mut *world_ptr };
-            let mut params = ignore_none_error!(
-                world.get_resource_mut::<WorldInspectorParams>(),
-                "Failed to get WorldInspectorParams resource"
-            );
-            apply_settings(&mut params, settings);
-            let world: &mut World = unsafe { &mut *world_ptr };
-            let mut ui_context = WorldUIContext::new(world, Some(egui_context.ctx()));
-            ui.group(|ui| {
-                ui.columns(1, |ui| {
-                    ui_context.world_ui::<()>(&mut ui[0], &mut params);
-                })
-            });
-        }
-        crate::DevToolsTab::Tools => {
-            let devtools_tools = ignore_none_error!(
-                world.get_resource::<DevToolsTools>(),
-                "Failed to get DevToolsSettings resource"
-            );
-            let world: &mut World = unsafe { &mut *world_ptr };
-            let mut devtools_settings = ignore_none_error!(
-                world.get_resource_mut::<DevToolsSettings>(),
-                "Failed to get DevToolsSettings resource"
-            );
-            let world: &mut World = unsafe { &mut *world_ptr };
-            tool::handle_tools(ui, devtools_tools, &mut devtools_settings, world);
-        }
-        crate::DevToolsTab::Settings => {
-            setting::handle_settings(ui, world);
+    egui::ScrollArea::auto_sized().show(ui, |ui| {
+        if let Some(tab) = tabs.0.get(active) {
+            (tab.render)(egui_context, ui, world);
         }
     });
-}
-
-pub fn apply_settings(params: &mut WorldInspectorParams, settings: &DevToolsSettings) {
-    if let Some(setting) = settings.get_key(&["devtools"]) {
-        if let Some(child) = setting.get_named_child("world") {
-            if let Some(group) = child.get_group() {
-                for child in group {
-                    if let Some(value) = child.value.as_bool() {
-                        if child.name == "despawnable" && params.despawnable_entities != value {
-                            params.despawnable_entities = value;
-                        }
-                        if child.name == "sort" && params.sort_components != value {
-                            params.sort_components = value;
-                        }
-                    }
-                }
-            }
-        }
-    }
 }

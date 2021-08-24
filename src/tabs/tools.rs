@@ -1,23 +1,34 @@
+use crate::bevy_egui::EguiContext;
+use crate::egui::Ui;
 use bevy::app::Events;
 use bevy::prelude::*;
-use bevy_inspector_egui::egui::Ui;
 
 use crate::{DevTool, DevToolsSettings, DevToolsTools, PerformToolAction};
 
-pub fn handle_tools(
-    ui: &mut Ui,
-    tools: &DevToolsTools,
-    settings: &mut DevToolsSettings,
-    world: &mut World,
-) {
+pub fn tab() -> super::DevToolsTab {
+    super::DevToolsTab::new("🛠").render(draw)
+}
+
+pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
     #[cfg(feature = "puffin")]
     puffin_profiler::profile_function!();
+    let world_ptr = world as *mut _;
+    let devtools_tools = ignore_none_error!(
+        world.get_resource::<DevToolsTools>(),
+        "Failed to get DevToolsSettings resource"
+    );
+    let world: &mut World = unsafe { &mut *world_ptr };
+    let mut devtools_settings = ignore_none_error!(
+        world.get_resource_mut::<DevToolsSettings>(),
+        "Failed to get DevToolsSettings resource"
+    );
+    let world: &mut World = unsafe { &mut *world_ptr };
     let mut tool_actions = ignore_none_error!(
         world.get_resource_mut::<Events<PerformToolAction>>(),
         "Failed to get Events<PerformToolAction> resources"
     );
-    for tool in tools.0.iter() {
-        display_tool(ui, settings, tool, &mut tool_actions);
+    for tool in devtools_tools.0.iter() {
+        display_tool(ui, &mut *devtools_settings, tool, &mut tool_actions);
     }
 }
 

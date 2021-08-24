@@ -3,8 +3,8 @@ use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::EguiStage;
 
 use super::{
-    DevToolsDiagnostics, DevToolsLocation, DevToolsSettings, DevToolsState, DevToolsTools,
-    PerformToolAction,
+    DevToolsDiagnostics, DevToolsLocation, DevToolsSettings, DevToolsState, DevToolsTabs,
+    DevToolsTools, PerformToolAction,
 };
 
 pub struct DevToolsPlugin;
@@ -22,6 +22,7 @@ impl Plugin for DevToolsPlugin {
         app.init_resource::<DevToolsTools>()
             .init_resource::<DevToolsSettings>()
             .init_resource::<DevToolsDiagnostics>()
+            .init_resource::<DevToolsTabs>()
             .insert_resource(DevToolsState {
                 location: DevToolsLocation::Window,
                 toggle_key: KeyCode::F11,

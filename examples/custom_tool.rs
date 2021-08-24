@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_devtools::{egui::Ui, DevTool, DevToolsExt, DevToolsSettings, DevToolsTab};
+use bevy_devtools::{egui::Ui, DevTool, DevToolsExt, DevToolsSettings};
 
 mod utils;
 
@@ -8,7 +8,7 @@ fn main() {
         .add_plugin(utils::ExamplePlugin)
         .add_plugin(bevy_devtools::DevToolsPlugin)
         .devtools_enabled()
-        .devtools_active_tab(DevToolsTab::Tools)
+        .devtools_active_tab(2)
         .devtools_tool(DevTool {
             label: Some("This tool is useless".into()),
             name: "blank_tool".into(),

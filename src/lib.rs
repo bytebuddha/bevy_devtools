@@ -11,15 +11,14 @@ pub use puffin::profile_scope;
 
 #[macro_use]
 pub(crate) mod helpers;
-pub(crate) mod consts;
 pub(crate) mod draw;
 pub(crate) mod systems;
 
-pub use self::helpers::DevToolsExt;
-pub use self::helpers::DevToolsTab;
-
 mod plugin;
 pub use self::plugin::DevToolsPlugin;
+
+mod app;
+pub use self::app::DevToolsExt;
 
 mod tools;
 pub use self::tools::{DevTool, DevToolsTools, PerformToolAction};
@@ -29,6 +28,9 @@ pub use self::settings::{DevToolsSetting, DevToolsSettings, SettingValue};
 
 mod state;
 pub use self::state::{DevToolsLocation, DevToolsState};
+
+mod tabs;
+pub use self::tabs::{DevToolsTab, DevToolsTabs};
 
 mod diagnostics;
 pub use self::diagnostics::{DevToolsDiagnostics, DiagnosticDisplay, DiagnosticGroup};

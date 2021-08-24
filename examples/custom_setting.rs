@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_devtools::{DevToolsExt, DevToolsSetting, DevToolsTab, SettingValue};
+use bevy_devtools::{DevToolsExt, DevToolsSetting, SettingValue};
 
 mod utils;
 
@@ -8,7 +8,7 @@ fn main() {
         .add_plugin(utils::ExamplePlugin)
         .add_plugin(bevy_devtools::DevToolsPlugin)
         .devtools_enabled()
-        .devtools_active_tab(DevToolsTab::Settings)
+        .devtools_active_tab(3)
         .devtools_setting(DevToolsSetting {
             hidden: false,
             name: "custom_setting".into(),

@@ -8,9 +8,9 @@ pub enum DevToolsLocation {
 }
 
 pub struct DevToolsState {
+    pub active_tab: usize,
     pub location: DevToolsLocation,
     pub history: crate::helpers::History,
-    pub active_tab: crate::helpers::DevToolsTab,
     pub toggle_key: KeyCode,
     #[cfg(feature = "puffin")]
     pub profiler_key: KeyCode,

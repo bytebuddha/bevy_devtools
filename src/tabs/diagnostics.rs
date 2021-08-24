@@ -1,10 +1,14 @@
+use crate::{bevy_egui::EguiContext, egui::Ui, DevToolsDiagnostics, DiagnosticGroup};
 use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
-use bevy_inspector_egui::egui::Ui;
 
-use crate::{DevToolsDiagnostics, DiagnosticGroup};
+use super::DevToolsTab;
 
-pub fn handle_diagnostics(ui: &mut Ui, world: &mut World) {
+pub fn tab() -> DevToolsTab {
+    DevToolsTab::new("🔍").render(draw)
+}
+
+pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
     #[cfg(feature = "puffin")]
     puffin_profiler::profile_function!();
     let devtools_diagnostics = ignore_none_error!(

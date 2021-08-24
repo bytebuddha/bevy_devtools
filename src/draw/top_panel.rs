@@ -49,7 +49,7 @@ pub fn top_panel(ui: &mut Ui, world: &mut World) {
         ui.separator();
         ui.add(
             Plot::new("fps-plot")
-                .include_x(crate::consts::HISTORY_LENGTH as f32)
+                .include_x(100.0)
                 .height(50.0)
                 .show_x(false)
                 .line(Line::new(Values::from_values(
