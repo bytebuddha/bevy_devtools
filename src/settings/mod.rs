@@ -57,10 +57,13 @@ impl DevToolsSettings {
 
 impl Default for DevToolsSettings {
     fn default() -> DevToolsSettings {
-        DevToolsSettings(vec![
-            DevToolsSetting::new_labeled("devtools", "DevTools").set_value_group(vec![
+        DevToolsSettings(vec![DevToolsSetting::new_labeled("devtools", "DevTools")
+            .set_value_group(vec![
                 DevToolsSetting::new_labeled("enabled", "Enabled"),
                 DevToolsSetting::new_labeled("always-visible", "Always Visible"),
+                DevToolsSetting::new_labeled("active_tab", "Active Tab")
+                    .hidden(true)
+                    .set_value_integer(1),
                 DevToolsSetting::new_labeled("settings", "Settings").set_value_group(vec![
                     DevToolsSetting::new_labeled("show-hidden", "Show hidden"),
                 ]),
@@ -89,17 +92,6 @@ impl Default for DevToolsSettings {
                         DevToolsSetting::new_labeled("dot-render-graph", "Render Graph")
                             .set_value_string("render-graph.dot"),
                     ]),
-            ]),
-            #[cfg(feature = "puffin")]
-            DevToolsSetting::new_labeled("puffin", "Profiler")
-                .set_value_group(vec![DevToolsSetting::new_labeled("enabled", "Enabled")]),
-            #[cfg(feature = "rapier3d")]
-            DevToolsSetting::new_labeled("rapier", "Rapier").set_value_group(vec![
-                DevToolsSetting::new_labeled("physics_pipeline_active", "Physics Pipeline Active")
-                    .set_value_bool(true),
-                DevToolsSetting::new_labeled("query_pipeline_active", "Query Pipeline Active")
-                    .set_value_bool(true),
-            ]),
-        ])
+            ])])
     }
 }

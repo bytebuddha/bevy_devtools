@@ -5,6 +5,7 @@ pub enum SettingValue {
     Bool(bool),
     String(String),
     Float(f32),
+    Integer(i32),
     Group(Vec<DevToolsSetting>),
 }
 
@@ -53,6 +54,20 @@ impl SettingValue {
     }
     pub fn as_float_mut(&mut self) -> Option<&mut f32> {
         if let SettingValue::Float(ref mut value) = self {
+            Some(value)
+        } else {
+            None
+        }
+    }
+    pub fn as_integer(&self) -> Option<i32> {
+        if let SettingValue::Integer(value) = self {
+            Some(*value)
+        } else {
+            None
+        }
+    }
+    pub fn as_integer_mut(&mut self) -> Option<&mut i32> {
+        if let SettingValue::Integer(ref mut value) = self {
             Some(value)
         } else {
             None

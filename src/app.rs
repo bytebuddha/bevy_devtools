@@ -1,18 +1,13 @@
 use bevy::app::AppBuilder;
-use bevy::input::keyboard::KeyCode;
 
 use crate::{
-    DevTool, DevToolsDiagnostics, DevToolsLocation, DevToolsSetting, DevToolsSettings,
-    DevToolsState, DevToolsTab, DevToolsTabs, DevToolsTools, DiagnosticGroup,
+    DevTool, DevToolsDiagnostics, DevToolsSetting, DevToolsSettings, DevToolsTab, DevToolsTabs,
+    DevToolsTools, DiagnosticGroup,
 };
 
 pub trait DevToolsExt {
     fn devtools_enabled(&mut self) -> &mut AppBuilder;
     fn devtools_active_tab(&mut self, _: usize) -> &mut AppBuilder;
-    fn devtools_toggle_key(&mut self, _: KeyCode) -> &mut AppBuilder;
-    fn devtools_location(&mut self, _: DevToolsLocation) -> &mut AppBuilder;
-    #[cfg(feature = "puffin")]
-    fn devtools_profiler_key(&mut self, _: KeyCode) -> &mut AppBuilder;
 
     fn devtools_tab(&mut self, tab: DevToolsTab) -> &mut AppBuilder;
     fn devtools_tool(&mut self, tool: DevTool) -> &mut AppBuilder;
@@ -45,32 +40,15 @@ impl<'a> DevToolsExt for &'a mut AppBuilder {
         self
     }
     fn devtools_active_tab(&mut self, tab: usize) -> &mut AppBuilder {
-        self.world_mut()
-            .get_resource_mut::<DevToolsState>()
-            .unwrap()
-            .active_tab = tab;
-        self
-    }
-    fn devtools_toggle_key(&mut self, key: KeyCode) -> &mut AppBuilder {
-        self.world_mut()
-            .get_resource_mut::<DevToolsState>()
-            .unwrap()
-            .toggle_key = key;
-        self
-    }
-    #[cfg(feature = "puffin")]
-    fn devtools_profiler_key(&mut self, key: KeyCode) -> &mut AppBuilder {
-        self.world_mut()
-            .get_resource_mut::<DevToolsState>()
-            .unwrap()
-            .profiler_key = key;
-        self
-    }
-    fn devtools_location(&mut self, location: DevToolsLocation) -> &mut AppBuilder {
-        self.world_mut()
-            .get_resource_mut::<DevToolsState>()
-            .unwrap()
-            .location = location;
+        let mut settings = self
+            .world_mut()
+            .get_resource_mut::<DevToolsSettings>()
+            .unwrap();
+        if let Some(setting) = settings.get_key_mut(&["devtools", "active_tab"]) {
+            if let Some(num) = setting.value.as_integer_mut() {
+                *num = tab as i32;
+            }
+        }
         self
     }
     fn devtools_tab(&mut self, tab: DevToolsTab) -> &mut AppBuilder {

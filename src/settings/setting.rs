@@ -23,6 +23,11 @@ impl DevToolsSetting {
             ..Default::default()
         }
     }
+
+    pub fn hidden(mut self, b: bool) -> DevToolsSetting {
+        self.hidden = b;
+        self
+    }
 }
 
 // Setter Methods
@@ -54,6 +59,10 @@ impl DevToolsSetting {
 
     pub fn set_value_float(mut self, b: f32) -> DevToolsSetting {
         self.value = SettingValue::Float(b);
+        self
+    }
+    pub fn set_value_integer(mut self, b: i32) -> DevToolsSetting {
+        self.value = SettingValue::Integer(b);
         self
     }
 }
@@ -88,19 +97,15 @@ impl DevToolsSetting {
 
     pub fn get_group(&self) -> Option<&[DevToolsSetting]> {
         match &self.value {
-            SettingValue::Bool(_) => None,
-            SettingValue::String(_) => None,
-            SettingValue::Float(_) => None,
             SettingValue::Group(children) => Some(children),
+            _ => None,
         }
     }
 
     pub fn get_group_mut(&mut self) -> Option<&mut [DevToolsSetting]> {
         match &mut self.value {
-            SettingValue::Bool(_) => None,
-            SettingValue::String(_) => None,
-            SettingValue::Float(_) => None,
             SettingValue::Group(children) => Some(children),
+            _ => None,
         }
     }
 }

@@ -1,38 +1,13 @@
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
-use bevy_inspector_egui::bevy_egui::{
-    egui::widgets::plot::{Line, Plot, Value, Values},
-    egui::Ui,
-};
-
-use crate::DevToolsState;
+use bevy_inspector_egui::bevy_egui::egui::Ui;
 
 pub fn top_panel(ui: &mut Ui, world: &mut World) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
-    let fps = {
-        let fps = {
-            let diagnostics = ignore_none_error!(
-                world.get_resource::<Diagnostics>(),
-                "Failed to get Diagnostics resource"
-            );
-            diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FPS)
-        };
-        let mut resources = ignore_none_error!(
-            world.get_resource_mut::<DevToolsState>(),
-            "Failed to get DevToolsState resource"
-        );
-        resources.history.push_fps(fps);
-        fps
-    };
     let diagnostics = ignore_none_error!(
         world.get_resource::<Diagnostics>(),
         "Failed to get Diagnostics resource"
     );
-    let resources = ignore_none_error!(
-        world.get_resource::<DevToolsState>(),
-        "Failed to get DevToolsState resource"
-    );
+    let fps = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FPS);
     let avg = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FRAME_TIME);
     let count = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FRAME_COUNT);
     ui.group(|ui| {
@@ -45,25 +20,5 @@ pub fn top_panel(ui: &mut Ui, world: &mut World) {
             ui[1].with_layout(layout, |ui| ui.label(format!("AVG:{:.4}", avg.abs())));
             ui[2].with_layout(layout, |ui| ui.label(format!("Count:{}", count.abs())));
         });
-        ui.end_row();
-        ui.separator();
-        ui.add(
-            Plot::new("fps-plot")
-                .include_x(100.0)
-                .height(50.0)
-                .show_x(false)
-                .line(Line::new(Values::from_values(
-                    resources
-                        .history
-                        .fps
-                        .iter()
-                        .enumerate()
-                        .map(|(x, y)| Value {
-                            x: x as f64,
-                            y: *y as f64,
-                        })
-                        .collect::<Vec<Value>>(),
-                ))),
-        );
     });
 }

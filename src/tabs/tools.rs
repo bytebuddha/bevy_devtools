@@ -10,8 +10,6 @@ pub fn tab() -> super::DevToolsTab {
 }
 
 pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
     let world_ptr = world as *mut _;
     let devtools_tools = ignore_none_error!(
         world.get_resource::<DevToolsTools>(),
@@ -38,8 +36,6 @@ pub fn display_tool(
     tool: &DevTool,
     tool_actions: &mut Events<PerformToolAction>,
 ) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
     ui.group(|ui| {
         if tool.perform.is_some() {
             ui.columns(2, |ui| {

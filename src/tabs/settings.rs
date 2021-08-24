@@ -9,8 +9,6 @@ pub fn tab() -> super::DevToolsTab {
 }
 
 fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
     let show_hidden = {
         let mut show_hidden = false;
         let settings = ignore_none_error!(
@@ -42,8 +40,6 @@ fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
 }
 
 pub fn display_setting(ui: &mut Ui, setting: &mut DevToolsSetting, force: bool) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
     let label = setting.label.as_ref().unwrap_or(&setting.name);
     match &mut setting.value {
         SettingValue::Group(group) => {
@@ -60,6 +56,13 @@ pub fn display_setting(ui: &mut Ui, setting: &mut DevToolsSetting, force: bool) 
         }
         SettingValue::Float(ref mut float) => {
             let value = DragValue::new(float).speed(0.1);
+            ui.horizontal(|ui| {
+                ui.label(label);
+                ui.add(value);
+            });
+        }
+        SettingValue::Integer(ref mut integer) => {
+            let value = DragValue::new(integer).speed(1.0);
             ui.horizontal(|ui| {
                 ui.label(label);
                 ui.add(value);

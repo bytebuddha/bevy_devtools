@@ -9,8 +9,6 @@ pub fn tab() -> DevToolsTab {
 }
 
 pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
     let devtools_diagnostics = ignore_none_error!(
         world.get_resource::<DevToolsDiagnostics>(),
         "Failed to get DevToolDiagnostics resource"
@@ -25,8 +23,6 @@ pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
 }
 
 pub fn display_diagnostic(ui: &mut Ui, diagnostics: &Diagnostics, group: &DiagnosticGroup) {
-    #[cfg(feature = "puffin")]
-    puffin_profiler::profile_function!();
     ui.group(|ui| {
         ui.heading(group.label());
         ui.end_row();
