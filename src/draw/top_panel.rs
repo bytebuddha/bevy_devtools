@@ -12,13 +12,9 @@ pub fn top_panel(ui: &mut Ui, world: &mut World) {
     let count = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FRAME_COUNT);
     ui.group(|ui| {
         ui.columns(3, |ui| {
-            let layout = crate::egui::Layout::from_main_dir_and_cross_align(
-                crate::egui::Direction::TopDown,
-                crate::egui::Align::Center,
-            );
-            ui[0].with_layout(layout, |ui| ui.label(format!("FPS:{:.0}", fps.abs())));
-            ui[1].with_layout(layout, |ui| ui.label(format!("AVG:{:.4}", avg.abs())));
-            ui[2].with_layout(layout, |ui| ui.label(format!("Count:{}", count.abs())));
+            ui[0].label(format!("FPS:{:.0}", fps.abs()));
+            ui[1].label(format!("AVG:{:.4}", avg.abs()));
+            ui[2].label(format!("Count:{}", count.abs()));
         });
     });
 }

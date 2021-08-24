@@ -60,9 +60,8 @@ impl Default for DevToolsSettings {
         DevToolsSettings(vec![DevToolsSetting::new_labeled("devtools", "DevTools")
             .set_value_group(vec![
                 DevToolsSetting::new_labeled("enabled", "Enabled"),
-                DevToolsSetting::new_labeled("always-visible", "Always Visible"),
                 DevToolsSetting::new_labeled("active_tab", "Active Tab")
-                    .hidden(true)
+                    .set_hidden(true)
                     .set_value_integer(1),
                 DevToolsSetting::new_labeled("settings", "Settings").set_value_group(vec![
                     DevToolsSetting::new_labeled("show-hidden", "Show hidden"),

@@ -32,17 +32,15 @@ fn draw(ctx: &EguiContext, ui: &mut egui::Ui, world: &mut World) {
 }
 
 pub fn apply_settings(params: &mut WorldInspectorParams, settings: &DevToolsSettings) {
-    if let Some(setting) = settings.get_key(&["devtools"]) {
-        if let Some(child) = setting.get_named_child("world") {
-            if let Some(group) = child.get_group() {
-                for child in group {
-                    if let Some(value) = child.value.as_bool() {
-                        if child.name == "despawnable" && params.despawnable_entities != value {
-                            params.despawnable_entities = value;
-                        }
-                        if child.name == "sort" && params.sort_components != value {
-                            params.sort_components = value;
-                        }
+    if let Some(setting) = settings.get_key(&["devtools", "world"]) {
+        if let Some(group) = setting.get_group() {
+            for child in group {
+                if let Some(value) = child.value.as_bool() {
+                    if child.name == "despawnable" && params.despawnable_entities != value {
+                        params.despawnable_entities = value;
+                    }
+                    if child.name == "sort" && params.sort_components != value {
+                        params.sort_components = value;
                     }
                 }
             }

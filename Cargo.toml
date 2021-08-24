@@ -4,8 +4,7 @@ version = "0.1.0"
 edition = "2018"
 
 [features]
-default = ["wgpu", "debugdump"]
-wgpu = ["bevy/bevy_wgpu"]
+default = ["debugdump"]
 debugdump = ["bevy_mod_debugdump"]
 rapier3d = ["bevy_rapier3d", "bevy-inspector-egui/rapier"]
 rapier2d = ["bevy_rapier2d", "bevy-inspector-egui/rapier2d"]

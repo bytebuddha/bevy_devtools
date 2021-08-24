@@ -5,11 +5,11 @@ use crate::DevToolsSettings;
 
 pub fn apply_ui_settings(context: ResMut<EguiContext>, settings: Res<DevToolsSettings>) {
     let ctx = context.ctx();
-    let mut style = (*context.ctx().style()).clone();
     if let Some(setting) = settings.get_key(&["devtools", "gui"]) {
         if let Some(group) = setting.get_group() {
             for child in group {
                 if let Some(value) = child.value.as_bool() {
+                    let mut style = (*context.ctx().style()).clone();
                     if child.name == "widgets-hover" {
                         style.debug.debug_on_hover = value;
                     }
@@ -22,6 +22,7 @@ pub fn apply_ui_settings(context: ResMut<EguiContext>, settings: Res<DevToolsSet
                     if child.name == "show-resize" {
                         style.debug.show_resize = value;
                     }
+                    ctx.set_style(style);
                 } else {
                     warn!("Settings field `{}` expected Bool type", child.name)
                 }
@@ -32,5 +33,4 @@ pub fn apply_ui_settings(context: ResMut<EguiContext>, settings: Res<DevToolsSet
     } else {
         warn!("Unable to find settings key `devtools -> gui`");
     }
-    ctx.set_style(style);
 }

@@ -40,11 +40,12 @@ pub fn display_tool(
         if tool.perform.is_some() {
             ui.columns(2, |ui| {
                 ui[0].heading(tool.label());
-                if let Some(icon) = tool.perform_icon.as_ref() {
-                    if ui[1].small_button(icon).clicked() {
-                        tool_actions.send(PerformToolAction(tool.clone()));
-                    }
-                } else if ui[1].small_button("Perform").clicked() {
+                let label = tool
+                    .perform_icon
+                    .as_ref()
+                    .map(|x| x.as_str())
+                    .unwrap_or("Perform");
+                if ui[1].small_button(label).clicked() {
                     tool_actions.send(PerformToolAction(tool.clone()));
                 }
             });

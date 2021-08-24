@@ -8,14 +8,14 @@ mod top_panel;
 
 pub fn draw_debug_ui(world: &mut World) {
     let world_ptr = world as *mut _;
-    let (enabled, always, active) = get_display_settings(world);
+    let (enabled, active) = get_display_settings(world);
 
     let egui_context = world.get_resource::<EguiContext>().expect("EguiContext");
     let ctx = egui_context.ctx();
 
-    if enabled || always {
+    if enabled {
         egui::Window::new("DevTools")
-            .enabled(enabled || !always)
+            .enabled(enabled)
             .collapsible(true)
             .resizable(true)
             .show(ctx, |ui| {
@@ -24,21 +24,15 @@ pub fn draw_debug_ui(world: &mut World) {
     }
 }
 
-fn get_display_settings(world: &World) -> (bool, bool, usize) {
+fn get_display_settings(world: &World) -> (bool, usize) {
     let settings = world
         .get_resource::<DevToolsSettings>()
         .expect("Failed to get DevToolsSettings resource");
-    let mut always_visible = false;
     let mut enabled = false;
     let mut active_tab = 0;
     if let Some(setting) = settings.get_key(&["devtools"]) {
         if let Some(group) = setting.get_group() {
             for child in group {
-                if child.name == "always-visible" {
-                    if let SettingValue::Bool(value) = child.value {
-                        always_visible = value;
-                    }
-                }
                 if child.name == "enabled" {
                     if let SettingValue::Bool(value) = child.value {
                         enabled = value;
@@ -56,7 +50,7 @@ fn get_display_settings(world: &World) -> (bool, bool, usize) {
     } else {
         warn!("Settings key devtools was not found");
     }
-    (enabled, always_visible, active_tab as usize)
+    (enabled, active_tab as usize)
 }
 
 fn draw_devtools(

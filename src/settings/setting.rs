@@ -23,17 +23,17 @@ impl DevToolsSetting {
             ..Default::default()
         }
     }
-
-    pub fn hidden(mut self, b: bool) -> DevToolsSetting {
-        self.hidden = b;
-        self
-    }
 }
 
 // Setter Methods
 impl DevToolsSetting {
     pub fn set_hidden(mut self, b: bool) -> DevToolsSetting {
         self.hidden = b;
+        self
+    }
+
+    pub fn set_label<S: Into<String>>(mut self, label: S) -> DevToolsSetting {
+        self.label = Some(label.into());
         self
     }
 

@@ -1,5 +1,4 @@
 use bevy::diagnostic::Diagnostics;
-use bevy::prelude::*;
 use bevy::wgpu::diagnostic::WgpuResourceDiagnosticsPlugin;
 use bevy_inspector_egui::egui::Ui;
 
@@ -14,15 +13,12 @@ pub fn group() -> DiagnosticGroup {
                 name: None,
                 data: vec![
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_bind_groups,
                     },
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_bind_group_ids,
                     },
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_bind_group_layouts,
                     },
                 ],
@@ -31,11 +27,9 @@ pub fn group() -> DiagnosticGroup {
                 name: None,
                 data: vec![
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_buffers,
                     },
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_render_pipelines,
                     },
                 ],
@@ -44,11 +38,9 @@ pub fn group() -> DiagnosticGroup {
                 name: None,
                 data: vec![
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_samplers,
                     },
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_shader_modules,
                     },
                 ],
@@ -57,11 +49,9 @@ pub fn group() -> DiagnosticGroup {
                 name: None,
                 data: vec![
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_wgpu_swapchains,
                     },
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_wgpu_textures,
                     },
                 ],
@@ -70,21 +60,15 @@ pub fn group() -> DiagnosticGroup {
                 name: None,
                 data: vec![
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_wgpu_textures_views,
                     },
                     DiagnosticDisplay {
-                        build: build_wgpu,
                         render: render_wgpu_surfaces,
                     },
                 ],
             },
         ],
     }
-}
-
-fn build_wgpu(app: &mut AppBuilder) {
-    app.add_plugin(WgpuResourceDiagnosticsPlugin);
 }
 
 fn render_bind_groups(ui: &mut Ui, diagnostics: &Diagnostics) {
