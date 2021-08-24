@@ -25,13 +25,13 @@ impl Plugin for DevToolsPlugin {
             .add_plugin(DiagnosticsPlugin)
             .add_plugin(FrameTimeDiagnosticsPlugin)
             .add_plugin(bevy_inspector_egui::bevy_egui::EguiPlugin)
-            .add_system(crate::draw::draw_debug_ui.exclusive_system())
-            .add_system(crate::systems::perform_tool_action.exclusive_system())
             .add_plugin(AssetCountDiagnosticsPlugin::<StandardMaterial>::default())
             .add_plugin(AssetCountDiagnosticsPlugin::<ColorMaterial>::default())
             .add_plugin(AssetCountDiagnosticsPlugin::<Texture>::default())
             .add_plugin(EntityCountDiagnosticsPlugin)
             .add_plugin(WgpuResourceDiagnosticsPlugin)
+            .add_system(crate::draw::draw_debug_ui.exclusive_system())
+            .add_system(crate::systems::perform_tool_action.exclusive_system())
             .add_system_to_stage(
                 EguiStage::UiFrameEnd,
                 crate::systems::apply_ui_settings.system(),
