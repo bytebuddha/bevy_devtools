@@ -4,6 +4,9 @@ mod rotates;
 
 mod spawn;
 
+mod fps;
+pub use self::fps::FPSHistory;
+
 pub struct ExamplePlugin;
 
 impl Plugin for ExamplePlugin {

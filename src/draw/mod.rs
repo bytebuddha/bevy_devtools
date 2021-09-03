@@ -62,7 +62,11 @@ fn draw_devtools(
     let world: &mut World = unsafe { &mut *world_ptr };
     let panels = world.get_resource::<crate::panels::DevToolsPanels>().unwrap();
     let world: &mut World = unsafe { &mut *world_ptr };
-    top_panel::top_panel(ui, world);
+    if let Some(res) = world.get_resource::<crate::DevToolsTopPanel>() {
+        (res.0)(ui, world);
+    } else {
+        top_panel::top_panel(ui, world);
+    }
     tab_bar::tab_bar(ui, world, panels);
     ui.end_row();
 

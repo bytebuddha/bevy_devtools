@@ -9,6 +9,7 @@ pub trait DevToolsExt {
     fn devtools_enabled(&mut self) -> &mut AppBuilder;
     fn devtools_active_panel(&mut self, _: usize) -> &mut AppBuilder;
 
+    fn devtools_top_panel(&mut self, func: fn(&mut crate::egui::Ui, &mut bevy::prelude::World)) -> &mut AppBuilder;
     fn devtools_panel(&mut self, panel: DevToolsPanel) -> &mut AppBuilder;
     fn devtools_tool(&mut self, tool: DevTool) -> &mut AppBuilder;
     fn devtools_setting(&mut self, setting: DevToolsSetting) -> &mut AppBuilder;
@@ -49,6 +50,10 @@ impl<'a> DevToolsExt for &'a mut AppBuilder {
                 *num = panel as i32;
             }
         }
+        self
+    }
+    fn devtools_top_panel(&mut self, func: fn(&mut crate::egui::Ui, &mut bevy::prelude::World)) -> &mut AppBuilder {
+        self.world_mut().insert_resource(crate::DevToolsTopPanel(func));
         self
     }
     fn devtools_panel(&mut self, panel: DevToolsPanel) -> &mut AppBuilder {

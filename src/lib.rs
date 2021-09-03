@@ -24,3 +24,5 @@ pub use self::panels::{DevToolsPanel, DevToolsPanels};
 
 mod diagnostics;
 pub use self::diagnostics::{DevToolsDiagnostics, DiagnosticDisplay, DiagnosticGroup};
+
+pub struct DevToolsTopPanel(pub fn(&mut egui::Ui, &mut bevy::prelude::World));
