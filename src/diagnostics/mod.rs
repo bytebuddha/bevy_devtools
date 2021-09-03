@@ -6,7 +6,7 @@ mod ecs;
 
 mod wgpu;
 
-pub struct DevToolsDiagnostics(pub Vec<DiagnosticGroup>);
+pub struct DiagnosticPanel(pub Vec<DiagnosticGroup>);
 
 pub struct DiagnosticGroup {
     pub name: String,
@@ -29,8 +29,8 @@ pub struct DiagnosticDisplay {
     pub render: fn(&mut Ui, &Diagnostics),
 }
 
-impl Default for DevToolsDiagnostics {
-    fn default() -> DevToolsDiagnostics {
-        DevToolsDiagnostics(vec![ecs::group(), assets::group(), wgpu::group()])
+impl Default for DiagnosticPanel {
+    fn default() -> DiagnosticPanel {
+        DiagnosticPanel(vec![ecs::group(), assets::group(), wgpu::group()])
     }
 }

@@ -5,10 +5,10 @@ use bevy_inspector_egui::egui::Ui;
 use std::fs::File;
 use std::io::Write;
 
-use crate::{DevTool, SettingValue};
+use crate::{Tool, SettingValue};
 
-pub fn tool() -> DevTool {
-    DevTool {
+pub fn tool() -> Tool {
+    Tool {
         name: "dot-render-graph".into(),
         label: Some("Render Graph".into()),
         perform: Some(perform),
@@ -17,7 +17,7 @@ pub fn tool() -> DevTool {
     }
 }
 
-pub fn render(ui: &mut Ui, settings: &mut crate::DevToolsSettings) {
+pub fn render(ui: &mut Ui, settings: &mut crate::Settings) {
     if let Some(setting) = settings.get_key_mut(&["devtools", "tools", "dot-render-graph"]) {
         if let Some(value) = setting.value.as_string_mut() {
             ui.text_edit_singleline(value);
@@ -31,8 +31,8 @@ pub fn render(ui: &mut Ui, settings: &mut crate::DevToolsSettings) {
 
 pub fn perform(world: &mut World) {
     let settings = ignore_none_error!(
-        world.get_resource::<crate::DevToolsSettings>(),
-        "Failed to get DevToolsSettings resource"
+        world.get_resource::<crate::Settings>(),
+        "Failed to get Settings resource"
     );
     let setting = ignore_none_error!(
         settings.get_key(&["devtools", "tools", "dot-render-graph"]),

@@ -7,11 +7,11 @@ mod settings;
 mod tools;
 mod world;
 
-pub struct DevToolsPanels(pub Vec<DevToolsPanel>);
+pub struct Panels(pub Vec<Panel>);
 
-impl Default for DevToolsPanels {
-    fn default() -> DevToolsPanels {
-        DevToolsPanels(vec![
+impl Default for Panels {
+    fn default() -> Panels {
+        Panels(vec![
             diagnostics::panel(),
             world::panel(),
             tools::panel(),
@@ -20,20 +20,20 @@ impl Default for DevToolsPanels {
     }
 }
 
-pub struct DevToolsPanel {
+pub struct Panel {
     pub icon: String,
     pub render: fn(&EguiContext, &mut Ui, &mut World),
 }
 
-impl DevToolsPanel {
-    pub fn new<S: Into<String>>(icon: S) -> DevToolsPanel {
-        DevToolsPanel {
+impl Panel {
+    pub fn new<S: Into<String>>(icon: S) -> Panel {
+        Panel {
             icon: icon.into(),
             render: empty_render,
         }
     }
 
-    pub fn render(mut self, f: fn(&EguiContext, &mut Ui, &mut World)) -> DevToolsPanel {
+    pub fn render(mut self, f: fn(&EguiContext, &mut Ui, &mut World)) -> Panel {
         self.render = f;
         self
     }

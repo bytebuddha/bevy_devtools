@@ -1,4 +1,4 @@
-use crate::DevToolsSetting;
+use crate::Setting;
 
 #[derive(Debug, Clone)]
 pub enum SettingValue {
@@ -6,7 +6,7 @@ pub enum SettingValue {
     String(String),
     Float(f32),
     Integer(i32),
-    Group(Vec<DevToolsSetting>),
+    Group(Vec<Setting>),
 }
 
 impl Default for SettingValue {

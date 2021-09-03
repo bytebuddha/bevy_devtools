@@ -5,29 +5,29 @@ use bevy_inspector_egui::egui::Ui;
 mod render_graph;
 mod save_world;
 
-pub struct PerformToolAction(pub DevTool);
+pub struct PerformToolAction(pub Tool);
 
 #[derive(Clone)]
-pub struct DevToolsTools(pub Vec<DevTool>);
+pub struct Tools(pub Vec<Tool>);
 
 #[derive(Clone)]
-pub struct DevTool {
+pub struct Tool {
     pub name: String,
     pub perform_icon: Option<String>,
     pub label: Option<String>,
-    pub render: fn(&mut Ui, &mut crate::DevToolsSettings),
+    pub render: fn(&mut Ui, &mut crate::Settings),
     pub perform: Option<fn(&mut World)>,
 }
 
-impl DevTool {
+impl Tool {
     pub fn label(&self) -> &str {
         self.label.as_ref().unwrap_or(&self.name)
     }
 }
 
-impl Default for DevToolsTools {
-    fn default() -> DevToolsTools {
-        DevToolsTools(vec![
+impl Default for Tools {
+    fn default() -> Tools {
+        Tools(vec![
             save_world::tool(),
             #[cfg(feature = "debugdump")]
             render_graph::tool(),

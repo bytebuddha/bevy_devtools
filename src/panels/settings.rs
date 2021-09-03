@@ -2,18 +2,18 @@ use crate::bevy_egui::EguiContext;
 use crate::egui::{DragValue, Ui};
 use bevy::prelude::*;
 
-use crate::{DevToolsSetting, DevToolsSettings, SettingValue};
+use crate::{Setting, Settings, SettingValue};
 
-pub fn panel() -> super::DevToolsPanel {
-    super::DevToolsPanel::new("⚙").render(draw)
+pub fn panel() -> super::Panel {
+    super::Panel::new("⚙").render(draw)
 }
 
 fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
     let show_hidden = {
         let mut show_hidden = false;
         let settings = ignore_none_error!(
-            world.get_resource::<DevToolsSettings>(),
-            "Failed to get DevToolsSettings resource"
+            world.get_resource::<Settings>(),
+            "Failed to get Settings resource"
         );
         let setting = ignore_none_error!(
             settings.get_key(&["devtools", "settings", "show-hidden"]),
@@ -25,8 +25,8 @@ fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
         show_hidden
     };
     let mut settings = ignore_none_error!(
-        world.get_resource_mut::<DevToolsSettings>(),
-        "Failed to get DevToolsSettings resource"
+        world.get_resource_mut::<Settings>(),
+        "Failed to get Settings resource"
     );
     if show_hidden {
         for setting in settings.0.iter_mut() {
@@ -39,7 +39,7 @@ fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
     }
 }
 
-pub fn display_setting(ui: &mut Ui, setting: &mut DevToolsSetting, force: bool) {
+pub fn display_setting(ui: &mut Ui, setting: &mut Setting, force: bool) {
     let label = setting.label.as_ref().unwrap_or(&setting.name);
     match &mut setting.value {
         SettingValue::Group(group) => {

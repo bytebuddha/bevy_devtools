@@ -1,6 +1,7 @@
 #[derive(Default)]
 pub struct FPSHistory(pub Vec<f64>);
 
+#[allow(dead_code)]
 impl FPSHistory {
 
     pub fn push_fps(&mut self, fps: f64, max: usize) {

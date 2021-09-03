@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::{egui, EguiContext};
 
-use crate::{DevToolsSettings, SettingValue};
+use crate::{Settings, SettingValue};
 
 mod tab_bar;
 mod top_panel;
@@ -26,8 +26,8 @@ pub fn draw_debug_ui(world: &mut World) {
 
 fn get_display_settings(world: &World) -> (bool, usize) {
     let settings = world
-        .get_resource::<DevToolsSettings>()
-        .expect("Failed to get DevToolsSettings resource");
+        .get_resource::<Settings>()
+        .expect("Failed to get Settings resource");
     let mut enabled = false;
     let mut active_panel = 0;
     if let Some(setting) = settings.get_key(&["devtools"]) {
@@ -60,9 +60,9 @@ fn draw_devtools(
     world_ptr: *mut World,
 ) {
     let world: &mut World = unsafe { &mut *world_ptr };
-    let panels = world.get_resource::<crate::panels::DevToolsPanels>().unwrap();
+    let panels = world.get_resource::<crate::panels::Panels>().unwrap();
     let world: &mut World = unsafe { &mut *world_ptr };
-    if let Some(res) = world.get_resource::<crate::DevToolsTopPanel>() {
+    if let Some(res) = world.get_resource::<crate::TopPanel>() {
         (res.0)(ui, world);
     } else {
         top_panel::top_panel(ui, world);

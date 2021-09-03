@@ -1,17 +1,17 @@
-use crate::{bevy_egui::EguiContext, egui::Ui, DevToolsDiagnostics, DiagnosticGroup};
+use crate::{bevy_egui::EguiContext, egui::Ui, DiagnosticPanel, DiagnosticGroup};
 use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
 
-use super::DevToolsPanel;
+use super::Panel;
 
-pub fn panel() -> DevToolsPanel {
-    DevToolsPanel::new("🔍").render(draw)
+pub fn panel() -> Panel {
+    Panel::new("🔍").render(draw)
 }
 
 pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
     let devtools_diagnostics = ignore_none_error!(
-        world.get_resource::<DevToolsDiagnostics>(),
-        "Failed to get DevToolDiagnostics resource"
+        world.get_resource::<DiagnosticPanel>(),
+        "Failed to get DiagnosticPanel resource"
     );
     let diagnostics = ignore_none_error!(
         world.get_resource::<Diagnostics>(),

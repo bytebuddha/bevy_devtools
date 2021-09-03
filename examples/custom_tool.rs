@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_devtools::{egui::Ui, DevTool, DevToolsExt, DevToolsSettings};
+use bevy_devtools::{egui::Ui, Tool, DevToolsExt, Settings};
 
 mod utils;
 
@@ -9,14 +9,14 @@ fn main() {
         .add_plugin(bevy_devtools::DevToolsPlugin)
         .devtools_enabled()
         .devtools_active_panel(2)
-        .devtools_tool(DevTool {
+        .devtools_tool(Tool {
             label: Some("This tool has no button".into()),
             name: "blank_tool".into(),
             perform_icon: None,
             perform: None,
             render: render_blank_tool,
         })
-        .devtools_tool(DevTool {
+        .devtools_tool(Tool {
             label: Some("Hello World".into()),
             name: "hello_tool".into(),
             perform_icon: Some("Hello".into()),
@@ -26,11 +26,11 @@ fn main() {
         .run()
 }
 
-fn render_blank_tool(ui: &mut Ui, _: &mut DevToolsSettings) {
+fn render_blank_tool(ui: &mut Ui, _: &mut Settings) {
     ui.label("Custom Tool");
 }
 
-fn render_hello_tool(ui: &mut Ui, _: &mut DevToolsSettings) {
+fn render_hello_tool(ui: &mut Ui, _: &mut Settings) {
     ui.label("Hello World Tool");
 }
 

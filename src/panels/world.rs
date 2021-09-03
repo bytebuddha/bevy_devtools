@@ -4,17 +4,17 @@ use bevy_inspector_egui::{
     world_inspector::{WorldInspectorParams, WorldUIContext},
 };
 
-use crate::DevToolsSettings;
+use crate::Settings;
 
-pub fn panel() -> super::DevToolsPanel {
-    super::DevToolsPanel::new("🗺").render(draw)
+pub fn panel() -> super::Panel {
+    super::Panel::new("🗺").render(draw)
 }
 
 fn draw(ctx: &EguiContext, ui: &mut egui::Ui, world: &mut World) {
     let world_ptr = world as *mut _;
     let settings = ignore_none_error!(
-        world.get_resource::<DevToolsSettings>(),
-        "Failed to get DevToolsSettings resource"
+        world.get_resource::<Settings>(),
+        "Failed to get Settings resource"
     );
     let world: &mut World = unsafe { &mut *world_ptr };
     let mut params = ignore_none_error!(
@@ -31,7 +31,7 @@ fn draw(ctx: &EguiContext, ui: &mut egui::Ui, world: &mut World) {
     });
 }
 
-pub fn apply_settings(params: &mut WorldInspectorParams, settings: &DevToolsSettings) {
+pub fn apply_settings(params: &mut WorldInspectorParams, settings: &Settings) {
     if let Some(setting) = settings.get_key(&["devtools", "world"]) {
         if let Some(group) = setting.get_group() {
             for child in group {

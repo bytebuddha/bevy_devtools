@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_devtools::{bevy_egui::EguiContext, egui::Ui, DevToolsExt, DevToolsPanel};
+use bevy_devtools::{bevy_egui::EguiContext, egui::Ui, DevToolsExt, Panel};
 
 mod utils;
 
@@ -9,7 +9,7 @@ fn main() {
         .add_plugin(bevy_devtools::DevToolsPlugin)
         .devtools_enabled()
         .devtools_active_panel(4)
-        .devtools_panel(DevToolsPanel::new("☺").render(draw_panel))
+        .devtools_panel(Panel::new("☺").render(draw_panel))
         .run()
 }
 

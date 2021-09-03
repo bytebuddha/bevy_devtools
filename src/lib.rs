@@ -14,15 +14,15 @@ mod app;
 pub use self::app::DevToolsExt;
 
 mod tools;
-pub use self::tools::{DevTool, DevToolsTools, PerformToolAction};
+pub use self::tools::{Tool, Tools, PerformToolAction};
 
 mod settings;
-pub use self::settings::{DevToolsSetting, DevToolsSettings, SettingValue};
+pub use self::settings::{Setting, Settings, SettingValue};
 
 mod panels;
-pub use self::panels::{DevToolsPanel, DevToolsPanels};
+pub use self::panels::{Panel, Panels};
 
 mod diagnostics;
-pub use self::diagnostics::{DevToolsDiagnostics, DiagnosticDisplay, DiagnosticGroup};
+pub use self::diagnostics::{DiagnosticPanel, DiagnosticDisplay, DiagnosticGroup};
 
-pub struct DevToolsTopPanel(pub fn(&mut egui::Ui, &mut bevy::prelude::World));
+pub struct TopPanel(pub fn(&mut egui::Ui, &mut bevy::prelude::World));

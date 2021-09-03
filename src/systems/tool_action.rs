@@ -8,7 +8,7 @@ pub fn perform_tool_action(world: &mut World) {
         world.get_resource_mut(),
         "Failed to get Events<PerformToolAction> resource"
     );
-    let events = reader.drain().map(|x| x.0).collect::<Vec<crate::DevTool>>();
+    let events = reader.drain().map(|x| x.0).collect::<Vec<crate::Tool>>();
     for event in events {
         if let Some(perform) = event.perform {
             (perform)(world);

@@ -3,22 +3,22 @@ use crate::egui::Ui;
 use bevy::app::Events;
 use bevy::prelude::*;
 
-use crate::{DevTool, DevToolsSettings, DevToolsTools, PerformToolAction};
+use crate::{Tool, Settings, Tools, PerformToolAction};
 
-pub fn panel() -> super::DevToolsPanel {
-    super::DevToolsPanel::new("🛠").render(draw)
+pub fn panel() -> super::Panel {
+    super::Panel::new("🛠").render(draw)
 }
 
 pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
     let world_ptr = world as *mut _;
     let devtools_tools = ignore_none_error!(
-        world.get_resource::<DevToolsTools>(),
-        "Failed to get DevToolsSettings resource"
+        world.get_resource::<Tools>(),
+        "Failed to get Tools resource"
     );
     let world: &mut World = unsafe { &mut *world_ptr };
     let mut devtools_settings = ignore_none_error!(
-        world.get_resource_mut::<DevToolsSettings>(),
-        "Failed to get DevToolsSettings resource"
+        world.get_resource_mut::<Settings>(),
+        "Failed to get Settings resource"
     );
     let world: &mut World = unsafe { &mut *world_ptr };
     let mut tool_actions = ignore_none_error!(
@@ -32,8 +32,8 @@ pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
 
 pub fn display_tool(
     ui: &mut Ui,
-    settings: &mut DevToolsSettings,
-    tool: &DevTool,
+    settings: &mut Settings,
+    tool: &Tool,
     tool_actions: &mut Events<PerformToolAction>,
 ) {
     ui.group(|ui| {

@@ -1,9 +1,9 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::EguiContext;
 
-use crate::DevToolsSettings;
+use crate::Settings;
 
-pub fn apply_ui_settings(context: ResMut<EguiContext>, settings: Res<DevToolsSettings>) {
+pub fn apply_ui_settings(context: ResMut<EguiContext>, settings: Res<Settings>) {
     let ctx = context.ctx();
     if let Some(setting) = settings.get_key(&["devtools", "gui"]) {
         if let Some(group) = setting.get_group() {

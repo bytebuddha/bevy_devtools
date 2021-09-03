@@ -1,12 +1,12 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::egui::Ui;
 
-use crate::{DevToolsSettings, DevToolsPanels};
+use crate::{Settings, Panels};
 
-pub fn tab_bar(ui: &mut Ui, world: &mut World, panels: &DevToolsPanels) {
+pub fn tab_bar(ui: &mut Ui, world: &mut World, panels: &Panels) {
     let mut settings = ignore_none_error!(
-        world.get_resource_mut::<DevToolsSettings>(),
-        "Failed to get DevToolsSettings resources"
+        world.get_resource_mut::<Settings>(),
+        "Failed to get Settings resources"
     );
     if let Some(setting) = settings.get_key_mut(&["devtools", "active_panel"]) {
         if let Some(value) = setting.value.as_integer_mut() {

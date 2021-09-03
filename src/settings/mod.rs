@@ -4,13 +4,13 @@ mod value;
 pub use self::value::SettingValue;
 
 mod setting;
-pub use self::setting::DevToolsSetting;
+pub use self::setting::Setting;
 
 #[derive(Clone)]
-pub struct DevToolsSettings(pub Vec<DevToolsSetting>);
+pub struct Settings(pub Vec<Setting>);
 
-impl DevToolsSettings {
-    pub fn get_key(&self, keys: &[&str]) -> Option<&DevToolsSetting> {
+impl Settings {
+    pub fn get_key(&self, keys: &[&str]) -> Option<&Setting> {
         let mut current_index = 0;
         for setting in &self.0 {
             if setting.name == keys[current_index] {
@@ -33,13 +33,13 @@ impl DevToolsSettings {
         None
     }
 
-    pub fn get_key_mut(&mut self, keys: &[&str]) -> Option<&mut DevToolsSetting> {
+    pub fn get_key_mut(&mut self, keys: &[&str]) -> Option<&mut Setting> {
         for item in self.0.iter_mut() {
             if item.name == keys[0] {
                 if keys.len() == 1 {
                     return Some(item);
                 } else {
-                    let mut current: Option<&mut DevToolsSetting> = Some(item);
+                    let mut current: Option<&mut Setting> = Some(item);
                     for key in &keys[1..] {
                         if let Some(setting) = current {
                             current = setting.get_named_child_mut(key);
@@ -55,40 +55,40 @@ impl DevToolsSettings {
     }
 }
 
-impl Default for DevToolsSettings {
-    fn default() -> DevToolsSettings {
-        DevToolsSettings(vec![DevToolsSetting::new_labeled("devtools", "DevTools")
+impl Default for Settings {
+    fn default() -> Settings {
+        Settings(vec![Setting::new_labeled("devtools", "DevTools")
             .set_value_group(vec![
-                DevToolsSetting::new_labeled("enabled", "Enabled"),
-                DevToolsSetting::new_labeled("active_panel", "Active Panel")
+                Setting::new_labeled("enabled", "Enabled"),
+                Setting::new_labeled("active_panel", "Active Panel")
                     .set_hidden(true)
                     .set_value_integer(1),
-                DevToolsSetting::new_labeled("settings", "Settings").set_value_group(vec![
-                    DevToolsSetting::new_labeled("show-hidden", "Show hidden"),
+                Setting::new_labeled("settings", "Settings").set_value_group(vec![
+                    Setting::new_labeled("show-hidden", "Show hidden"),
                 ]),
-                DevToolsSetting::new_labeled("gui", "Gui").set_value_group(vec![
-                    DevToolsSetting::new_labeled("widgets-hover", "Show widgets on hover"),
-                    DevToolsSetting::new_labeled(
+                Setting::new_labeled("gui", "Gui").set_value_group(vec![
+                    Setting::new_labeled("widgets-hover", "Show widgets on hover"),
+                    Setting::new_labeled(
                         "widgets-taller",
                         "Show widgets that make their parent taller.",
                     ),
-                    DevToolsSetting::new_labeled(
+                    Setting::new_labeled(
                         "widgets-wider",
                         "Show widgets that make their parent wider.",
                     ),
-                    DevToolsSetting::new_labeled("show-resize", "Show Resize"),
+                    Setting::new_labeled("show-resize", "Show Resize"),
                 ]),
-                DevToolsSetting::new_labeled("world", "World").set_value_group(vec![
-                    DevToolsSetting::new_labeled("despawnable", "Despawnable Entities"),
-                    DevToolsSetting::new_labeled("sort", "Sort Components"),
+                Setting::new_labeled("world", "World").set_value_group(vec![
+                    Setting::new_labeled("despawnable", "Despawnable Entities"),
+                    Setting::new_labeled("sort", "Sort Components"),
                 ]),
-                DevToolsSetting::new_labeled("tools", "Tools")
+                Setting::new_labeled("tools", "Tools")
                     .set_hidden(true)
                     .set_value_group(vec![
-                        DevToolsSetting::new_labeled("save-scene", "Save Scene")
+                        Setting::new_labeled("save-scene", "Save Scene")
                             .set_value_string("world.scn.ron"),
                         #[cfg(feature = "debugdump")]
-                        DevToolsSetting::new_labeled("dot-render-graph", "Render Graph")
+                        Setting::new_labeled("dot-render-graph", "Render Graph")
                             .set_value_string("render-graph.dot"),
                     ]),
             ])])
