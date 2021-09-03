@@ -8,7 +8,7 @@ use bevy_inspector_egui::bevy_egui::EguiStage;
 use bevy_inspector_egui::world_inspector::{InspectableRegistry, WorldInspectorParams};
 
 use super::{
-    DevToolsDiagnostics, DevToolsSettings, DevToolsTabs, DevToolsTools, PerformToolAction,
+    DevToolsDiagnostics, DevToolsSettings, DevToolsPanels, DevToolsTools, PerformToolAction,
 };
 
 pub struct DevToolsPlugin;
@@ -18,7 +18,7 @@ impl Plugin for DevToolsPlugin {
         app.init_resource::<DevToolsTools>()
             .init_resource::<DevToolsSettings>()
             .init_resource::<DevToolsDiagnostics>()
-            .init_resource::<DevToolsTabs>()
+            .init_resource::<DevToolsPanels>()
             .init_resource::<WorldInspectorParams>()
             .init_resource::<InspectableRegistry>()
             .add_event::<PerformToolAction>()

@@ -4,8 +4,8 @@ use bevy::prelude::*;
 
 use crate::{DevToolsSetting, DevToolsSettings, SettingValue};
 
-pub fn tab() -> super::DevToolsTab {
-    super::DevToolsTab::new("⚙").render(draw)
+pub fn panel() -> super::DevToolsPanel {
+    super::DevToolsPanel::new("⚙").render(draw)
 }
 
 fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {

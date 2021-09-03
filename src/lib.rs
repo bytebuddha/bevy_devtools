@@ -19,8 +19,8 @@ pub use self::tools::{DevTool, DevToolsTools, PerformToolAction};
 mod settings;
 pub use self::settings::{DevToolsSetting, DevToolsSettings, SettingValue};
 
-mod tabs;
-pub use self::tabs::{DevToolsTab, DevToolsTabs};
+mod panels;
+pub use self::panels::{DevToolsPanel, DevToolsPanels};
 
 mod diagnostics;
 pub use self::diagnostics::{DevToolsDiagnostics, DiagnosticDisplay, DiagnosticGroup};

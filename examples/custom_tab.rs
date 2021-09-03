@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_devtools::{bevy_egui::EguiContext, egui::Ui, DevToolsExt, DevToolsTab};
+use bevy_devtools::{bevy_egui::EguiContext, egui::Ui, DevToolsExt, DevToolsPanel};
 
 mod utils;
 
@@ -8,11 +8,11 @@ fn main() {
         .add_plugin(utils::ExamplePlugin)
         .add_plugin(bevy_devtools::DevToolsPlugin)
         .devtools_enabled()
-        .devtools_active_tab(4)
-        .devtools_tab(DevToolsTab::new("☺").render(draw_tab))
+        .devtools_active_panel(4)
+        .devtools_panel(DevToolsPanel::new("☺").render(draw_panel))
         .run()
 }
 
-fn draw_tab(_: &EguiContext, ui: &mut Ui, _: &mut World) {
+fn draw_panel(_: &EguiContext, ui: &mut Ui, _: &mut World) {
     ui.label("Hello, World!");
 }

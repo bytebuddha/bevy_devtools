@@ -2,10 +2,10 @@ use crate::{bevy_egui::EguiContext, egui::Ui, DevToolsDiagnostics, DiagnosticGro
 use bevy::diagnostic::Diagnostics;
 use bevy::prelude::*;
 
-use super::DevToolsTab;
+use super::DevToolsPanel;
 
-pub fn tab() -> DevToolsTab {
-    DevToolsTab::new("🔍").render(draw)
+pub fn panel() -> DevToolsPanel {
+    DevToolsPanel::new("🔍").render(draw)
 }
 
 pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {

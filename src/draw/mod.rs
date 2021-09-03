@@ -29,7 +29,7 @@ fn get_display_settings(world: &World) -> (bool, usize) {
         .get_resource::<DevToolsSettings>()
         .expect("Failed to get DevToolsSettings resource");
     let mut enabled = false;
-    let mut active_tab = 0;
+    let mut active_panel = 0;
     if let Some(setting) = settings.get_key(&["devtools"]) {
         if let Some(group) = setting.get_group() {
             for child in group {
@@ -38,9 +38,9 @@ fn get_display_settings(world: &World) -> (bool, usize) {
                         enabled = value;
                     }
                 }
-                if child.name == "active_tab" {
+                if child.name == "active_panel" {
                     if let SettingValue::Integer(value) = child.value {
-                        active_tab = value;
+                        active_panel = value;
                     }
                 }
             }
@@ -50,7 +50,7 @@ fn get_display_settings(world: &World) -> (bool, usize) {
     } else {
         warn!("Settings key devtools was not found");
     }
-    (enabled, active_tab as usize)
+    (enabled, active_panel as usize)
 }
 
 fn draw_devtools(
@@ -60,15 +60,15 @@ fn draw_devtools(
     world_ptr: *mut World,
 ) {
     let world: &mut World = unsafe { &mut *world_ptr };
-    let tabs = world.get_resource::<crate::tabs::DevToolsTabs>().unwrap();
+    let panels = world.get_resource::<crate::panels::DevToolsPanels>().unwrap();
     let world: &mut World = unsafe { &mut *world_ptr };
     top_panel::top_panel(ui, world);
-    tab_bar::tab_bar(ui, world, tabs);
+    tab_bar::tab_bar(ui, world, panels);
     ui.end_row();
 
     egui::ScrollArea::auto_sized().show(ui, |ui| {
-        if let Some(tab) = tabs.0.get(active) {
-            (tab.render)(egui_context, ui, world);
+        if let Some(panel) = panels.0.get(active) {
+            (panel.render)(egui_context, ui, world);
         }
     });
 }

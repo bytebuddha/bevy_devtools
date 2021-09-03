@@ -6,8 +6,8 @@ use bevy_inspector_egui::{
 
 use crate::DevToolsSettings;
 
-pub fn tab() -> super::DevToolsTab {
-    super::DevToolsTab::new("🗺").render(draw)
+pub fn panel() -> super::DevToolsPanel {
+    super::DevToolsPanel::new("🗺").render(draw)
 }
 
 fn draw(ctx: &EguiContext, ui: &mut egui::Ui, world: &mut World) {

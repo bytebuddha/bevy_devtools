@@ -8,9 +8,9 @@ fn main() {
         .add_plugin(utils::ExamplePlugin)
         .add_plugin(bevy_devtools::DevToolsPlugin)
         .devtools_enabled()
-        .devtools_active_tab(2)
+        .devtools_active_panel(2)
         .devtools_tool(DevTool {
-            label: Some("This tool is useless".into()),
+            label: Some("This tool has no button".into()),
             name: "blank_tool".into(),
             perform_icon: None,
             perform: None,

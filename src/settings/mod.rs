@@ -60,7 +60,7 @@ impl Default for DevToolsSettings {
         DevToolsSettings(vec![DevToolsSetting::new_labeled("devtools", "DevTools")
             .set_value_group(vec![
                 DevToolsSetting::new_labeled("enabled", "Enabled"),
-                DevToolsSetting::new_labeled("active_tab", "Active Tab")
+                DevToolsSetting::new_labeled("active_panel", "Active Panel")
                     .set_hidden(true)
                     .set_value_integer(1),
                 DevToolsSetting::new_labeled("settings", "Settings").set_value_group(vec![
