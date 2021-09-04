@@ -20,7 +20,7 @@ mod settings;
 pub use self::settings::{Setting, Settings, SettingValue};
 
 mod panels;
-pub use self::panels::{Panel, Panels};
+pub use self::panels::{Panel, Panels, PanelLocation};
 
 mod diagnostics;
 pub use self::diagnostics::{DiagnosticPanel, DiagnosticDisplay, DiagnosticGroup};
