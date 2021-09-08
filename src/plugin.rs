@@ -6,14 +6,19 @@ use bevy::prelude::*;
 use bevy::wgpu::diagnostic::WgpuResourceDiagnosticsPlugin;
 use bevy_inspector_egui::bevy_egui::EguiStage;
 use bevy_inspector_egui::world_inspector::{InspectableRegistry, WorldInspectorParams};
+use bevy::ecs::component::Component;
+
+use std::fmt::Debug;
+use std::hash::Hash;
 
 use super::{
     DiagnosticPanel, Settings, Panels, Tools, PerformToolAction,
 };
 
-pub struct DevToolsPlugin;
+#[derive(Default)]
+pub struct DevToolsPlugin<T: Debug + Clone + Eq + Hash + Component>(std::marker::PhantomData<T>);
 
-impl Plugin for DevToolsPlugin {
+impl <T: Debug + Clone + Eq + Hash + Component>Plugin for DevToolsPlugin<T> {
     fn build(&self, app: &mut AppBuilder) {
         app.init_resource::<Tools>()
             .init_resource::<Settings>()
@@ -30,7 +35,7 @@ impl Plugin for DevToolsPlugin {
             .add_plugin(AssetCountDiagnosticsPlugin::<Texture>::default())
             .add_plugin(EntityCountDiagnosticsPlugin)
             .add_plugin(WgpuResourceDiagnosticsPlugin)
-            .add_system(crate::draw::draw_debug_ui.exclusive_system())
+            .add_system(crate::draw::draw_debug_ui::<T>.exclusive_system())
             .add_system(crate::systems::perform_tool_action.exclusive_system())
             .add_system_to_stage(
                 EguiStage::UiFrameEnd,

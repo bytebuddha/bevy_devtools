@@ -51,7 +51,7 @@ fn main() {
     App::build()
         .init_resource::<utils::FPSHistory>()
         .add_plugin(utils::ExamplePlugin)
-        .add_plugin(bevy_devtools::DevToolsPlugin)
+        .add_plugin(bevy_devtools::DevToolsPlugin::<utils::ExampleState>::default())
         .devtools_enabled()
         .devtools_top_panel(render_top_panel)
         .run()

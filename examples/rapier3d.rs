@@ -11,7 +11,7 @@ fn main() {
     App::build()
         .insert_resource(Msaa { samples: 4 })
         .add_plugins(DefaultPlugins)
-        .add_plugin(DevToolsPlugin)
+        .add_plugin(DevToolsPlugin::<()>::default())
         .devtools_enabled()
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::default())
         .add_startup_system(setup.system())

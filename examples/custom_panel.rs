@@ -6,7 +6,7 @@ mod utils;
 fn main() {
     App::build()
         .add_plugin(utils::ExamplePlugin)
-        .add_plugin(bevy_devtools::DevToolsPlugin)
+        .add_plugin(bevy_devtools::DevToolsPlugin::<utils::ExampleState>::default())
         .devtools_enabled()
         .devtools_active_panel(4)
         .devtools_panel(Panel::new("☺").render(draw_panel))

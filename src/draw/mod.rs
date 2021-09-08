@@ -1,12 +1,16 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::bevy_egui::{egui, EguiContext};
+use bevy::ecs::component::Component;
+
+use std::fmt::Debug;
+use std::hash::Hash;
 
 use crate::{Settings, SettingValue, PanelLocation, Panels};
 
 mod tab_bar;
 mod top_panel;
 
-pub fn draw_debug_ui(world: &mut World) {
+pub fn draw_debug_ui<T: Debug + Clone + Eq + Hash + Component>(world: &mut World) {
     let world_ptr = world as *mut _;
     let (enabled, active) = get_display_settings(world);
 
@@ -19,7 +23,7 @@ pub fn draw_debug_ui(world: &mut World) {
             .collapsible(true)
             .resizable(true)
             .show(ctx, |ui| {
-                draw_devtools(egui_context, ui, active, world_ptr);
+                draw_devtools::<T>(egui_context, ui, active, world_ptr);
             });
 
         draw_windows(egui_context, world_ptr);
@@ -73,7 +77,7 @@ fn get_display_settings(world: &World) -> (bool, usize) {
     (enabled, active_panel as usize)
 }
 
-fn draw_devtools(
+fn draw_devtools<T: Debug + Clone + Eq + Hash + Component>(
     egui_context: &EguiContext,
     ui: &mut egui::Ui,
     active: usize,
@@ -85,7 +89,7 @@ fn draw_devtools(
     if let Some(res) = world.get_resource::<crate::TopPanel>() {
         (res.0)(ui, world);
     } else {
-        top_panel::top_panel(ui, world);
+        top_panel::top_panel::<T>(ui, world);
     }
     tab_bar::tab_bar(ui, world, &panels);
     ui.end_row();
