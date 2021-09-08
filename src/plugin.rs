@@ -15,8 +15,11 @@ use super::{
     DiagnosticPanel, Settings, Panels, Tools, PerformToolAction,
 };
 
+#[derive(Debug, PartialEq, Clone, Eq, Hash)]
+pub struct NoState;
+
 #[derive(Default)]
-pub struct DevToolsPlugin<T: Debug + Clone + Eq + Hash + Component>(std::marker::PhantomData<T>);
+pub struct DevToolsPlugin<T: Debug + Clone + Eq + Hash + Component = NoState>(std::marker::PhantomData<T>);
 
 impl <T: Debug + Clone + Eq + Hash + Component>Plugin for DevToolsPlugin<T> {
     fn build(&self, app: &mut AppBuilder) {

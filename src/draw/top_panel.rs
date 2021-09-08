@@ -13,10 +13,11 @@ pub fn top_panel<T: Debug + Clone + Eq + Hash + Component>(ui: &mut Ui, world: &
     );
     let fps = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FPS);
     let avg = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FRAME_TIME);
-    let state = world.get_resource::<State<T>>().unwrap();
     ui.group(|ui| {
         ui.columns(3, |ui| {
-            ui[0].label(format!("{:?}", state.current()));
+            if let Some(state) = world.get_resource::<State<T>>() {                
+                ui[0].label(format!("{:?}", state.current()));
+            }
             ui[1].label(format!("FPS:{:.0}", fps.abs()));
             ui[2].label(format!("AVG:{:.4}", avg.abs()));
         });

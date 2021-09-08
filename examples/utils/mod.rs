@@ -1,8 +1,8 @@
 use bevy::prelude::*;
 
-mod rotates;
+pub mod rotates;
 
-mod spawn;
+pub mod spawn;
 
 mod fps;
 pub use self::fps::FPSHistory;
