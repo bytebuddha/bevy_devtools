@@ -15,6 +15,7 @@ pub struct Tool {
     pub name: String,
     pub perform_icon: Option<String>,
     pub label: Option<String>,
+    pub priority: usize,
     pub render: fn(&mut Ui, &mut crate::Settings),
     pub perform: Option<fn(&mut World)>,
 }

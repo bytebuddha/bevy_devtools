@@ -14,11 +14,13 @@ fn main() {
             name: "blank_tool".into(),
             perform_icon: None,
             perform: None,
+            priority: 4,
             render: render_blank_tool,
         })
         .devtools_tool(Tool {
             label: Some("Hello World".into()),
             name: "hello_tool".into(),
+            priority: 5,
             perform_icon: Some("Hello".into()),
             perform: Some(perform_hello),
             render: render_hello_tool,

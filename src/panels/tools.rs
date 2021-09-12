@@ -11,8 +11,8 @@ pub fn panel() -> super::Panel {
 
 pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
     let world_ptr = world as *mut _;
-    let devtools_tools = ignore_none_error!(
-        world.get_resource::<Tools>(),
+    let mut devtools_tools = ignore_none_error!(
+        world.get_resource_mut::<Tools>(),
         "Failed to get Tools resource"
     );
     let world: &mut World = unsafe { &mut *world_ptr };
@@ -25,6 +25,9 @@ pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
         world.get_resource_mut::<Events<PerformToolAction>>(),
         "Failed to get Events<PerformToolAction> resources"
     );
+    if !devtools_tools.0.is_sorted_by_key(|x|x.priority) {
+        devtools_tools.0.sort_by_key(|x|x.priority);
+    }
     for tool in devtools_tools.0.iter() {
         display_tool(ui, &mut *devtools_settings, tool, &mut tool_actions);
     }

@@ -53,6 +53,18 @@ impl Settings {
         }
         None
     }
+
+    pub fn toggle_enabled(&mut self) {
+        if let Some(setting) = self.get_key_mut(&["devtools", "enabled"]) {
+            if let Some(b) = setting.value.as_bool_mut() {
+                *b = !*b;
+            } else {
+                error!("Setting `devtools -> enabled` is not a bool");
+            }
+        } else {
+            error!("Setting `devtools -> enabled` is was not found");
+        }
+    }
 }
 
 impl Default for Settings {

@@ -12,6 +12,7 @@ pub fn tool() -> Tool {
         name: "dot-render-graph".into(),
         label: Some("Render Graph".into()),
         perform: Some(perform),
+        priority: 5,
         perform_icon: Some("💾".into()),
         render,
     }

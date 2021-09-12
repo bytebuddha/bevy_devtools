@@ -11,6 +11,7 @@ pub fn tool() -> Tool {
         name: "save-scene".into(),
         label: Some("Save Scene".into()),
         perform: Some(perform),
+        priority: 0,
         perform_icon: Some("💾".into()),
         render,
     }

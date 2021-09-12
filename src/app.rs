@@ -11,6 +11,7 @@ pub trait DevToolsExt {
 
     fn devtools_top_panel(&mut self, func: fn(&mut crate::egui::Ui, &mut bevy::prelude::World)) -> &mut AppBuilder;
     fn devtools_panel(&mut self, panel: Panel) -> &mut AppBuilder;
+    fn devtools_panel_index(&mut self, index: usize, panel: Panel) -> &mut AppBuilder;
     fn devtools_tool(&mut self, tool: Tool) -> &mut AppBuilder;
     fn devtools_setting(&mut self, setting: Setting) -> &mut AppBuilder;
     fn devtools_diagnostic(&mut self, diagnostic: DiagnosticGroup) -> &mut AppBuilder;
@@ -33,11 +34,7 @@ impl<'a> DevToolsExt for &'a mut AppBuilder {
             .world_mut()
             .get_resource_mut::<Settings>()
             .unwrap();
-        if let Some(key) = settings.get_key_mut(&["devtools", "enabled"]) {
-            if let Some(value) = key.value.as_bool_mut() {
-                *value = !*value;
-            }
-        }
+        settings.toggle_enabled();
         self
     }
     fn devtools_active_panel(&mut self, panel: usize) -> &mut AppBuilder {
@@ -59,6 +56,11 @@ impl<'a> DevToolsExt for &'a mut AppBuilder {
     fn devtools_panel(&mut self, panel: Panel) -> &mut AppBuilder {
         let mut panels = self.world_mut().get_resource_mut::<Panels>().unwrap();
         panels.0.push(panel);
+        self
+    }
+    fn devtools_panel_index(&mut self, index: usize, panel: Panel) -> &mut AppBuilder {
+        let mut panels = self.world_mut().get_resource_mut::<Panels>().unwrap();
+        panels.0.insert(index, panel);
         self
     }
     fn devtools_tool(&mut self, tool: Tool) -> &mut AppBuilder {

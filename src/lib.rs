@@ -1,3 +1,5 @@
+#![feature(is_sorted)]
+
 pub extern crate bevy_inspector_egui;
 pub use bevy_inspector_egui::bevy_egui;
 pub use bevy_inspector_egui::bevy_egui::egui;
