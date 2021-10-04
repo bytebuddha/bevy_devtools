@@ -1,6 +1,6 @@
 use bevy::diagnostic::{Diagnostics, FrameTimeDiagnosticsPlugin};
 use bevy::prelude::*;
-use bevy_inspector_egui::bevy_egui::egui::Ui;
+use bevy_inspector_egui::bevy_egui::egui::{self, Ui};
 use bevy::ecs::component::Component;
 
 use std::fmt::Debug;
@@ -13,13 +13,22 @@ pub fn top_panel<T: Debug + Clone + Eq + Hash + Component>(ui: &mut Ui, world: &
     );
     let fps = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FPS);
     let avg = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FRAME_TIME);
+    let count = diagnostic_value!(diagnostics, FrameTimeDiagnosticsPlugin::FRAME_COUNT);
     ui.group(|ui| {
-        ui.columns(3, |ui| {
-            if let Some(state) = world.get_resource::<State<T>>() {                
-                ui[0].label(format!("{:?}", state.current()));
-            }
-            ui[1].label(format!("FPS:{:.0}", fps.abs()));
-            ui[2].label(format!("AVG:{:.4}", avg.abs()));
-        });
+        let layout = egui::Layout::top_down(egui::Align::Center);
+        if let Some(state) = world.get_resource::<State<T>>() {
+            ui.columns(2, |ui| {
+                ui[0].with_layout(layout.clone(), |ui| {
+                    ui.label(format!("{:?}", state.current()));
+                });
+                ui[1].with_layout(layout, |ui| {
+                    ui.label(format!("⏱: {:.0}/{:.3} 🖩 {:.0}", fps.abs(), avg.abs(), count.abs()));
+                });
+            });
+        } else {
+            ui.with_layout(layout, |ui| {
+                ui.label(format!("⏱: {:.0}/{:.3} 🖩 {:.0}", fps.abs(), avg.abs(), count.abs()));
+            });
+        }
     });
 }
