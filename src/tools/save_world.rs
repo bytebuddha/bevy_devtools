@@ -17,7 +17,7 @@ pub fn tool() -> Tool {
     }
 }
 
-pub fn render(ui: &mut Ui, settings: &mut crate::Settings, _: &World) {
+pub fn render(ui: &mut Ui, settings: &mut crate::Settings, _: &mut World) {
     if let Some(setting) = settings.get_key_mut(&["devtools", "tools", "save-scene"]) {
         if let Some(value) = setting.value.as_string_mut() {
             ui.text_edit_singleline(value);

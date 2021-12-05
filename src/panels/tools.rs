@@ -30,13 +30,13 @@ pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
     }
     let world: &mut World = unsafe { &mut *world_ptr };
     for tool in devtools_tools.0.iter() {
-        display_tool(ui, &world, &mut *devtools_settings, tool, &mut tool_actions);
+        display_tool(ui, world, &mut *devtools_settings, tool, &mut tool_actions);
     }
 }
 
 pub fn display_tool(
     ui: &mut Ui,
-    world: &World,
+    world: &mut World,
     settings: &mut Settings,
     tool: &Tool,
     tool_actions: &mut Events<PerformToolAction>,

@@ -107,7 +107,7 @@ fn draw_devtools<T: Debug + Clone + Eq + Hash + Component>(
     egui::ScrollArea::auto_sized().show(ui, |ui| {
         let panels = panels.get_location_mut(PanelLocation::Widget);
         if let Some((_, panel)) = panels.iter().filter(|x| x.0 == active).next() {
-            (panel.render)(egui_context, ui, world);
+            (panel.render)(egui_context, ui, &mut *world);
         } else {
             let mut settings = world.get_resource_mut::<Settings>().unwrap();
             set_active_panel(&mut settings, panels.first().unwrap().0);
