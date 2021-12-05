@@ -11,13 +11,13 @@ pub fn tool() -> Tool {
         name: "save-scene".into(),
         label: Some("Save Scene".into()),
         perform: Some(perform),
-        priority: 0,
+        priority: 10,
         perform_icon: Some("💾".into()),
         render,
     }
 }
 
-pub fn render(ui: &mut Ui, settings: &mut crate::Settings) {
+pub fn render(ui: &mut Ui, settings: &mut crate::Settings, _: &World) {
     if let Some(setting) = settings.get_key_mut(&["devtools", "tools", "save-scene"]) {
         if let Some(value) = setting.value.as_string_mut() {
             ui.text_edit_singleline(value);

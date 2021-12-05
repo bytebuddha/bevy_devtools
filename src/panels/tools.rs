@@ -28,13 +28,15 @@ pub fn draw(_: &EguiContext, ui: &mut Ui, world: &mut World) {
     if !devtools_tools.0.is_sorted_by_key(|x|x.priority) {
         devtools_tools.0.sort_by_key(|x|x.priority);
     }
+    let world: &mut World = unsafe { &mut *world_ptr };
     for tool in devtools_tools.0.iter() {
-        display_tool(ui, &mut *devtools_settings, tool, &mut tool_actions);
+        display_tool(ui, &world, &mut *devtools_settings, tool, &mut tool_actions);
     }
 }
 
 pub fn display_tool(
     ui: &mut Ui,
+    world: &World,
     settings: &mut Settings,
     tool: &Tool,
     tool_actions: &mut Events<PerformToolAction>,
@@ -57,6 +59,6 @@ pub fn display_tool(
                 ui[0].heading(tool.label());
             });
         }
-        (tool.render)(ui, settings);
+        (tool.render)(ui, settings, world);
     });
 }

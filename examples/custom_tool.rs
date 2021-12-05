@@ -28,11 +28,11 @@ fn main() {
         .run()
 }
 
-fn render_blank_tool(ui: &mut Ui, _: &mut Settings) {
+fn render_blank_tool(ui: &mut Ui, _: &mut Settings, _: &World) {
     ui.label("Custom Tool");
 }
 
-fn render_hello_tool(ui: &mut Ui, _: &mut Settings) {
+fn render_hello_tool(ui: &mut Ui, _: &mut Settings, _: &World) {
     ui.label("Hello World Tool");
 }
 

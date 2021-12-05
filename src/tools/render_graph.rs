@@ -12,13 +12,13 @@ pub fn tool() -> Tool {
         name: "dot-render-graph".into(),
         label: Some("Render Graph".into()),
         perform: Some(perform),
-        priority: 5,
+        priority: 11,
         perform_icon: Some("💾".into()),
         render,
     }
 }
 
-pub fn render(ui: &mut Ui, settings: &mut crate::Settings) {
+pub fn render(ui: &mut Ui, settings: &mut crate::Settings, _: &World) {
     if let Some(setting) = settings.get_key_mut(&["devtools", "tools", "dot-render-graph"]) {
         if let Some(value) = setting.value.as_string_mut() {
             ui.text_edit_singleline(value);
