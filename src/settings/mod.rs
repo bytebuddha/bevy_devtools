@@ -74,7 +74,7 @@ impl Default for Settings {
                 Setting::new_labeled("enabled", "Enabled"),
                 Setting::new_labeled("active_panel", "Active Panel")
                     .set_hidden(true)
-                    .set_value_integer(1),
+                    .set_value_integer(0),
                 Setting::new_labeled("settings", "Settings").set_value_group(vec![
                     Setting::new_labeled("show-hidden", "Show hidden"),
                 ]),
