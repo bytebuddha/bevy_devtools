@@ -4,7 +4,7 @@ use bevy_devtools::{egui::Ui, Tool, DevToolsExt, Settings};
 mod utils;
 
 fn main() {
-    App::build()
+    App::new()
         .add_plugin(utils::ExamplePlugin)
         .add_plugin(bevy_devtools::DevToolsPlugin::<utils::ExampleState>::default())
         .devtools_enabled()

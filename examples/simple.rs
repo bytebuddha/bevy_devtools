@@ -1,14 +1,14 @@
 use bevy::prelude::*;
-use bevy_devtools::DevToolsExt;
+use bevy_devtools::{DevToolsExt, NoState};
 
 mod utils;
 
 fn main() {
-    App::build()
+    App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(bevy_devtools::DevToolsPlugin::<()>::default())
-        .add_startup_system(utils::spawn::spawn_world.system())
-        .add_system(utils::rotates::rotator_system.system())
+        .add_plugin(bevy_devtools::DevToolsPlugin::<NoState>::default())
+        .add_startup_system(utils::spawn::spawn_world)
+        .add_system(utils::rotates::rotator_system)
         .devtools_enabled()
         .run()
 }

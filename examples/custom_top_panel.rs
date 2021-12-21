@@ -48,7 +48,7 @@ fn render_top_panel(ui: &mut Ui, world: &mut World) {
 }
 
 fn main() {
-    App::build()
+    App::new()
         .init_resource::<utils::FPSHistory>()
         .add_plugin(utils::ExamplePlugin)
         .add_plugin(bevy_devtools::DevToolsPlugin::<utils::ExampleState>::default())

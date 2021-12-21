@@ -1,10 +1,7 @@
 use bevy::diagnostic::Diagnostics;
 use bevy_inspector_egui::egui::Ui;
 
-mod assets;
 mod ecs;
-
-mod wgpu;
 
 pub struct DiagnosticPanel(pub Vec<DiagnosticGroup>);
 
@@ -31,6 +28,6 @@ pub struct DiagnosticDisplay {
 
 impl Default for DiagnosticPanel {
     fn default() -> DiagnosticPanel {
-        DiagnosticPanel(vec![ecs::group(), assets::group(), wgpu::group()])
+        DiagnosticPanel(vec![ecs::group()])
     }
 }
