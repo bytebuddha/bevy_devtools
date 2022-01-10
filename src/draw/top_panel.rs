@@ -32,18 +32,20 @@ pub fn top_panel<T: Debug + Clone + Eq + Hash + Component>(ui: &mut Ui, world: &
             });
         }
         ui.end_row();
-        ui.add(Plot::new("fps-plot")
+        Plot::new("fps-plot")
             .include_x(fps.history_len() as f64)
             .height(50.0)
             .show_x(false)
-            .line(Line::new(Values::from_values(
-                fps.measurements()
-                    .enumerate()
-                    .map(|(x, measurement)| Value {
-                        x: x as f64,
-                        y: measurement.value,
-                    })
-                    .collect::<Vec<Value>>(),
-            ))));
+            .show(ui, |ui| {
+                ui.line(Line::new(Values::from_values(
+                    fps.measurements()
+                        .enumerate()
+                        .map(|(x, measurement)| Value {
+                            x: x as f64,
+                            y: measurement.value,
+                        })
+                        .collect::<Vec<Value>>()
+                )));
+            });
     });
 }
