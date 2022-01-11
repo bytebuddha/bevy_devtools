@@ -1,6 +1,5 @@
 use bevy::prelude::*;
 use bevy_devtools::{DevToolsExt, egui::Ui};
-use bevy_devtools::egui::plot::{Plot, Line, Values, Value};
 use bevy::diagnostic::{ FrameTimeDiagnosticsPlugin, Diagnostics};
 
 mod utils;
@@ -29,26 +28,11 @@ fn render_top_panel(ui: &mut Ui, world: &mut World) {
         ui.end_row();
         ui.separator();
         ui.end_row();
-        ui.add(Plot::new("fps-plot")
-            .include_x(fps.history_len() as f64)
-            .height(50.0)
-            .show_x(false)
-            .line(Line::new(Values::from_values(
-                fps_history
-                    .0
-                    .iter()
-                    .enumerate()
-                    .map(|(x, y)| Value {
-                        x: x as f64,
-                        y: *y as f64,
-                    })
-                    .collect::<Vec<Value>>(),
-            ))));
     });
 }
 
 fn main() {
-    App::build()
+    App::new()
         .init_resource::<utils::FPSHistory>()
         .add_plugin(utils::ExamplePlugin)
         .add_plugin(bevy_devtools::DevToolsPlugin::<utils::ExampleState>::default())

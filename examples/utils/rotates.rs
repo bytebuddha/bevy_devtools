@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 
+#[derive(Component)]
 pub struct Rotates;
 
 pub fn rotator_system(time: Res<Time>, mut query: Query<&mut Transform, With<Rotates>>) {

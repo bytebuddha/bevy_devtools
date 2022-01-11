@@ -104,7 +104,7 @@ fn draw_devtools<T: Debug + Clone + Eq + Hash + Component>(
     });
     ui.end_row();
 
-    egui::ScrollArea::auto_sized().show(ui, |ui| {
+    egui::ScrollArea::vertical().show(ui, |ui| {
         let panels = panels.get_location_mut(PanelLocation::Widget);
         if let Some((_, panel)) = panels.iter().filter(|x| x.0 == active).next() {
             (panel.render)(egui_context, ui, &mut *world);

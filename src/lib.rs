@@ -10,7 +10,7 @@ pub(crate) mod draw;
 pub(crate) mod systems;
 
 mod plugin;
-pub use self::plugin::DevToolsPlugin;
+pub use self::plugin::{DevToolsPlugin, NoState};
 
 mod app;
 pub use self::app::DevToolsExt;
