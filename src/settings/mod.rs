@@ -99,9 +99,6 @@ impl Default for Settings {
                     .set_value_group(vec![
                         Setting::new_labeled("save-scene", "Save Scene")
                             .set_value_string("world.scn.ron"),
-                        #[cfg(feature = "debugdump")]
-                        Setting::new_labeled("dot-render-graph", "Render Graph")
-                            .set_value_string("render-graph.dot"),
                     ]),
             ])])
     }

@@ -1,8 +1,6 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::egui::Ui;
 
-#[cfg(feature = "debugdump")]
-mod render_graph;
 mod save_world;
 
 pub struct PerformToolAction(pub Tool);
@@ -29,9 +27,7 @@ impl Tool {
 impl Default for Tools {
     fn default() -> Tools {
         Tools(vec![
-            save_world::tool(),
-            #[cfg(feature = "debugdump")]
-            render_graph::tool(),
+            save_world::tool()
         ])
     }
 }

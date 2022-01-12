@@ -3,16 +3,10 @@ name = "bevy_devtools"
 version = "0.1.0"
 edition = "2021"
 
-[features]
-default = ["debugdump"]
-debugdump = ["bevy_mod_debugdump"]
-
-
 [dependencies]
 pretty-type-name = "1.0.0"
 bevy = { version = "0.6.0", default-features = false, features = ["render"] }
 bevy-inspector-egui = { version = "0.7.1", default-features = false }
-bevy_mod_debugdump = { version = "0.3.0", optional = true }
 
 [dev-dependencies]
 bevy = { version = "0.6.0" }
