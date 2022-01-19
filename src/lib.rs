@@ -25,6 +25,6 @@ mod panels;
 pub use self::panels::{Panel, Panels, PanelLocation};
 
 mod diagnostics;
-pub use self::diagnostics::{DiagnosticPanel, DiagnosticDisplay, DiagnosticGroup};
+pub use self::diagnostics::{DiagnosticPanel, DiagnosticDisplay, DiagnosticGroup, DiagnosticRow};
 
 pub struct TopPanel(pub fn(&mut egui::Ui, &mut bevy::prelude::World));
